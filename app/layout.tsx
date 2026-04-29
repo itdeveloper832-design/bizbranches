@@ -51,9 +51,25 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="google-site-verification" content="D2TTC8ZWjbjA3wgOFcyrfBnFkjC3TAiCG7E6wDxDGK4" />
+        <link rel="alternate" hrefLang="en-PK" href="https://pakbizbranhces.online" />
+        <link rel="alternate" hrefLang="x-default" href="https://pakbizbranhces.online" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet" />
+        
+        {/* Google Analytics (Placeholder) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-XXXXXXXXXX');
+            `,
+          }}
+        />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -65,7 +81,12 @@ export default function RootLayout({
               url: 'https://pakbizbranhces.online',
               logo: 'https://pakbizbranhces.online/bizbranches.pk.png',
               description: 'Pakistan\'s #1 free business directory with 12,450+ listings. No registration required. Helps users find local businesses phone numbers by city and category and allows business owners to add their local citations for free.',
-              sameAs: [],
+              sameAs: [
+                'https://facebook.com/pakbizbranches',
+                'https://twitter.com/pakbizbranches',
+                'https://instagram.com/pakbizbranches',
+                'https://linkedin.com/company/pakbizbranches'
+              ],
               contactPoint: {
                 '@type': 'ContactPoint',
                 contactType: 'customer service',
@@ -75,6 +96,13 @@ export default function RootLayout({
                   '@type': 'Country',
                   name: 'Pakistan'
                 }
+              },
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: 'Gulghast Colony, Urdu Bazar',
+                addressLocality: 'Multan',
+                addressRegion: 'Punjab',
+                addressCountry: 'PK'
               },
               areaServed: {
                 '@type': 'Country',
@@ -117,11 +145,14 @@ export default function RootLayout({
               '@id': 'https://pakbizbranhces.online/#localbusiness',
               name: 'PakBizBranches Business Directory',
               url: 'https://pakbizbranhces.online',
+              telephone: '+923345636230',
               description: 'Free Pakistan business directory service connecting local businesses with customers',
               address: {
                 '@type': 'PostalAddress',
-                addressCountry: 'PK',
-                addressLocality: 'Pakistan'
+                streetAddress: 'Gulghast Colony, Urdu Bazar',
+                addressLocality: 'Multan',
+                addressRegion: 'Punjab',
+                addressCountry: 'PK'
               },
               serviceType: 'Business Directory Service',
               areaServed: {

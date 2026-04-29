@@ -52,7 +52,7 @@ export async function generateMetadata(props: { params: Promise<{ city: string; 
       collection(db, 'businesses'),
       where('city', '==', cityName),
       where('category', 'in', categoryValues),
-      limit(1)
+      limit(3)
     )
     const snap = await getDocs(q)
     businessesCount = snap.size
@@ -68,7 +68,7 @@ export async function generateMetadata(props: { params: Promise<{ city: string; 
       ...keywordCluster.slice(0, 8),
     ],
     robots: {
-      index: businessesCount > 0,
+      index: businessesCount >= 3,
       follow: true,
     },
     alternates: { canonical: url },
@@ -163,6 +163,21 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
     })),
   }
 
+  const localBusinessSchemas = businesses.map(b => ({
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: b.businessName,
+    url: `${BASE_URL}/${b.slug}`,
+    telephone: b.phone,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: b.city,
+      addressCountry: 'PK'
+    },
+    image: b.logoUrl || undefined,
+    description: b.description
+  }))
+
   return (
     <>
       <Navbar />
@@ -171,6 +186,9 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      {localBusinessSchemas.map((schema, idx) => (
+        <script key={idx} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      ))}
       <main className="bg-[#f8fafc] min-h-screen">
         {/* Hero */}
         <section className="bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] py-16">
@@ -207,6 +225,15 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
               </Link>
             </div>
           </section>
+
+          {/* Intro Paragraph */}
+          {businesses.length > 0 && (
+            <section className="mb-8 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <p className="text-gray-700 leading-relaxed">
+                Looking for reliable <strong>{category.name.toLowerCase()} in {cityName}</strong>? Our comprehensive directory features top-rated professionals and companies serving the {cityName} area. Whether you need immediate assistance or are planning a project, browse our curated list of {businesses.length} verified {category.name.toLowerCase()} services. Compare local options, read contact details, and connect directly with businesses in {cityName} to find the perfect fit for your needs.
+              </p>
+            </section>
+          )}
 
           {/* Business Listings */}
           <section className="mb-12">
@@ -270,14 +297,14 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
             )}
           </section>
 
-          {/* Other Cities for this Category */}
+          {/* Other Popular Cities */}
           <section className="mb-12">
-            <h2 className="text-xl font-bold text-[#0f2b3d] mb-4">{category.name} in Other Cities</h2>
+            <h2 className="text-xl font-bold text-[#0f2b3d] mb-4">Explore Other Cities</h2>
             <div className="flex flex-wrap gap-3">
               {CITIES.filter(c => c !== cityName).slice(0, 15).map(city => (
                 <Link
                   key={city}
-                  href={`/locations/${city.toLowerCase().replace(/ /g, '-')}/${params.categorySlug}`}
+                  href={`/cities/${city.toLowerCase().replace(/ /g, '-')}`}
                   className="inline-flex items-center gap-1.5 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors shadow-sm"
                 >
                   <MapPin className="w-3.5 h-3.5" />

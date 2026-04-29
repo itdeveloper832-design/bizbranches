@@ -49,7 +49,7 @@ export async function generateMetadata(props: { params: Promise<{ city: string }
     const q = query(
       collection(db, 'businesses'),
       where('city', '==', cityName),
-      limit(1)
+      limit(3)
     )
     const snap = await getDocs(q)
     businessesCount = snap.size
@@ -70,7 +70,7 @@ export async function generateMetadata(props: { params: Promise<{ city: string }
       ...keywordCluster,
     ],
     robots: {
-      index: businessesCount > 0,
+      index: businessesCount >= 3,
       follow: true,
     },
     alternates: { canonical: url },
@@ -133,6 +133,21 @@ export default async function CityPage(props: { params: Promise<{ city: string }
     })),
   } : null
 
+  const localBusinessSchemas = businesses.map(b => ({
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: b.businessName,
+    url: `${BASE_URL}/${b.slug}`,
+    telephone: b.phone,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: b.city,
+      addressCountry: 'PK'
+    },
+    image: b.logoUrl || undefined,
+    description: b.description
+  }))
+
   return (
     <>
       <Navbar />
@@ -140,6 +155,9 @@ export default async function CityPage(props: { params: Promise<{ city: string }
       {itemListSchema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       )}
+      {localBusinessSchemas.map((schema, idx) => (
+        <script key={idx} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      ))}
       <main className="bg-[#f8fafc] min-h-screen">
         {/* Hero */}
         <section className="bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] py-16">
@@ -168,29 +186,40 @@ export default async function CityPage(props: { params: Promise<{ city: string }
         </section>
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Intro Paragraph */}
+          {businesses.length > 0 && (
+            <section className="mb-8 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <p className="text-gray-700 leading-relaxed">
+                Welcome to the local business directory for <strong>{cityName}</strong>. Whether you are a resident or a visitor, finding trusted services is essential. Browse our comprehensive list of {businesses.length} verified companies, professionals, and shops operating right here in {cityName}. From real estate to technology, you can easily compare local options, get contact numbers, and find exactly what you need in your area.
+              </p>
+            </section>
+          )}
+
           {/* Browse by Category */}
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#0f2b3d] mb-6">Browse by Category in {cityName}</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-              {CATEGORIES.map(cat => (
-                <Link
-                  key={cat.id}
-                  href={`/locations/${params.city}/${cat.id}`}
-                  className="bg-white rounded-xl p-4 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-[#60a5fa]/30 transition-all group"
-                >
-                  <div
-                    className="w-10 h-10 rounded-lg mx-auto mb-2 flex items-center justify-center text-xl"
-                    style={{ backgroundColor: `${cat.color}15` }}
+          {businesses.length > 0 && (
+            <section className="mb-12">
+              <h2 className="text-2xl font-bold text-[#0f2b3d] mb-6">Browse by Category in {cityName}</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                {CATEGORIES.filter(cat => businesses.some(b => b.category === cat.id)).map(cat => (
+                  <Link
+                    key={cat.id}
+                    href={`/locations/${params.city}/${cat.id}`}
+                    className="bg-white rounded-xl p-4 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-[#60a5fa]/30 transition-all group"
                   >
-                    <Building2 className="w-5 h-5" style={{ color: cat.color }} />
-                  </div>
-                  <p className="text-xs font-medium text-gray-700 group-hover:text-[#60a5fa] leading-tight transition-colors">
-                    {cat.name}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </section>
+                    <div
+                      className="w-10 h-10 rounded-lg mx-auto mb-2 flex items-center justify-center text-xl"
+                      style={{ backgroundColor: `${cat.color}15` }}
+                    >
+                      <Building2 className="w-5 h-5" style={{ color: cat.color }} />
+                    </div>
+                    <p className="text-xs font-medium text-gray-700 group-hover:text-[#60a5fa] leading-tight transition-colors">
+                      {cat.name}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Business Listings */}
           <section className="mb-12">

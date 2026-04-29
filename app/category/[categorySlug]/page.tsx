@@ -44,7 +44,7 @@ export async function generateMetadata(props: { params: Promise<{ categorySlug: 
     const q = query(
       collection(db, 'businesses'),
       where('categoryId', '==', params.categorySlug),
-      limit(1)
+      limit(3)
     )
     const snap = await getDocs(q)
     businessesCount = snap.size
@@ -65,7 +65,7 @@ export async function generateMetadata(props: { params: Promise<{ categorySlug: 
       ...keywordCluster,
     ],
     robots: {
-      index: businessesCount > 0,
+      index: businessesCount >= 3,
       follow: true,
     },
     alternates: { canonical: url },
@@ -191,6 +191,21 @@ export default async function CategoryPage(props: { params: Promise<{ categorySl
     })),
   }
 
+  const localBusinessSchemas = businesses.map(b => ({
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: b.businessName,
+    url: `${BASE_URL}/${b.slug}`,
+    telephone: b.phone,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: b.city,
+      addressCountry: 'PK'
+    },
+    image: b.logoUrl || undefined,
+    description: b.description
+  }))
+
   return (
     <>
       <Navbar />
@@ -199,6 +214,9 @@ export default async function CategoryPage(props: { params: Promise<{ categorySl
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      {localBusinessSchemas.map((schema, idx) => (
+        <script key={idx} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      ))}
       <main className="bg-[#f8fafc] min-h-screen">
         {/* Hero */}
         <section className="bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] py-16">
@@ -227,22 +245,33 @@ export default async function CategoryPage(props: { params: Promise<{ categorySl
           {/* Top inline banner — placed AFTER H1 per spec */}
           <BannerAd variant="inline" className="mt-0 mb-10" />
 
+          {/* Intro Paragraph */}
+          {businesses.length > 0 && (
+            <section className="mb-8 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <p className="text-gray-700 leading-relaxed">
+                Welcome to our directory of <strong>{category.name} in Pakistan</strong>. If you are looking for trusted {category.name.toLowerCase()} services, professionals, or companies across the country, you have come to the right place. We have compiled a list of {businesses.length} verified listings, complete with contact details, locations, and descriptions. Browse our list below or filter by your specific city to find the best local options for your needs.
+              </p>
+            </section>
+          )}
+
           {/* Filter by City */}
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#0f2b3d] mb-6">{category.name} by City</h2>
-            <div className="flex flex-wrap gap-3">
-              {CITIES.map(city => (
-                <Link
-                  key={city}
-                  href={`/locations/${city.toLowerCase().replace(/ /g, '-')}/${params.categorySlug}`}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors shadow-sm"
-                >
-                  <MapPin className="w-3.5 h-3.5" />
-                  {city}
-                </Link>
-              ))}
-            </div>
-          </section>
+          {businesses.length > 0 && (
+            <section className="mb-12">
+              <h2 className="text-2xl font-bold text-[#0f2b3d] mb-6">{category.name} by City</h2>
+              <div className="flex flex-wrap gap-3">
+                {CITIES.filter(city => businesses.some(b => b.city === city)).map(city => (
+                  <Link
+                    key={city}
+                    href={`/locations/${city.toLowerCase().replace(/ /g, '-')}/${params.categorySlug}`}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors shadow-sm"
+                  >
+                    <MapPin className="w-3.5 h-3.5" />
+                    {city}
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Business Listings */}
           <section className="mb-12">

@@ -47,14 +47,14 @@ export default function Footer() {
             </p>
             <div className="flex gap-3">
               {[
-                { Icon: Facebook, label: 'Facebook' },
-                { Icon: Twitter, label: 'Twitter' },
-                { Icon: Instagram, label: 'Instagram' },
-                { Icon: Linkedin, label: 'LinkedIn' },
-              ].map(({ Icon, label }) => (
+                { Icon: Facebook, label: 'Facebook', url: 'https://facebook.com/pakbizbranches' },
+                { Icon: Twitter, label: 'Twitter', url: 'https://twitter.com/pakbizbranches' },
+                { Icon: Instagram, label: 'Instagram', url: 'https://instagram.com/pakbizbranches' },
+                { Icon: Linkedin, label: 'LinkedIn', url: 'https://linkedin.com/company/pakbizbranches' },
+              ].map(({ Icon, label, url }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={url}
                   aria-label={label}
                   className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-[#60a5fa] transition-colors duration-200"
                 >
@@ -138,10 +138,10 @@ export default function Footer() {
         {/* Contact + Bottom Bar */}
         <div className="mt-10 pt-8 border-t border-white/10">
           <div className="flex flex-wrap gap-6 text-sm text-white/50 mb-6">
-            <span className="flex items-center gap-2">
+            <address itemScope itemType="https://schema.org/PostalAddress" className="flex items-center gap-2 not-italic">
               <MapPin className="w-4 h-4 text-[#60a5fa]" />
-              Gulghast Colony, Urdu Bazar, Multan, Punjab
-            </span>
+              <span itemProp="streetAddress">Gulghast Colony, Urdu Bazar</span>, <span itemProp="addressLocality">Multan</span>, <span itemProp="addressRegion">Punjab</span>
+            </address>
             <a href="tel:+923345636230" className="flex items-center gap-2 hover:text-[#60a5fa] transition-colors">
               <Phone className="w-4 h-4 text-[#60a5fa]" />
               +92 334 563 6230

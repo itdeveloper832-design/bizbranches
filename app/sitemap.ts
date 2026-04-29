@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next'
 import { db } from '@/lib/firebase'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { CITIES, CATEGORIES } from '@/lib/data'
+import { LIVE_STATUSES } from '@/lib/category-mappings'
 
 const BASE_URL = 'https://pakbizbranhces.online'
 
@@ -74,25 +75,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic business pages
   let businessPages: MetadataRoute.Sitemap = []
-  const activeCities = new Set<string>()
-  const activeCategories = new Set<string>()
-  const activeCityCategoryPairs = new Set<string>()
+  const activeCitiesCount = new Map<string, number>()
+  const activeCategoriesCount = new Map<string, number>()
+  const activeCityCategoryPairsCount = new Map<string, number>()
 
   try {
-    const q = query(collection(db, 'businesses'), where('status', '==', 'approved'))
+    const q = query(collection(db, 'businesses'))
     const snap = await getDocs(q)
+    
     businessPages = snap.docs
       .map(doc => {
-        const data = doc.data()
+        const data = doc.data() as any
+        return { id: doc.id, ...data }
+      })
+      .filter((business: any) => {
+        const status = String(business.status ?? '').toLowerCase()
+        return !status || LIVE_STATUSES.has(status)
+      })
+      .map((data: any) => {
         const citySlug = data.city?.toLowerCase().replace(/ /g, '-')
         const categorySlug = data.category
         
-        if (citySlug) activeCities.add(citySlug)
-        if (categorySlug) activeCategories.add(categorySlug)
-        if (citySlug && categorySlug) activeCityCategoryPairs.add(`${citySlug}|${categorySlug}`)
+        if (citySlug) activeCitiesCount.set(citySlug, (activeCitiesCount.get(citySlug) || 0) + 1)
+        if (categorySlug) activeCategoriesCount.set(categorySlug, (activeCategoriesCount.get(categorySlug) || 0) + 1)
+        if (citySlug && categorySlug) {
+          const pair = `${citySlug}|${categorySlug}`
+          activeCityCategoryPairsCount.set(pair, (activeCityCategoryPairsCount.get(pair) || 0) + 1)
+        }
 
         return {
-          url: data.slug ? `${BASE_URL}/${data.slug}` : `${BASE_URL}/business/${doc.id}`,
+          url: data.slug ? `${BASE_URL}/${data.slug}` : `${BASE_URL}/business/${data.id}`,
           lastModified: data.updatedAt ? new Date(data.updatedAt.toDate?.() ?? data.updatedAt) : (data.createdAt ? new Date(data.createdAt.toDate?.() ?? data.createdAt) : now),
           changeFrequency: 'weekly' as const,
           priority: 0.75,
@@ -102,32 +114,38 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error fetching businesses for sitemap:', error)
   }
 
-  // Filtered programmatic city pages
-  const cityPages: MetadataRoute.Sitemap = Array.from(activeCities).map(citySlug => ({
-    url: `${BASE_URL}/cities/${citySlug}`,
-    lastModified: now,
-    changeFrequency: 'daily' as const,
-    priority: 0.85,
-  }))
-
-  // Filtered programmatic category pages
-  const categoryPages: MetadataRoute.Sitemap = Array.from(activeCategories).map(catSlug => ({
-    url: `${BASE_URL}/categories/${catSlug}`,
-    lastModified: now,
-    changeFrequency: 'daily' as const,
-    priority: 0.85,
-  }))
-
-  // Filtered City + Category pages
-  const cityCategoryPages: MetadataRoute.Sitemap = Array.from(activeCityCategoryPairs).map(pair => {
-    const [citySlug, catSlug] = pair.split('|')
-    return {
-      url: `${BASE_URL}/locations/${citySlug}/${catSlug}`,
+  // Filtered programmatic city pages (require at least 3 businesses to prevent thin content)
+  const cityPages: MetadataRoute.Sitemap = Array.from(activeCitiesCount.entries())
+    .filter(([_, count]) => count >= 3)
+    .map(([citySlug]) => ({
+      url: `${BASE_URL}/cities/${citySlug}`,
       lastModified: now,
       changeFrequency: 'daily' as const,
-      priority: 0.8,
-    }
-  })
+      priority: 0.85,
+    }))
+
+  // Filtered programmatic category pages (require at least 3 businesses)
+  const categoryPages: MetadataRoute.Sitemap = Array.from(activeCategoriesCount.entries())
+    .filter(([_, count]) => count >= 3)
+    .map(([catSlug]) => ({
+      url: `${BASE_URL}/categories/${catSlug}`,
+      lastModified: now,
+      changeFrequency: 'daily' as const,
+      priority: 0.85,
+    }))
+
+  // Filtered City + Category pages (require at least 3 businesses to prevent thin content indexing issues)
+  const cityCategoryPages: MetadataRoute.Sitemap = Array.from(activeCityCategoryPairsCount.entries())
+    .filter(([_, count]) => count >= 3)
+    .map(([pair]) => {
+      const [citySlug, catSlug] = pair.split('|')
+      return {
+        url: `${BASE_URL}/locations/${citySlug}/${catSlug}`,
+        lastModified: now,
+        changeFrequency: 'daily' as const,
+        priority: 0.8,
+      }
+    })
 
   return [
     ...staticPages,
