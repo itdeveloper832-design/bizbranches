@@ -6,7 +6,7 @@ export const BLOG_POSTS = [
     title: "Essential Information & Resources for Traveling and Doing Business in Pakistan (2026)",
     slug: "essential-resources-travel-business-pakistan",
     excerpt: "From finding the correct Lahore Pakistan zip code to planning trips to Pakistan Naran Valley or Mushkpuri, here is your essential guide to navigating Pakistan in 2026.",
-    content: \`
+    content: `
       <p class="lead">Whether you are an entrepreneur setting up shop or a tourist planning a visit, having the right information is critical. We've compiled the most frequent questions people ask about Pakistan into one comprehensive guide.</p>
       
       <h2>Finding the Correct Lahore Pakistan Zip Code</h2>
@@ -28,7 +28,7 @@ export const BLOG_POSTS = [
         <h4 class="font-bold text-blue-800 mb-2">💡 Pro Tip for Business Owners</h4>
         <p class="text-blue-700">Are you a travel agency booking tours to Mushkpuri or Naran? Or a tech company looking for visibility? <a href="/add-business" class="underline font-semibold">List your business on PakBizBranches</a> today for free!</p>
       </div>
-    \`,
+    `,
     author: "PakBizBranches Team",
     date: "April 28, 2026",
     readTime: "4 min read",
