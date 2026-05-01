@@ -10,8 +10,8 @@ export const metadata: Metadata = {
     'The most trusted Pakistan business directory. Find verified local businesses, phone numbers, and addresses by city and category. List your business for free.',
   keywords:
     'Pakistan business directory, free business listing Pakistan, Karachi business listings, Lahore business directory, Islamabad business listings, local services Pakistan',
-  authors: [{ name: 'PakBizBranches', url: 'https://pakbizbranhces.online' }],
-  metadataBase: new URL('https://pakbizbranhces.online'),
+  authors: [{ name: 'PakBizBranches', url: 'https://pakbizbranhces.online/' }],
+  metadataBase: new URL('https://pakbizbranhces.online/'),
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '32x32' },
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     title: 'Pakistan Business Directory | Find Local Businesses & Services',
     description:
       'Search verified Pakistan businesses by category and city. Compare listings and contact local services quickly on the #1 business directory.',
-    url: 'https://pakbizbranhces.online',
+    url: 'https://pakbizbranhces.online/',
     siteName: 'PakBizBranches',
     locale: 'en_PK',
     type: 'website',
@@ -51,8 +51,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="google-site-verification" content="D2TTC8ZWjbjA3wgOFcyrfBnFkjC3TAiCG7E6wDxDGK4" />
-        <link rel="alternate" hrefLang="en-PK" href="https://pakbizbranhces.online" />
-        <link rel="alternate" hrefLang="x-default" href="https://pakbizbranhces.online" />
+        <link rel="alternate" hrefLang="en-PK" href="https://pakbizbranhces.online/" />
+        <link rel="alternate" hrefLang="x-default" href="https://pakbizbranhces.online/" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet" />
@@ -78,7 +78,7 @@ export default function RootLayout({
               '@type': 'Organization',
               '@id': 'https://pakbizbranhces.online/#organization',
               name: 'PakBizBranches',
-              url: 'https://pakbizbranhces.online',
+              url: 'https://pakbizbranhces.online/',
               logo: 'https://pakbizbranhces.online/bizbranches.pk.png',
               description: 'Pakistan\'s #1 free business directory with 12,450+ listings. No registration required. Helps users find local businesses phone numbers by city and category and allows business owners to add their local citations for free.',
               sameAs: [
@@ -119,7 +119,7 @@ export default function RootLayout({
               '@type': 'WebSite',
               '@id': 'https://pakbizbranhces.online/#website',
               name: 'PakBizBranches',
-              url: 'https://pakbizbranhces.online',
+              url: 'https://pakbizbranhces.online/',
               description: 'Pakistan\'s #1 free business directory with 12,450+ listings. No registration required. Find local businesses phone numbers by city and category with WhatsApp details. Add your business free.',
               publisher: {
                 '@id': 'https://pakbizbranhces.online/#organization'
@@ -144,7 +144,7 @@ export default function RootLayout({
               '@type': 'LocalBusiness',
               '@id': 'https://pakbizbranhces.online/#localbusiness',
               name: 'PakBizBranches Business Directory',
-              url: 'https://pakbizbranhces.online',
+              url: 'https://pakbizbranhces.online/',
               telephone: '+923345636230',
               description: 'Free Pakistan business directory service connecting local businesses with customers',
               address: {

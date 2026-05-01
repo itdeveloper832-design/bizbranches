@@ -36,7 +36,8 @@ export default function CategoriesGrid() {
             return (
               <Link
                 key={cat.id}
-                href={`/categories/${cat.id}`}
+                href={`/categories/${cat.id}/`}
+                title={`Find ${cat.name} in Pakistan`}
                 className="group bg-white border border-slate-200 rounded-2xl p-5 flex flex-col items-center text-center hover:shadow-lg hover:border-blue-300 transition-all duration-300 hover:-translate-y-1"
               >
                 <div
@@ -55,7 +56,8 @@ export default function CategoriesGrid() {
 
         <div className="text-center mt-10">
           <Link
-            href="/categories"
+            href="/categories/"
+            title="Explore all business categories in Pakistan"
             className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-xl font-semibold text-sm hover:bg-slate-700 transition-colors duration-200"
           >
             View All Categories

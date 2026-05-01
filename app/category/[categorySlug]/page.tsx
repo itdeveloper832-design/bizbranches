@@ -14,8 +14,8 @@ import { getCategoryKeywordCluster } from '@/lib/organic-keywords'
 import NativeAd from '@/components/ads/native-ad'
 import BannerAd from '@/components/ads/banner-ad'
 
-// Always fetch fresh data so new businesses appear immediately
-export const revalidate = 0
+// ISR: revalidate every 60 seconds
+export const revalidate = 60
 
 const BASE_URL = 'https://pakbizbranhces.online'
 
@@ -50,18 +50,21 @@ export async function generateMetadata(props: { params: Promise<{ categorySlug: 
     businessesCount = snap.size
   } catch {}
 
-  const title = `Best ${category.name} in Pakistan | Local Listings`
-  const description = `Discover top ${category.name.toLowerCase()} in Pakistan with phone numbers, addresses, and verified local business listings.`
-  const url = `${BASE_URL}/categories/${params.categorySlug}`
+  const title = `Best ${category.name} in Pakistan | Find Phone Numbers & Addresses`
+  const description = `Browse verified ${category.name.toLowerCase()} businesses across Karachi, Lahore, Islamabad & 150+ Pakistani cities. Get phone numbers, WhatsApp contacts, and addresses — free on PakBizBranches.`
+  const url = `${BASE_URL}/categories/${params.categorySlug}/`
   const keywordCluster = getCategoryKeywordCluster(params.categorySlug)
 
   return {
     title,
     description,
     keywords: [
-      `${category.name} Pakistan`,
+      `${category.name} in Pakistan`,
       `${category.name.toLowerCase()} businesses Pakistan`,
       `best ${category.name.toLowerCase()} in Pakistan`,
+      `${category.name.toLowerCase()} Karachi`,
+      `${category.name.toLowerCase()} Lahore`,
+      `${category.name.toLowerCase()} Islamabad`,
       ...keywordCluster,
     ],
     robots: {
@@ -355,13 +358,50 @@ export default async function CategoryPage(props: { params: Promise<{ categorySl
               return <p key={i} className="text-gray-600 leading-relaxed mb-2">{line}</p>
             })}
 
+            {/* Top City cross-links for this category */}
+            {businesses.length > 0 && (
+              <div className="mt-8 pt-6 border-t border-gray-100">
+                <h2 className="text-lg font-bold text-[#0f2b3d] mb-4">{category.name} by City in Pakistan</h2>
+                <div className="flex flex-wrap gap-2">
+                  {['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta', 'Sialkot', 'Hyderabad']
+                    .filter(city => businesses.some(b => b.city === city))
+                    .map(city => (
+                    <Link
+                      key={city}
+                      href={`/locations/${city.toLowerCase().replace(/ /g, '-')}/${params.categorySlug}/`}
+                      className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-[#60a5fa] rounded-full text-sm font-medium hover:bg-blue-100 transition-colors"
+                    >
+                      <MapPin className="w-3 h-3" />
+                      {category.name} in {city}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Related Categories cross-links */}
+            <div className="mt-8 pt-6 border-t border-gray-100">
+              <h2 className="text-lg font-bold text-[#0f2b3d] mb-4">Related Categories</h2>
+              <div className="flex flex-wrap gap-2">
+                {CATEGORIES.filter(c => c.id !== params.categorySlug).slice(0, 6).map(cat => (
+                  <Link
+                    key={cat.id}
+                    href={`/categories/${cat.id}/`}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-50 text-gray-600 rounded-full text-sm font-medium hover:bg-blue-50 hover:text-[#60a5fa] border border-gray-200 transition-colors"
+                  >
+                    {cat.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
             {/* Internal Architecture Linking */}
             <div className="mt-10 pt-8 border-t border-gray-100 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-medium">
               <span className="text-gray-400">Related:</span>
               <Link href="/" className="text-[#60a5fa] hover:underline" title="Pakistan Business Directory">Directory Home</Link>
-              <Link href="/categories" className="text-[#60a5fa] hover:underline" title="Browse Categories">All Categories</Link>
-              <Link href="/add-business" className="text-[#60a5fa] hover:underline" title="Add Your Business Free">Add Business Free</Link>
-              <Link href="/blog" className="text-[#60a5fa] hover:underline" title="Business Blog">Business Guides</Link>
+              <Link href="/categories/" className="text-[#60a5fa] hover:underline" title="Browse Categories">All Categories</Link>
+              <Link href="/add-business/" className="text-[#60a5fa] hover:underline" title="Add Your Business Free">Add Business Free</Link>
+              <Link href="/blog/" className="text-[#60a5fa] hover:underline" title="Business Blog">Business Guides</Link>
             </div>
           </section>
 

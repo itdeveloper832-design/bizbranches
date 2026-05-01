@@ -11,8 +11,8 @@ import { generateCityContent } from '@/lib/seo-content'
 import { getCityKeywordCluster } from '@/lib/organic-keywords'
 import { LIVE_STATUSES } from '@/lib/category-mappings'
 
-// Always fetch fresh data so new businesses show up instantly
-export const revalidate = 0
+// ISR: revalidate every 60 seconds
+export const revalidate = 60
 
 const BASE_URL = 'https://pakbizbranhces.online'
 
@@ -55,18 +55,21 @@ export async function generateMetadata(props: { params: Promise<{ city: string }
     businessesCount = snap.size
   } catch {}
 
-  const title = `Best Businesses in ${cityName} | Local Business Directory`
-  const description = `Discover top local businesses in ${cityName} with phone numbers, category filters, and verified contact details.`
-  const url = `${BASE_URL}/cities/${params.city}`
+  const title = `${cityName} Business Directory | Local Businesses & Services`
+  const description = `Find verified local businesses in ${cityName} — restaurants, clinics, real estate, technology, beauty salons & more. Browse phone numbers and addresses on Pakistan's #1 free business directory.`
+  const url = `${BASE_URL}/cities/${params.city}/`
   const keywordCluster = getCityKeywordCluster(cityName)
 
   return {
     title,
     description,
     keywords: [
-      `${cityName} businesses`,
-      `business directory ${cityName}`,
-      `best businesses in ${cityName}`,
+      `${cityName} business directory`,
+      `businesses in ${cityName}`,
+      `${cityName} local businesses`,
+      `restaurants in ${cityName}`,
+      `clinics in ${cityName}`,
+      `real estate ${cityName}`,
       ...keywordCluster,
     ],
     robots: {
@@ -299,14 +302,32 @@ export default async function CityPage(props: { params: Promise<{ city: string }
               return <p key={i} className="text-gray-600 leading-relaxed">{line}</p>
             })}
 
+            {/* Popular Searches — city+category cross-links */}
+            {businesses.length > 0 && (
+              <div className="mt-8 pt-6 border-t border-gray-100">
+                <h2 className="text-lg font-bold text-[#0f2b3d] mb-4">Popular Searches in {cityName}</h2>
+                <div className="flex flex-wrap gap-2">
+                  {CATEGORIES.filter(cat => businesses.some(b => b.category === cat.id)).map(cat => (
+                    <Link
+                      key={cat.id}
+                      href={`/locations/${params.city}/${cat.id}/`}
+                      className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-[#60a5fa] rounded-full text-sm font-medium hover:bg-blue-100 transition-colors"
+                    >
+                      {cat.name} in {cityName}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Internal Architecture Linking */}
             <div className="mt-10 pt-8 border-t border-gray-100 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-medium">
               <span className="text-gray-400">Related:</span>
               <Link href="/" className="text-[#60a5fa] hover:underline" title="Pakistan Business Directory">Directory Home</Link>
-              <Link href="/categories" className="text-[#60a5fa] hover:underline" title="Browse Categories">Browse All Categories</Link>
-              <Link href="/add-business" className="text-[#60a5fa] hover:underline" title="Add Your Business Free">Add Business Free</Link>
-              <Link href="/blog" className="text-[#60a5fa] hover:underline" title="Business Blog">Business Blog</Link>
-              <Link href="/contact" className="text-[#60a5fa] hover:underline" title="Contact Us">Contact Us</Link>
+              <Link href="/categories/" className="text-[#60a5fa] hover:underline" title="Browse Categories">Browse All Categories</Link>
+              <Link href="/add-business/" className="text-[#60a5fa] hover:underline" title="Add Your Business Free">Add Business Free</Link>
+              <Link href="/blog/" className="text-[#60a5fa] hover:underline" title="Business Blog">Business Blog</Link>
+              <Link href="/contact/" className="text-[#60a5fa] hover:underline" title="Contact Us">Contact Us</Link>
             </div>
           </section>
         </div>

@@ -11,25 +11,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
-    { url: BASE_URL, lastModified: now, changeFrequency: 'daily', priority: 1.0 },
-    { url: `${BASE_URL}/categories`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
-    { url: `${BASE_URL}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${BASE_URL}/add-business`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${BASE_URL}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${BASE_URL}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${BASE_URL}/developer`, lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
+    { url: `${BASE_URL}/`, lastModified: now, changeFrequency: 'daily', priority: 1.0 },
+    { url: `${BASE_URL}/categories/`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${BASE_URL}/blog/`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${BASE_URL}/add-business/`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE_URL}/about/`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/contact/`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
   ]
 
   // Bank branch pages (SEO optimized for specific keywords)
   const bankBranchPages: MetadataRoute.Sitemap = [
     { 
-      url: `${BASE_URL}/habib-bank-limited-f-10-markaz-branch-islamabad`, 
+      url: `${BASE_URL}/habib-bank-limited-f-10-markaz-branch-islamabad/`, 
       lastModified: now, 
       changeFrequency: 'weekly', 
       priority: 0.9 
     },
     { 
-      url: `${BASE_URL}/standard-chartered-bank-johar-town-branch-lahore`, 
+      url: `${BASE_URL}/standard-chartered-bank-johar-town-branch-lahore/`, 
       lastModified: now, 
       changeFrequency: 'weekly', 
       priority: 0.9 
@@ -47,7 +46,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .map(doc => {
         const blog = doc.data()
         return {
-          url: `${BASE_URL}/blog/${doc.id}`,
+          url: `${BASE_URL}/blog/${doc.id}/`,
           lastModified: blog.updatedAt ? new Date(blog.updatedAt.toDate?.() ?? blog.updatedAt) : new Date(blog.date || now),
           changeFrequency: 'weekly' as const,
           priority: 0.7,
@@ -63,7 +62,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const activePosts = BLOG_POSTS.filter(post => !post.hidden).slice(0, 15)
       
       blogPages = activePosts.map(post => ({
-        url: `${BASE_URL}/blog/${post.slug}`,
+        url: `${BASE_URL}/blog/${post.slug}/`,
         lastModified: new Date(post.date),
         changeFrequency: 'monthly' as const,
         priority: 0.7,
@@ -104,7 +103,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         }
 
         return {
-          url: data.slug ? `${BASE_URL}/${data.slug}` : `${BASE_URL}/business/${data.id}`,
+          url: data.slug ? `${BASE_URL}/${data.slug}/` : `${BASE_URL}/business/${data.id}/`,
           lastModified: data.updatedAt ? new Date(data.updatedAt.toDate?.() ?? data.updatedAt) : (data.createdAt ? new Date(data.createdAt.toDate?.() ?? data.createdAt) : now),
           changeFrequency: 'weekly' as const,
           priority: 0.75,
@@ -118,7 +117,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const cityPages: MetadataRoute.Sitemap = Array.from(activeCitiesCount.entries())
     .filter(([_, count]) => count >= 3)
     .map(([citySlug]) => ({
-      url: `${BASE_URL}/cities/${citySlug}`,
+      url: `${BASE_URL}/cities/${citySlug}/`,
       lastModified: now,
       changeFrequency: 'daily' as const,
       priority: 0.85,
@@ -128,7 +127,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const categoryPages: MetadataRoute.Sitemap = Array.from(activeCategoriesCount.entries())
     .filter(([_, count]) => count >= 3)
     .map(([catSlug]) => ({
-      url: `${BASE_URL}/categories/${catSlug}`,
+      url: `${BASE_URL}/categories/${catSlug}/`,
       lastModified: now,
       changeFrequency: 'daily' as const,
       priority: 0.85,
@@ -140,7 +139,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .map(([pair]) => {
       const [citySlug, catSlug] = pair.split('|')
       return {
-        url: `${BASE_URL}/locations/${citySlug}/${catSlug}`,
+        url: `${BASE_URL}/locations/${citySlug}/${catSlug}/`,
         lastModified: now,
         changeFrequency: 'daily' as const,
         priority: 0.8,

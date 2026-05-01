@@ -8,6 +8,8 @@ import { BLOG_POSTS } from '@/lib/blog-data'
 
 const BASE_URL = 'https://pakbizbranhces.online'
 
+export const revalidate = 86400 // revalidate once per day
+
 export async function generateStaticParams() {
   return BLOG_POSTS.map(post => ({ slug: post.slug }))
 }
@@ -59,8 +61,10 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
       logo: { '@type': 'ImageObject', url: `${BASE_URL}/bizbranches.pk.png` },
     },
     datePublished: new Date(post.date).toISOString(),
+    dateModified: new Date(post.date).toISOString(),
     url: pageUrl,
     mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+    image: `${BASE_URL}/bizbranches.pk.png`,
     keywords: (post.keywords || post.tags || []).join(', '),
   }
 
@@ -126,26 +130,31 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                 </div>
               </div>
 
-              {/* Related Posts */}
+              {/* Related Posts — topically matched by category first */}
               <div className="mt-12 pt-8 border-t border-gray-100">
                 <h2 className="text-xl font-bold text-[#0f2b3d] mb-6">Related Articles</h2>
                 <div className="grid md:grid-cols-2 gap-5">
-                  {BLOG_POSTS.filter(p => p.slug !== post.slug).slice(0, 2).map(related => (
-                    <Link
-                      key={related.slug}
-                      href={`/blog/${related.slug}`}
-                      className="group bg-gray-50 rounded-xl p-5 hover:bg-blue-50 transition-colors border border-gray-100"
-                    >
-                      <div className="text-xs text-[#60a5fa] font-semibold mb-2">{related.category}</div>
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-[#60a5fa] transition-colors leading-tight">
-                        {related.title}
-                      </h3>
-                      <p className="text-gray-600 text-sm line-clamp-2">{related.excerpt}</p>
-                      <div className="flex items-center gap-1 mt-3 text-[#60a5fa] text-sm font-medium">
-                        Read more <ChevronRight className="w-4 h-4" />
-                      </div>
-                    </Link>
-                  ))}
+                  {(() => {
+                    const sameCat = BLOG_POSTS.filter(p => p.slug !== post.slug && !p.hidden && p.category === post.category)
+                    const fallback = BLOG_POSTS.filter(p => p.slug !== post.slug && !p.hidden && p.category !== post.category)
+                    const related = [...sameCat, ...fallback].slice(0, 2)
+                    return related.map(related => (
+                      <Link
+                        key={related.slug}
+                        href={`/blog/${related.slug}/`}
+                        className="group bg-gray-50 rounded-xl p-5 hover:bg-blue-50 transition-colors border border-gray-100"
+                      >
+                        <div className="text-xs text-[#60a5fa] font-semibold mb-2">{related.category}</div>
+                        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-[#60a5fa] transition-colors leading-tight">
+                          {related.title}
+                        </h3>
+                        <p className="text-gray-600 text-sm line-clamp-2">{related.excerpt}</p>
+                        <div className="flex items-center gap-1 mt-3 text-[#60a5fa] text-sm font-medium">
+                          Read more <ChevronRight className="w-4 h-4" />
+                        </div>
+                      </Link>
+                    ))
+                  })()}
                 </div>
               </div>
             </div>

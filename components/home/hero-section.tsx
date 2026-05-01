@@ -89,18 +89,18 @@ export default function HeroSection() {
 
         {/* Action Buttons */}
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-          <button
-            onClick={() => router.push('/add-business')}
-            className="bg-[#60a5fa] hover:bg-blue-600 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-colors duration-200 text-sm sm:text-base shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
+          <Link
+            href="/add-business/"
+            className="bg-[#60a5fa] hover:bg-blue-600 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-colors duration-200 text-sm sm:text-base shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer text-center"
           >
             List Your Business for Free
-          </button>
-          <button
-            onClick={() => router.push('/categories')}
-            className="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-colors duration-200 text-sm sm:text-base border border-white/20 backdrop-blur-sm hover:border-white/30 cursor-pointer"
+          </Link>
+          <Link
+            href="/categories/"
+            className="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-colors duration-200 text-sm sm:text-base border border-white/20 backdrop-blur-sm hover:border-white/30 cursor-pointer text-center"
           >
             Browse Categories
-          </button>
+          </Link>
         </div>
 
         <div className="mt-6 sm:mt-8 bg-white/10 backdrop-blur-md rounded-xl p-4 sm:p-6 max-w-2xl mx-auto border border-white/20">
@@ -117,25 +117,52 @@ export default function HeroSection() {
         {/* Additional Links */}
         <div className="mt-4 sm:mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
           <Link
-            href="/blog"
+            href="/blog/"
             className="text-white/60 hover:text-white text-xs sm:text-sm transition-colors"
           >
             📚 Business Guide
           </Link>
           <span className="text-white/30">•</span>
           <Link
-            href="/blog/how-to-add-business"
+            href="/blog/how-to-add-business/"
             className="text-white/60 hover:text-white text-xs sm:text-sm transition-colors"
           >
             📝 How to Add Business Free
           </Link>
           <span className="text-white/30">•</span>
           <Link
-            href="/developer"
+            href="/categories/restaurants/"
             className="text-white/60 hover:text-white text-xs sm:text-sm transition-colors"
           >
-            👨‍💻 Developer Notes
+            🍽️ Restaurants
           </Link>
+          <span className="text-white/30">•</span>
+          <Link
+            href="/categories/healthcare/"
+            className="text-white/60 hover:text-white text-xs sm:text-sm transition-colors"
+          >
+            🏥 Healthcare
+          </Link>
+        </div>
+
+        {/* Popular Searches — keyword-rich city+category links */}
+        <div className="mt-4 sm:mt-5 flex flex-wrap items-center justify-center gap-2">
+          <span className="text-white/40 text-xs">Popular:</span>
+          {[
+            { href: '/locations/karachi/restaurants/', label: 'Restaurants Karachi' },
+            { href: '/locations/lahore/real-estate/', label: 'Real Estate Lahore' },
+            { href: '/locations/islamabad/technology/', label: 'IT Companies Islamabad' },
+            { href: '/locations/karachi/healthcare/', label: 'Clinics Karachi' },
+            { href: '/categories/beauty/', label: 'Beauty Salons' },
+          ].map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className="text-white/50 hover:text-white/80 text-xs px-2 py-0.5 rounded border border-white/10 hover:border-white/25 transition-colors"
+            >
+              {label}
+            </Link>
+          ))}
         </div>
 
         <p className="mt-4 sm:mt-6 text-white/40 text-xs sm:text-sm">

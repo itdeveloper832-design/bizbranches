@@ -24,7 +24,8 @@ interface Business {
   logoUrl?: string
 }
 
-export const dynamic = 'force-dynamic'
+// ISR: revalidate every 60 seconds
+export const revalidate = 60
 
 function findCityBySlug(slug: string): string | null {
   const normalized = slug.replace(/-/g, ' ').toLowerCase()
@@ -39,7 +40,7 @@ export async function generateMetadata(props: { params: Promise<{ city: string; 
 
   const title = `Top ${category.name} in ${cityName} | Verified Local Listings`
   const description = `Find the best ${category.name.toLowerCase()} in ${cityName} with direct phone numbers, local addresses, and trusted business listings.`
-  const url = `${BASE_URL}/locations/${params.city}/${params.categorySlug}`
+  const url = `${BASE_URL}/locations/${params.city}/${params.categorySlug}/`
   const keywordCluster = [
     ...getCategoryKeywordCluster(params.categorySlug),
     ...getCityKeywordCluster(cityName),
@@ -116,8 +117,8 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
-      { '@type': 'ListItem', position: 2, name: category.name, item: `${BASE_URL}/categories/${params.categorySlug}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${BASE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: category.name, item: `${BASE_URL}/categories/${params.categorySlug}/` },
       { '@type': 'ListItem', position: 3, name: cityName, item: pageUrl },
     ],
   }
@@ -131,7 +132,7 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
       '@type': 'ListItem',
       position: i + 1,
       name: b.businessName,
-      url: `${BASE_URL}/${b.slug}`,
+      url: `${BASE_URL}/${b.slug}/`,
     })),
   } : null
 
@@ -167,7 +168,7 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: b.businessName,
-    url: `${BASE_URL}/${b.slug}`,
+    url: `${BASE_URL}/${b.slug}/`,
     telephone: b.phone,
     address: {
       '@type': 'PostalAddress',
@@ -196,9 +197,9 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
             <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-white/60 mb-6">
               <Link href="/" className="hover:text-white transition-colors">Home</Link>
               <ChevronRight className="w-4 h-4" />
-              <Link href={`/categories/${params.categorySlug}`} className="hover:text-white transition-colors">{category.name}</Link>
+              <Link href={`/categories/${params.categorySlug}/`} className="hover:text-white transition-colors">{category.name}</Link>
               <ChevronRight className="w-4 h-4" />
-              <Link href={`/cities/${params.city}`} className="hover:text-white transition-colors">{cityName}</Link>
+              <Link href={`/cities/${params.city}/`} className="hover:text-white transition-colors">{cityName}</Link>
             </nav>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
               {category.name} in {cityName}
@@ -217,10 +218,10 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
           {/* Related Pages Nav */}
           <section className="mb-8">
             <div className="flex flex-wrap gap-3">
-              <Link href={`/cities/${params.city}`} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors shadow-sm">
+              <Link href={`/cities/${params.city}/`} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors shadow-sm">
                 <MapPin className="w-3.5 h-3.5" /> All businesses in {cityName}
               </Link>
-              <Link href={`/categories/${params.categorySlug}`} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors shadow-sm">
+              <Link href={`/categories/${params.categorySlug}/`} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors shadow-sm">
                 <Building2 className="w-3.5 h-3.5" /> All {category.name} in Pakistan
               </Link>
             </div>
@@ -258,7 +259,7 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
                 {businesses.map(biz => (
                   <Link
                     key={biz.id}
-                    href={`/${biz.slug}`}
+                    href={`/${biz.slug}/`}
                     className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md hover:border-[#60a5fa]/30 transition-all group flex flex-col"
                   >
                     <div className="flex items-start gap-3 mb-3">
@@ -290,7 +291,7 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
 
             {businesses.length > 0 && (
               <div className="mt-6 text-center">
-                <Link href="/add-business" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#0f2b3d] to-[#1a3f57] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                <Link href="/add-business/" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#0f2b3d] to-[#1a3f57] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
                   Add Your {category.name} Business in {cityName} — Free <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -301,14 +302,16 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
           <section className="mb-12">
             <h2 className="text-xl font-bold text-[#0f2b3d] mb-4">Explore Other Cities</h2>
             <div className="flex flex-wrap gap-3">
-              {CITIES.filter(c => c !== cityName).slice(0, 15).map(city => (
+              {['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Peshawar', 'Faisalabad', 'Multan', 'Gujranwala', 'Sialkot', 'Hyderabad']
+                .filter(c => c !== cityName)
+                .map(city => (
                 <Link
                   key={city}
-                  href={`/cities/${city.toLowerCase().replace(/ /g, '-')}`}
+                  href={`/locations/${city.toLowerCase().replace(/ /g, '-')}/${params.categorySlug}/`}
                   className="inline-flex items-center gap-1.5 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors shadow-sm"
                 >
                   <MapPin className="w-3.5 h-3.5" />
-                  {city}
+                  {category.name} in {city}
                 </Link>
               ))}
             </div>
@@ -331,10 +334,10 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
             <div className="mt-10 pt-8 border-t border-gray-100 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-medium">
               <span className="text-gray-400">Related:</span>
               <Link href="/" className="text-[#60a5fa] hover:underline" title="Pakistan Business Directory">Directory Home</Link>
-              <Link href={`/cities/${params.city}`} className="text-[#60a5fa] hover:underline" title={`Businesses in ${cityName}`}>All {cityName} Businesses</Link>
-              <Link href={`/categories/${params.categorySlug}`} className="text-[#60a5fa] hover:underline" title={`${category.name} in Pakistan`}>All {category.name}</Link>
-              <Link href="/add-business" className="text-[#60a5fa] hover:underline" title="Add Business Free">Add Business Free</Link>
-              <Link href="/blog" className="text-[#60a5fa] hover:underline" title="Business Blog">Business Blog</Link>
+              <Link href={`/cities/${params.city}/`} className="text-[#60a5fa] hover:underline" title={`Businesses in ${cityName}`}>All {cityName} Businesses</Link>
+              <Link href={`/categories/${params.categorySlug}/`} className="text-[#60a5fa] hover:underline" title={`${category.name} in Pakistan`}>All {category.name}</Link>
+              <Link href="/add-business/" className="text-[#60a5fa] hover:underline" title="Add Business Free">Add Business Free</Link>
+              <Link href="/blog/" className="text-[#60a5fa] hover:underline" title="Business Blog">Business Blog</Link>
             </div>
           </section>
 

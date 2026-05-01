@@ -327,9 +327,40 @@ const businessData = {
               Add Your Business to PakBizBranches
             </h1>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              List your business for free and reach thousands of customers across Pakistan. No registration required - instant approval!
+              List your business for free and reach thousands of customers across Pakistan. Join 12,000+ local services discovered every day.
             </p>
           </div>
+
+          {/* SEO Benefits Section */}
+          <section className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex gap-4 items-center">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                <Zap className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-sm">Boost Local SEO</h3>
+                <p className="text-xs text-slate-500">Get a high-quality local citation to rank better in Google Search.</p>
+              </div>
+            </div>
+            <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex gap-4 items-center">
+              <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                <MessageCircle className="w-6 h-6 text-emerald-600" />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-sm">Direct Contact</h3>
+                <p className="text-xs text-slate-500">Enable WhatsApp and phone calls directly from potential customers.</p>
+              </div>
+            </div>
+            <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex gap-4 items-center">
+              <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
+                <Eye className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-sm">100% Free</h3>
+                <p className="text-xs text-slate-500">No registration or credit card required for standard listings.</p>
+              </div>
+            </div>
+          </section>
 
           {/* Two Column Layout: Form + Ads */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

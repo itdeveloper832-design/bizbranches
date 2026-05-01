@@ -36,7 +36,8 @@ export default function CitiesGrid() {
           {featuredCities.map((city) => (
             <Link
               key={city}
-              href={`/cities/${city.toLowerCase().replace(/ /g, '-')}`}
+              href={`/cities/${city.toLowerCase().replace(/ /g, '-')}/`}
+              title={`Businesses in ${city}, Pakistan`}
               className={`bg-gradient-to-br ${cityImages[city] || 'from-slate-500 to-slate-700'} rounded-xl p-5 text-white text-center card-hover flex flex-col items-center justify-center min-h-[90px]`}
             >
               <span className="font-semibold text-sm">{city}</span>
@@ -47,7 +48,8 @@ export default function CitiesGrid() {
         {/* View All Cities Button */}
         <div className="text-center">
           <Link
-            href="/cities"
+            href="/cities/"
+            title="Explore all cities across Pakistan"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#0f2b3d] hover:bg-[#1a3f57] text-white font-semibold rounded-xl transition-all duration-200 hover:shadow-lg hover:scale-105"
           >
             View All Cities

@@ -13,11 +13,11 @@ export default function AboutSection() {
             What is PakBizBranches?
           </h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            PakBizBranches is Pakistan&apos;s free business listing directory. Find local businesses by city and{' '}
-            <a className="text-primary font-medium hover:underline" href="/categories">
+            PakBizBranches is Pakistan&apos;s leading free business listing directory. Find verified <strong>local businesses by city</strong> and{' '}
+            <a className="text-primary font-medium hover:underline" href="/categories/" title="Browse all business categories in Pakistan">
               business categories in Pakistan
             </a>
-            , and list your own business at no cost—no fees, no credit card.
+            , and list your own business at no cost. Get discovered by thousands of customers searching for services in Karachi, Lahore, Islamabad, and beyond.
           </p>
         </div>
         
@@ -66,12 +66,13 @@ export default function AboutSection() {
         <div className="text-center">
           <div className="inline-flex flex-col items-center gap-3 sm:gap-4">
             <a 
-              href="/add-business"
+              href="/add-business/"
+              title="Add your business listing for free on PakBizBranches"
               className="relative overflow-visible inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white h-12 px-6 py-4 sm:py-5 md:py-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 transition-colors"
             >
               <span className="relative z-10 inline-flex items-center">
                 <span>Add Your Business</span>
-                <span className="ml-2">Free</span>
+                <span className="ml-2 underline underline-offset-4 decoration-emerald-300">Free</span>
               </span>
             </a>
             <p className="text-xs sm:text-sm text-gray-500 mt-2">Join thousands of businesses already listed</p>
