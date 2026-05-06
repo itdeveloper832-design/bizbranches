@@ -58,6 +58,7 @@ export default function AddBussinessClient() {
   const [descriptionCharCount, setDescriptionCharCount] = useState(0)
   const [showPreview, setShowPreview] = useState(false)
   const [existingBusinesses, setExistingBusinesses] = useState<string[]>([])
+  const [submittedSlug, setSubmittedSlug] = useState<string | null>(null)
 
   // Check for existing businesses when phone or email changes
   useEffect(() => {
@@ -299,12 +300,11 @@ const businessData = {
       }).catch(err => console.error('IndexNow submission failed:', err));
 
       setStatus('success')
+      setSubmittedSlug(businessData.slug)
       
-      // Redirect to business page after short delay
-      setTimeout(() => {
-        const businessSlug = generateSlug(formData.businessName, formData.city)
-        router.push(`/${businessSlug}`)
-      }, 2000)
+      // We'll let the user click the preview button instead of auto-redirecting
+      // or we can keep a longer redirect if desired. 
+      // The user specifically asked for a preview button to open in a new page.
 
     } catch (error) {
       console.error('Error submitting business:', error)
@@ -388,14 +388,35 @@ const businessData = {
 
           {/* Success Message */}
           {status === 'success' && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
-              <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-green-600" />
-                <div>
-                  <h3 className="font-semibold text-green-800">Business Submitted Successfully!</h3>
-                  <p className="text-green-700 text-sm">
-                    Your business has been approved! Redirecting to your business page...
+            <div className="mb-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl shadow-sm">
+              <div className="flex flex-col md:flex-row items-center gap-6">
+                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                  <CheckCircle2 className="w-8 h-8 text-green-600" />
+                </div>
+                <div className="flex-1 text-center md:text-left">
+                  <h3 className="text-xl font-bold text-green-900 mb-2">Business Submitted Successfully!</h3>
+                  <p className="text-green-800 mb-4">
+                    Congratulations! Your business listing is now live and ready to be discovered. 
+                    You can now preview your page and share it with others.
                   </p>
+                  <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                    {submittedSlug && (
+                      <Link
+                        href={`/${submittedSlug}`}
+                        target="_blank"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all hover:scale-105 shadow-md"
+                      >
+                        <Eye className="w-5 h-5" />
+                        Preview & Share Page
+                      </Link>
+                    )}
+                    <button
+                      onClick={() => window.location.reload()}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-green-200 text-green-700 rounded-xl font-semibold hover:bg-green-50 transition-colors"
+                    >
+                      Add Another Business
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
