@@ -9,13 +9,15 @@ interface CitySearchDropdownProps {
   onChange: (value: string) => void
   placeholder?: string
   className?: string
+  inputClassName?: string
 }
 
 export default function CitySearchDropdown({ 
-  value, 
+  value,
   onChange, 
   placeholder = "Select city...", 
-  className = "" 
+  className = "",
+  inputClassName = ""
 }: CitySearchDropdownProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -85,7 +87,7 @@ export default function CitySearchDropdown({
           onFocus={handleInputFocus}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none bg-white"
+          className={`w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none bg-white ${inputClassName}`}
         />
         <ChevronDown 
           className={`w-4 h-4 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none transition-transform ${

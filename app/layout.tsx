@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     'The most trusted Pakistan business directory. Find verified local businesses, phone numbers, and addresses by city and category. List your business for free.',
   keywords:
-    'Pakistan business directory, free business listing Pakistan, Karachi business listings, Lahore business directory, Islamabad business listings, local services Pakistan',
+    'Pakistan business directory, free business listing Pakistan, Karachi business listings, Lahore business directory, Islamabad business listings, local services Pakistan, business phone numbers Pakistan, companies in Pakistan by city, verified business contacts Pakistan, WhatsApp business directory Pakistan',
   authors: [{ name: 'PakBizBranches', url: 'https://pakbizbranhces.online/' }],
   metadataBase: new URL('https://pakbizbranhces.online/'),
   icons: {
@@ -57,15 +57,15 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet" />
         
-        {/* Google Analytics (Placeholder) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+        {/* Google Analytics - Set your ID here to track traffic */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1R80X5ZVE"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-XXXXXXXXXX');
+              gtag('config', 'G-H1R80X5ZVE');
             `,
           }}
         />

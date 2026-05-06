@@ -1,7 +1,7 @@
 const stats = [
-  { value: '50K+', label: 'Businesses', icon: '🏢' },
-  { value: '2M+', label: 'Users', icon: '�' },
-  { value: '1M+', label: 'Reviews', icon: '⭐' },
+  { value: '15,000+', label: 'Verified Listings', icon: '🏢' },
+  { value: '120,000+', label: 'Monthly Visitors', icon: '👥' },
+  { value: '150+', label: 'Cities Covered', icon: '📍' },
 ]
 
 export default function StatsSection() {

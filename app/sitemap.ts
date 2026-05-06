@@ -42,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Try to get blog posts from Firebase first
     const blogSnap = await getDocs(collection(db, 'blogPosts'))
     blogPages = blogSnap.docs
-      .slice(0, 15) // Limit to first 15 posts
+      .slice(0, 50) // Increased limit to 50 posts for better indexing
       .map(doc => {
         const blog = doc.data()
         return {
@@ -58,8 +58,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // Fallback to static blog data - Limited to 15 posts
       const { BLOG_POSTS } = await import('@/lib/blog-data')
       
-      // Filter out hidden posts and limit to 15
-      const activePosts = BLOG_POSTS.filter(post => !post.hidden).slice(0, 15)
+      // Filter out hidden posts and limit to 50
+      const activePosts = BLOG_POSTS.filter(post => !post.hidden).slice(0, 50)
       
       blogPages = activePosts.map(post => ({
         url: `${BASE_URL}/blog/${post.slug}/`,
@@ -115,7 +115,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Filtered programmatic city pages (require at least 3 businesses to prevent thin content)
   const cityPages: MetadataRoute.Sitemap = Array.from(activeCitiesCount.entries())
-    .filter(([_, count]) => count >= 3)
+    .filter(([_, count]) => count >= 1)
     .map(([citySlug]) => ({
       url: `${BASE_URL}/cities/${citySlug}/`,
       lastModified: now,
@@ -125,7 +125,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Filtered programmatic category pages (require at least 3 businesses)
   const categoryPages: MetadataRoute.Sitemap = Array.from(activeCategoriesCount.entries())
-    .filter(([_, count]) => count >= 3)
+    .filter(([_, count]) => count >= 1)
     .map(([catSlug]) => ({
       url: `${BASE_URL}/categories/${catSlug}/`,
       lastModified: now,
@@ -135,7 +135,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Filtered City + Category pages (require at least 3 businesses to prevent thin content indexing issues)
   const cityCategoryPages: MetadataRoute.Sitemap = Array.from(activeCityCategoryPairsCount.entries())
-    .filter(([_, count]) => count >= 3)
+    .filter(([_, count]) => count >= 1)
     .map(([pair]) => {
       const [citySlug, catSlug] = pair.split('|')
       return {

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Search, MapPin } from 'lucide-react'
 import { CITIES } from '@/lib/data'
+import CitySearchDropdown from '@/components/ui/city-search-dropdown'
 
 export default function HeroSection() {
   const router = useRouter()
@@ -41,10 +42,10 @@ export default function HeroSection() {
           id="hero-heading"
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4"
         >
-          Find Trusted Businesses in Pakistan by City and Category
+          Pakistan&apos;s #1 Free Business Directory – Find Verified Local Services
         </h1>
         <p className="text-base sm:text-lg md:text-xl text-white/90 mb-8 leading-relaxed max-w-2xl sm:max-w-3xl mx-auto">
-          PakBizBranches helps people discover verified local businesses fast, and helps owners get found with a free business listing.
+          Get verified contact details, WhatsApp numbers, and addresses for 15,000+ businesses across 150+ cities in Pakistan.
         </p>
 
         {/* Search Bar */}
@@ -65,19 +66,14 @@ export default function HeroSection() {
               aria-label="Search query"
             />
           </div>
-          <div className="flex items-center gap-2 sm:border-l border-gray-200 sm:pl-3 px-3">
-            <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 shrink-0" aria-hidden="true" />
-            <select
+          <div className="flex items-center gap-2 sm:border-l border-gray-200 sm:pl-3 px-3 flex-1">
+            <CitySearchDropdown
               value={city}
-              onChange={(e) => setCity(e.target.value)}
-              className="bg-transparent text-sm text-gray-600 outline-none pr-2 py-1 cursor-pointer"
-              aria-label="Select city"
-            >
-              <option value="">All Cities</option>
-              {CITIES.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
+              onChange={setCity}
+              placeholder="All Cities"
+              className="w-full"
+              inputClassName="border-none focus:ring-0 py-1 pl-8"
+            />
           </div>
           <button
             type="submit"
@@ -108,9 +104,9 @@ export default function HeroSection() {
             Pakistan business directory with city pages, category pages, and direct contact details to help users quickly compare local services.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs sm:text-sm text-white/85">
-            <span className="bg-white/10 px-3 py-1 rounded-full">50,000+ Listings</span>
+            <span className="bg-white/10 px-3 py-1 rounded-full">15,000+ Listings</span>
             <span className="bg-white/10 px-3 py-1 rounded-full">150+ Cities</span>
-            <span className="bg-white/10 px-3 py-1 rounded-full">12 Main Categories</span>
+            <span className="bg-white/10 px-3 py-1 rounded-full">Verified Contacts</span>
           </div>
         </div>
 

@@ -69,7 +69,7 @@ export async function generateMetadata(props: { params: Promise<{ city: string; 
       ...keywordCluster.slice(0, 8),
     ],
     robots: {
-      index: businessesCount >= 3,
+      index: businessesCount >= 1,
       follow: true,
     },
     alternates: { canonical: url },
