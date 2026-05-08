@@ -302,9 +302,8 @@ const businessData = {
       setStatus('success')
       setSubmittedSlug(businessData.slug)
       
-      // We'll let the user click the preview button instead of auto-redirecting
-      // or we can keep a longer redirect if desired. 
-      // The user specifically asked for a preview button to open in a new page.
+      // Scroll to top to see success message
+      window.scrollTo({ top: 0, behavior: 'smooth' })
 
     } catch (error) {
       console.error('Error submitting business:', error)
@@ -387,40 +386,36 @@ const businessData = {
           )}
 
           {/* Success Message */}
-          {status === 'success' && (
-            <div className="mb-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl shadow-sm">
-              <div className="flex flex-col md:flex-row items-center gap-6">
-                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-8 h-8 text-green-600" />
-                </div>
-                <div className="flex-1 text-center md:text-left">
-                  <h3 className="text-xl font-bold text-green-900 mb-2">Business Submitted Successfully!</h3>
-                  <p className="text-green-800 mb-4">
-                    Congratulations! Your business listing is now live and ready to be discovered. 
-                    You can now preview your page and share it with others.
-                  </p>
-                  <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                    {submittedSlug && (
-                      <Link
-                        href={`/${submittedSlug}`}
-                        target="_blank"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all hover:scale-105 shadow-md"
-                      >
-                        <Eye className="w-5 h-5" />
-                        Preview & Share Page
-                      </Link>
-                    )}
-                    <button
-                      onClick={() => window.location.reload()}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-green-200 text-green-700 rounded-xl font-semibold hover:bg-green-50 transition-colors"
-                    >
-                      Add Another Business
-                    </button>
-                  </div>
-                </div>
+          {status === 'success' ? (
+            <div className="mb-12 p-8 md:p-12 bg-white border border-green-100 rounded-[2rem] shadow-xl shadow-green-900/5 text-center max-w-3xl mx-auto">
+              <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-6">
+                <CheckCircle2 className="w-10 h-10 text-green-500" />
+              </div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">Submitted Successfully!</h2>
+              <p className="text-lg text-slate-600 mb-8">
+                Your business listing has been added to our directory. You can now view it live and share the link with your customers.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                {submittedSlug && (
+                  <Link
+                    href={`/${submittedSlug}`}
+                    target="_blank"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all hover:scale-105 shadow-lg shadow-blue-600/20"
+                  >
+                    <Eye className="w-5 h-5" />
+                    Live Preview
+                  </Link>
+                )}
+                <button
+                  onClick={() => window.location.reload()}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-all"
+                >
+                  Add Another Business
+                </button>
               </div>
             </div>
-          )}
+          ) : (
+            <>
 
           {/* Error Message */}
           {status === 'error' && (
@@ -844,7 +839,9 @@ const businessData = {
             {errors.duplicate && (
               <p className="mt-2 text-sm text-red-600 text-center">{errors.duplicate}</p>
             )}
-          </form>
+            </form>
+          </>
+        )}
 
           {/* Help Section */}
           <div className="mt-12 bg-blue-50 rounded-2xl p-6">
