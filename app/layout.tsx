@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://pakbizbranhces.online/'),
   icons: {
     icon: [
-      { url: '/favicon.jfif', sizes: 'any' },
+      { url: '/favicon.png', sizes: 'any' },
     ],
     apple: [
       { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
@@ -77,7 +77,7 @@ export default function RootLayout({
               '@id': 'https://pakbizbranhces.online/#organization',
               name: 'PakBizBranches',
               url: 'https://pakbizbranhces.online/',
-              logo: 'https://pakbizbranhces.online/bizbranches.pk.png',
+              logo: 'https://pakbizbranhces.online/logo-img.png',
               description: 'Pakistan\'s #1 free business directory with 12,450+ listings. No registration required. Helps users find local businesses phone numbers by city and category and allows business owners to add their local citations for free.',
               sameAs: [
                 'https://facebook.com/pakbizbranches',

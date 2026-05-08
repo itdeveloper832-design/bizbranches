@@ -58,13 +58,13 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
     publisher: {
       '@type': 'Organization',
       name: 'PakBizBranches',
-      logo: { '@type': 'ImageObject', url: `${BASE_URL}/bizbranches.pk.png` },
+      logo: { '@type': 'ImageObject', url: `${BASE_URL}/logo-img.png` },
     },
     datePublished: new Date(post.date).toISOString(),
     dateModified: new Date(post.date).toISOString(),
     url: pageUrl,
     mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
-    image: `${BASE_URL}/bizbranches.pk.png`,
+    image: `${BASE_URL}/logo-img.png`,
     keywords: (post.keywords || post.tags || []).join(', '),
   }
 

@@ -25,7 +25,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
             <img 
-              src="/logo-img.jfif" 
+              src="/logo-img.png" 
               alt="PakBizBranches Logo" 
               className="w-10 h-10 object-contain rounded-md"
             />

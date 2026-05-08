@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-6" title="PakBizBranches - Home">
               <img 
-                src="/logo-img.jfif" 
+                src="/logo-img.png" 
                 alt="PakBizBranches Logo" 
                 className="w-10 h-10 object-contain rounded-md"
               />

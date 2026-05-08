@@ -124,7 +124,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
       type: 'website',
       images: business.logoUrl
         ? [{ url: business.logoUrl, alt: `${business.businessName} logo` }]
-        : [{ url: 'https://pakbizbranhces.online/bizbranches.pk.png', alt: 'PakBizBranches' }],
+        : [{ url: 'https://pakbizbranhces.online/logo-img.png', alt: 'PakBizBranches' }],
     },
     twitter: { card: 'summary_large_image', title, description },
   }
