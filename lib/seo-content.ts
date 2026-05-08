@@ -1,7 +1,7 @@
 // SEO Content Template Generator
 // Generates 500-800 word unique content blocks for programmatic SEO pages
 
-const CITY_INFO: Record<string, { province: string; description: string; industries: string[] }> = {
+const CITY_INFO: Record<string, { province: string; description: string; industries: string[]; districts?: string[] }> = {
   Karachi: {
     province: 'Sindh',
     description: "Pakistan's largest city and financial capital",
