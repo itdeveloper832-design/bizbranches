@@ -40,6 +40,11 @@ export default function TermsPage() {
           <p className="mb-4">
             We may update these terms from time to time. Continued use of the site implies acceptance of the updated terms.
           </p>
+
+          <h2 className="text-xl font-bold text-[#0f2b3d] mt-8 mb-4">6. Contact Us</h2>
+          <p className="mb-4">
+            If you have questions about these Terms of Service, please contact us at support@pakbizbranches.online.
+          </p>
         </div>
       </main>
       <Footer />

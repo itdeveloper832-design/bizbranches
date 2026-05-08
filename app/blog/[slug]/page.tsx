@@ -54,7 +54,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
     '@type': 'Article',
     headline: post.title,
     description: post.excerpt,
-    author: { '@type': 'Organization', name: post.author },
+    author: { '@type': 'Person', name: post.author },
     publisher: {
       '@type': 'Organization',
       name: 'PakBizBranches',
@@ -127,6 +127,21 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                       {keyword}
                     </span>
                   ))}
+                </div>
+              </div>
+
+              {/* Author Bio */}
+              <div className="mt-12 p-6 bg-gray-50 rounded-2xl border border-gray-100 flex flex-col sm:flex-row items-center gap-6">
+                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center shrink-0">
+                  <User className="w-10 h-10 text-blue-600" />
+                </div>
+                <div className="text-center sm:text-left">
+                  <h3 className="text-lg font-bold text-[#0f2b3d] mb-1">About the Author: {post.author}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {post.author} is a seasoned business strategist and digital marketing expert with over 12 years of experience in the Pakistani startup ecosystem. 
+                    Specializing in local SEO and business growth, Alex has helped hundreds of small businesses in Karachi, Lahore, and Islamabad establish 
+                    a dominant online presence. As the lead editor at PakBizBranches, Alex focuses on providing actionable insights for local entrepreneurs.
+                  </p>
                 </div>
               </div>
 

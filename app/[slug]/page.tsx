@@ -351,9 +351,25 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
                   <h2 className="text-2xl font-bold text-[#0f2b3d] mb-4">
                     About {business.businessName}
                   </h2>
-                  <p className="text-gray-600 leading-relaxed text-lg">
+                  <p className="text-gray-600 leading-relaxed text-lg mb-8">
                     {business.description}
                   </p>
+
+                  <div className="prose prose-blue max-w-none">
+                    <h3 className="text-xl font-bold text-[#0f2b3d] mb-4">Professional Overview</h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      {business.businessName} is a premier {category?.name || 'local business'} established to serve the community of {business.city}, Pakistan. 
+                      Located at {business.address}, this {category?.name || 'service provider'} has built a reputation for excellence within the {business.category} industry. 
+                      Whether you are looking for specific services in {business.subCategory || business.city} or general assistance, {business.businessName} provides 
+                      verified expertise and reliable support to its clients.
+                    </p>
+                    <p className="text-gray-600 leading-relaxed mt-4">
+                      As part of our commitment to transparency at PakBizBranches, we have verified the contact information for {business.businessName} 
+                      to ensure you can reach them directly via phone at {business.phone}{business.whatsapp ? ` or WhatsApp at ${business.whatsapp}` : ''}. 
+                      This listing is part of our comprehensive directory of businesses in {business.city}, helping local residents and visitors 
+                      find the best {category?.name || 'services'} in the region.
+                    </p>
+                  </div>
                   
                   {/* Service Highlights / Dynamic Points */}
                   <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">

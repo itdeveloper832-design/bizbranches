@@ -41,7 +41,7 @@ export default function PrivacyPage() {
 
           <h2 className="text-xl font-bold text-[#0f2b3d] mt-8 mb-4">5. Contact Us</h2>
           <p className="mb-4">
-            If you have questions about this Privacy Policy, please contact us at blogstech213@gmail.com.
+            If you have questions about this Privacy Policy, please contact us at support@pakbizbranches.online.
           </p>
         </div>
       </main>

@@ -29,7 +29,7 @@ export const BLOG_POSTS = [
         <p class="text-blue-700">Are you a travel agency booking tours to Mushkpuri or Naran? Or a tech company looking for visibility? <a href="/add-business" class="underline font-semibold">List your business on PakBizBranches</a> today for free!</p>
       </div>
     `,
-    author: "PakBizBranches Team",
+    author: "Alex Rivers",
     date: "April 28, 2026",
     readTime: "4 min read",
     category: "Business Guide",
@@ -132,7 +132,7 @@ export const BLOG_POSTS = [
       
       <p><strong>Ready to launch your software development business? Start today and position yourself as a trusted partner for Pakistani companies seeking digital transformation!</strong></p>
     `,
-    author: "PakBizBranches Tech Team",
+    author: "Alex Rivers",
     date: "April 8, 2026",
     readTime: "14 min read",
     category: "Tech Business",
@@ -224,7 +224,7 @@ export const BLOG_POSTS = [
       
       <p><strong>Position your Karachi business for success in 2026. List your business today and connect with the customers who are already searching for you!</strong></p>
     `,
-    author: "PakBizBranches Team",
+    author: "Alex Rivers",
     date: "2024-03-20",
     readTime: "10 min read",
     category: "Business Directory",
@@ -320,7 +320,7 @@ export const BLOG_POSTS = [
       
       <p><strong>Ready to be part of Pakistan's growth story? Start your business journey today and position yourself for success in these exciting sectors!</strong></p>
     `,
-    author: "PakBizBranches Team",
+    author: "Alex Rivers",
     date: "2024-03-20",
     readTime: "12 min read",
     category: "Business Trends",
@@ -403,7 +403,7 @@ export const BLOG_POSTS = [
       
       <p>Don't wait – start leveraging local business directories today and watch your small business thrive in Pakistan's competitive market!</p>
     `,
-    author: "PakBizBranches Team",
+    author: "Alex Rivers",
     date: "March 16, 2026",
     readTime: "5 min read",
     category: "Business Growth",
@@ -565,7 +565,7 @@ export const BLOG_POSTS = [
       <h2>Need Help?</h2>
       <p>If you need assistance with your business listing, our support team is here to help. Contact us at support@pakbizbranhces.online or call +923142552851.</p>
     `,
-    author: "PakBizBranches Team",
+    author: "Alex Rivers",
     date: "March 14, 2026",
     readTime: "7 min read",
     category: "Business Guide",
@@ -614,7 +614,7 @@ export const BLOG_POSTS = [
       <h2>Get Started Today</h2>
       <p>Whatever sector you choose, start by listing your business on PakBizBranches to get instant visibility among Karachi's customers. It's free, fast, and effective. <a href="/add-business">Add your business now</a>.</p>
     `,
-    author: "PakBizBranches Team",
+    author: "Alex Rivers",
     date: "March 17, 2026",
     readTime: "6 min read",
     category: "Business Growth",
@@ -664,7 +664,7 @@ export const BLOG_POSTS = [
       <h2>Start Sourcing on PakBizBranches</h2>
       <p>Browse our directory of Lahore businesses to find suppliers in your industry. <a href="/cities/lahore">Explore Lahore businesses</a> or search by category to find verified, contact-ready suppliers today.</p>
     `,
-    author: "PakBizBranches Team",
+    author: "Alex Rivers",
     date: "March 17, 2026",
     readTime: "5 min read",
     category: "Business Guide",
@@ -716,7 +716,7 @@ export const BLOG_POSTS = [
       
       <p><strong>Choose the directory built for Pakistan, by people who understand the Pakistani market. Choose PakBizBranches.</strong></p>
     `,
-    author: "PakBizBranches Team",
+    author: "Alex Rivers",
     date: "March 18, 2026",
     readTime: "5 min read",
     category: "Business Directory",
@@ -765,7 +765,7 @@ export const BLOG_POSTS = [
       
       <p><strong>The future of Pakistani business is digital, social, and connected. Embrace it now and watch your business grow in ways you never thought possible.</strong></p>
     `,
-    author: "PakBizBranches Team",
+    author: "Alex Rivers",
     date: "March 18, 2026",
     readTime: "6 min read",
     category: "Marketing",
@@ -811,7 +811,7 @@ export const BLOG_POSTS = [
       
       <p><strong>Pakistan's textile industry is your competitive advantage. Master your supply chain and watch your textile business thrive.</strong></p>
     `,
-    author: "PakBizBranches Team",
+    author: "Alex Rivers",
     date: "March 18, 2026",
     readTime: "6 min read",
     category: "Business Guide",

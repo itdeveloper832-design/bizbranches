@@ -115,7 +115,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Filtered programmatic city pages (require at least 3 businesses to prevent thin content)
   const cityPages: MetadataRoute.Sitemap = Array.from(activeCitiesCount.entries())
-    .filter(([_, count]) => count >= 1)
+    .filter(([_, count]) => count >= 3)
     .map(([citySlug]) => ({
       url: `${BASE_URL}/cities/${citySlug}/`,
       lastModified: now,
@@ -125,7 +125,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Filtered programmatic category pages (require at least 3 businesses)
   const categoryPages: MetadataRoute.Sitemap = Array.from(activeCategoriesCount.entries())
-    .filter(([_, count]) => count >= 1)
+    .filter(([_, count]) => count >= 3)
     .map(([catSlug]) => ({
       url: `${BASE_URL}/categories/${catSlug}/`,
       lastModified: now,
@@ -135,7 +135,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Filtered City + Category pages (require at least 3 businesses to prevent thin content indexing issues)
   const cityCategoryPages: MetadataRoute.Sitemap = Array.from(activeCityCategoryPairsCount.entries())
-    .filter(([_, count]) => count >= 1)
+    .filter(([_, count]) => count >= 3)
     .map(([pair]) => {
       const [citySlug, catSlug] = pair.split('|')
       return {

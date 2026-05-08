@@ -12,6 +12,7 @@ import { CATEGORY_ICONS, CATEGORY_GRADIENTS, CATEGORY_BG_COLORS } from '@/lib/ca
 import { getCategoryIdFromName, isBusinessInCategory } from '@/lib/category-mappings'
 import { db } from '@/lib/firebase'
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore'
+import { generateCategoryContent, generateCityCategoryContent } from '@/lib/seo-content'
 
 interface Business {
   id: string
@@ -173,6 +174,27 @@ function CategoriesContent() {
                 >
                   ← Back to Categories
                 </button>
+              </div>
+
+              {/* Dynamic SEO Content Block */}
+              <div className="mb-8 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                {(() => {
+                  const content = city 
+                    ? generateCityCategoryContent(city, selectedCat)
+                    : generateCategoryContent(selectedCat);
+                  
+                  return content.split('\n').slice(0, 3).map((line, i) => (
+                    <p key={i} className="text-gray-600 leading-relaxed mb-2">
+                      {line.replace(/^## /, '').replace(/^### /, '')}
+                    </p>
+                  ));
+                })()}
+                <Link 
+                  href={city ? `/locations/${city.toLowerCase().replace(/ /g, '-')}/${selectedCat}` : `/category/${selectedCat}`}
+                  className="text-[#60a5fa] text-sm font-semibold hover:underline mt-2 inline-block"
+                >
+                  Read full guide for {CATEGORIES.find(c => c.id === selectedCat)?.name} →
+                </Link>
               </div>
               
               {loading ? (

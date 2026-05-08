@@ -11,6 +11,8 @@ import CitiesGrid from '@/components/home/cities-grid'
 import CTASection from '@/components/home/cta-section'
 import BannerAd from '@/components/ads/banner-ad'
 import NativeAd from '@/components/ads/native-ad'
+import FAQSection from '@/components/home/faq-section'
+import TrustSection from '@/components/home/trust-section'
 import { fetchLatestBusinesses, fetchFeaturedBusinesses } from '@/lib/firebase-server'
 
 // ISR: page is statically rendered and revalidated every 60 seconds.
@@ -70,6 +72,8 @@ export default async function HomePage() {
         </div>
 
         <CategoriesGrid />
+        <FAQSection />
+        <TrustSection />
         <CitiesGrid />
         <CTASection />
 

@@ -153,7 +153,7 @@ export default function ContactClient() {
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
                     <p className="text-gray-600">support@pakbizbranches.online</p>
-                    <p className="text-sm text-gray-500">We'll respond within 24 hours</p>
+                    <p className="text-sm text-gray-500">Official business inquiries & support</p>
                   </div>
                 </div>
 
@@ -163,8 +163,8 @@ export default function ContactClient() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Call Us</h3>
-                    <p className="text-gray-600">+92 300 1234567</p>
-                    <p className="text-sm text-gray-500">Mon-Fri, 9AM-6PM PST</p>
+                    <p className="text-gray-600">+92 314 2552851</p>
+                    <p className="text-sm text-gray-500">Direct Support Line (Mon-Fri)</p>
                   </div>
                 </div>
 
@@ -174,8 +174,8 @@ export default function ContactClient() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">WhatsApp</h3>
-                    <p className="text-gray-600">+92 300 1234567</p>
-                    <p className="text-sm text-gray-500">Quick support via WhatsApp</p>
+                    <p className="text-gray-600">+92 314 2552851</p>
+                    <p className="text-sm text-gray-500">Quick assistance via WhatsApp</p>
                   </div>
                 </div>
 
@@ -184,9 +184,9 @@ export default function ContactClient() {
                     <MapPin className="w-6 h-6 text-orange-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Office Location</h3>
-                    <p className="text-gray-600">Karachi, Pakistan</p>
-                    <p className="text-sm text-gray-500">By appointment only</p>
+                    <h3 className="font-semibold text-gray-900 mb-1">Main Office</h3>
+                    <p className="text-gray-600">Gulghast Colony, Urdu Bazar, Multan</p>
+                    <p className="text-sm text-gray-500">Punjab, Pakistan</p>
                   </div>
                 </div>
               </div>

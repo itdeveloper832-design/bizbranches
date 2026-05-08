@@ -6,16 +6,19 @@ const CITY_INFO: Record<string, { province: string; description: string; industr
     province: 'Sindh',
     description: "Pakistan's largest city and financial capital",
     industries: ['finance', 'retail', 'logistics', 'technology', 'manufacturing'],
+    districts: ['Clifton', 'DHA', 'Shahrah-e-Faisal', 'Saddar', 'Gulshan-e-Iqbal', 'North Nazimabad'],
   },
   Lahore: {
     province: 'Punjab',
     description: "Pakistan's cultural capital and second-largest city",
     industries: ['education', 'retail', 'real-estate', 'food', 'technology'],
+    districts: ['Gulberg', 'DHA', 'Johar Town', 'Model Town', 'Mall Road', 'Bahria Town'],
   },
   Islamabad: {
     province: 'ICT',
     description: "Pakistan's modern capital city",
     industries: ['government', 'technology', 'education', 'real-estate', 'healthcare'],
+    districts: ['Blue Area', 'F-7 Markaz', 'F-10 Markaz', 'DHA', 'Bahria Town', 'G-11'],
   },
   Rawalpindi: {
     province: 'Punjab',
@@ -191,6 +194,12 @@ The ${info.province} government has also invested significantly in supporting lo
 ### How to Find Businesses in ${city}
 
 Use PakBizBranches to browse businesses in ${city} by category. Whether you need a restaurant for a family dinner, a plumber for an urgent repair, or an IT consultancy for your digital transformation, you'll find it here. Simply browse the listings below, call directly, or send a WhatsApp message — all in one click.
+
+### Commercial Hubs & Business Districts in ${city}
+
+${city} is divided into several prominent business districts, each known for specific types of commerce. ${info.districts ? `Some of the most active commercial areas include ${info.districts.join(', ')}. These hubs host everything from corporate offices and banks to bustling retail markets and restaurant strips.` : `The city features numerous commercial markets and business centers that serve as the backbone of its local economy.`} 
+
+When searching for businesses in ${city}, knowing these districts can help you find services closer to your home or office. Whether you are looking for a law firm in the financial district or a retail shop in the central market, our directory makes it easy to filter and find businesses by their specific location.
 
 ### List Your Business in ${city} — Free!
 
