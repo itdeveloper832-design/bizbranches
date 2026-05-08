@@ -88,7 +88,8 @@ dist
 
 # Gatsby files
 .cache/
-public
+# public folder (required for Next.js assets)
+# public
 
 # Storybook build outputs
 .out
@@ -158,7 +159,8 @@ dist
 
 # Gatsby files
 .cache/
-public
+# public folder (required for Next.js assets)
+# public
 
 # Storybook build outputs
 .out
