@@ -14,9 +14,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://pakbizbranhces.online/'),
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '32x32' },
-      { url: '/icon-light-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icon-dark-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.jfif', sizes: 'any' },
     ],
     apple: [
       { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
