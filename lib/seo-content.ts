@@ -179,17 +179,17 @@ export function generateCityContent(city: string): string {
 
   return `## Businesses in ${city} – Your Complete Local Directory
 
-${city} is ${info.description}, located in the ${info.province} province of Pakistan. With a diverse and dynamic economy, the city is home to thousands of local businesses ranging from small family-run shops to large corporate enterprises. Whether you are a resident looking for reliable local services or a business owner wanting to establish a presence, ${city} offers vast opportunities across every sector.
+${city} is ${info.description}, located in the ${info.province} province. With a diverse and dynamic economy, this urban center is home to thousands of local businesses ranging from small family-run shops to large corporate enterprises. Whether you are a resident looking for reliable services or an entrepreneur wanting to establish a presence, the area offers vast opportunities across every sector.
 
 ### Why Discover Businesses in ${city}?
 
-Finding the right business in ${city} can save you time, money, and effort. With PakBizBranches, you get access to a verified and up-to-date directory of businesses in ${city} covering every major category — from restaurants and retail stores to healthcare providers and technology companies. Get local businesses phone numbers in ${city} and instant WhatsApp connect options without any registration. Our listings include complete contact details, addresses, and digital presence links so you can connect instantly.
+Finding the right service provider can save you time, money, and effort. With PakBizBranches, you get access to a verified and up-to-date directory covering every major category — from restaurants and retail stores to healthcare providers and technology companies. Get local phone numbers and instant WhatsApp connect options without any registration. Our listings include complete contact details, addresses, and digital presence links so you can connect instantly.
 
 ### Top Business Sectors in ${city}
 
-${city}'s economy thrives across several key industries including ${info.industries.slice(0, 3).join(', ')}, and more. The city's strategic location and large consumer base make it an ideal place for businesses of all sizes. Entrepreneurs in ${city} benefit from access to a skilled workforce, established supply chains, and a growing digital infrastructure.
+The local economy thrives across several key industries including ${info.industries.slice(0, 3).join(', ')}, and more. Its strategic location and large consumer base make it an ideal place for companies of all sizes. Business owners here benefit from access to a skilled workforce, established supply chains, and a growing digital infrastructure.
 
-The ${info.province} government has also invested significantly in supporting local businesses, creating an environment where startups and established companies can both thrive. Many of Pakistan's leading companies have major operations or headquarters in ${city}.
+The ${info.province} government has also invested significantly in supporting commerce, creating an environment where startups and established brands can both thrive. Many of the country's leading organizations have major operations or headquarters here.
 
 ### How to Find Businesses in ${city}
 
@@ -225,21 +225,21 @@ Pakistan has a thriving ${info.label.toLowerCase()} sector with thousands of bus
 
 ### Find the Best ${info.label} Businesses
 
-Whether you are in Karachi, Lahore, Islamabad, or any other city across Pakistan, finding quality ${info.label.toLowerCase()} businesses has never been easier. Find the best ${info.label.toLowerCase()} companies in Pakistan with complete contact details and verified local citations. Our directory features verified listings with full contact details, WhatsApp numbers, addresses, and online presence links so you can make informed decisions quickly.
+Whether you are in Karachi, Lahore, Islamabad, or any other region, finding quality ${info.label.toLowerCase()} services has never been easier. Locate the top companies in this sector with complete contact details and verified local citations. Our directory features verified listings with WhatsApp numbers, addresses, and online presence links so you can make informed decisions quickly.
 
 ### What You'll Find in Our ${info.label} Directory
 
-Our ${info.label} category includes ${info.examples.slice(0, 5).join(', ')}, and much more. Each listing provides the business name, phone number, WhatsApp contact, address, website, and a detailed description — everything you need to choose the right business for your needs.
+This category includes ${info.examples.slice(0, 5).join(', ')}, and much more. Each listing provides the business name, phone number, and a detailed description — everything you need to choose the right partner for your needs.
 
 ### Why Use PakBizBranches for ${info.label}?
 
-PakBizBranches is Pakistan's leading free business directory with listings from 150+ cities. Our ${info.label} listings are user-submitted and verified, ensuring you get accurate and helpful information. We cover businesses of all sizes — from individual freelancers to large established companies.
+PakBizBranches is a leading free business directory with listings from 150+ cities. These ${info.label} listings are user-submitted and verified, ensuring you get accurate and helpful information. We cover providers of all sizes — from individual freelancers to large established companies.
 
-Our platform makes it easy to compare different ${info.label.toLowerCase()} providers side by side, contact them directly, and even visit their websites or social media pages. No registration required — just browse and connect.
+Our platform makes it easy to compare different options side by side, contact them directly, and even visit their websites or social media pages. No registration required — just browse and connect.
 
 ### ${info.label} Across Pakistani Cities
 
-Pakistan's ${info.label.toLowerCase()} sector is distributed across the country, with major concentrations in Karachi, Lahore, and Islamabad. However, you'll also find excellent ${info.label.toLowerCase()} businesses in cities like Faisalabad, Multan, Peshawar, Quetta, and Sialkot. Use our city filter below to narrow down your search to businesses in your specific city.
+This sector is distributed across the country, with major concentrations in Karachi, Lahore, and Islamabad. However, you'll also find excellent providers in cities like Faisalabad, Multan, Peshawar, Quetta, and Sialkot. Use our city filter below to narrow down your search.
 
 ### Add Your ${info.label} Business — Free!
 

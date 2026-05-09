@@ -300,8 +300,8 @@ export default async function CategoryPage(props: { params: Promise<{ categorySl
                     (index + 1) % 6 === 0 && index !== businesses.length - 1
                   return (
                     <React.Fragment key={biz.id}>
-                      <Link
-                        href={`/${biz.slug}`}
+                        <Link
+                        href={`/business/${biz.slug}/`}
                         className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md hover:border-[#60a5fa]/30 transition-all group flex flex-col"
                       >
                         <div className="flex items-start gap-3 mb-3">

@@ -176,6 +176,21 @@ export default function AddBussinessClient() {
     return Object.keys(newErrors).length === 0
   }
 
+  const isSlugUnique = async (slug: string) => {
+    try {
+      const q = query(
+        collection(db, 'businesses'),
+        where('slug', '==', slug),
+        limit(1)
+      )
+      const querySnapshot = await getDocs(q)
+      return querySnapshot.empty
+    } catch (error) {
+      console.error('Error checking slug uniqueness:', error)
+      return true // Assume unique on error to avoid blocking submission
+    }
+  }
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
@@ -227,14 +242,23 @@ export default function AddBussinessClient() {
   }
 
   const generateSlug = (businessName: string, city: string) => {
-    const slug = businessName
+    const cleanName = businessName
       .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
       .trim()
+      .replace(/[^\w\s-]/g, '') // Remove non-word chars
+      .replace(/[\s_]+/g, '-')   // Replace spaces/underscores with hyphens
+      .replace(/-+/g, '-')       // Remove duplicate hyphens
+      .replace(/^-+|-+$/g, '');  // Trim hyphens from ends
     
-    return city ? `${slug}-${city.toLowerCase().replace(/\s+/g, '-')}` : slug
+    const cleanCity = city
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_]+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    return cleanCity ? `${cleanName}-${cleanCity}` : cleanName;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -246,7 +270,18 @@ export default function AddBussinessClient() {
 
     setStatus('loading')
 
-    try {
+  const baseSlug = generateSlug(formData.businessName, formData.city)
+  let finalSlug = baseSlug
+  let isUnique = await isSlugUnique(finalSlug)
+  let counter = 1
+  
+  while (!isUnique) {
+    finalSlug = `${baseSlug}-${counter}`
+    isUnique = await isSlugUnique(finalSlug)
+    counter++
+    if (counter > 10) break // Safety break
+  }
+
 const businessData = {
   ...formData,
   businessName: formData.businessName.trim(),
@@ -262,7 +297,7 @@ const businessData = {
         categoryId: normalizeCategoryForStorage(formData.category),
         categorySlug: normalizeCategoryForStorage(formData.category),
         subCategory: formData.subcategory.trim(),
-        slug: generateSlug(formData.businessName, formData.city),
+        slug: finalSlug,
         status: 'approved',
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -292,7 +327,7 @@ const businessData = {
       }
 
       // IndexNow Automatic Submission
-      const pageUrl = `${window.location.origin}/${businessData.slug}`;
+      const pageUrl = `${window.location.origin}/business/${businessData.slug}/`;
       fetch('/api/indexnow', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

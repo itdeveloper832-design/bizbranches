@@ -248,7 +248,7 @@ export default async function CityPage(props: { params: Promise<{ city: string }
                   return (
                     <Link
                       key={biz.id}
-                      href={`/${biz.slug}`}
+                      href={`/business/${biz.slug}/`}
                       className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md hover:border-[#60a5fa]/30 transition-all group flex flex-col"
                     >
                       <div className="flex items-start gap-3 mb-3">

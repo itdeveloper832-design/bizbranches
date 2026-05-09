@@ -4,6 +4,9 @@ import { collection, getDocs, query, where } from 'firebase/firestore'
 import { CITIES, CATEGORIES } from '@/lib/data'
 import { LIVE_STATUSES } from '@/lib/category-mappings'
 
+export const revalidate = 0
+export const dynamic = 'force-dynamic'
+
 const BASE_URL = 'https://pakbizbranhces.online'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -22,13 +25,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Bank branch pages (SEO optimized for specific keywords)
   const bankBranchPages: MetadataRoute.Sitemap = [
     { 
-      url: `${BASE_URL}/habib-bank-limited-f-10-markaz-branch-islamabad/`, 
+      url: `${BASE_URL}/business/habib-bank-limited-f-10-markaz-branch-islamabad/`, 
       lastModified: now, 
       changeFrequency: 'weekly', 
       priority: 0.9 
     },
     { 
-      url: `${BASE_URL}/standard-chartered-bank-johar-town-branch-lahore/`, 
+      url: `${BASE_URL}/business/standard-chartered-bank-johar-town-branch-lahore/`, 
       lastModified: now, 
       changeFrequency: 'weekly', 
       priority: 0.9 
@@ -79,7 +82,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const activeCityCategoryPairsCount = new Map<string, number>()
 
   try {
-    const q = query(collection(db, 'businesses'))
+    const q = query(
+      collection(db, 'businesses'),
+      limit(45000) // Safety limit for single sitemap file
+    )
     const snap = await getDocs(q)
     
     businessPages = snap.docs
@@ -103,7 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         }
 
         return {
-          url: data.slug ? `${BASE_URL}/${data.slug}/` : `${BASE_URL}/business/${data.id}/`,
+          url: `${BASE_URL}/business/${data.slug}/`,
           lastModified: data.updatedAt ? new Date(data.updatedAt.toDate?.() ?? data.updatedAt) : (data.createdAt ? new Date(data.createdAt.toDate?.() ?? data.createdAt) : now),
           changeFrequency: 'weekly' as const,
           priority: 0.75,
