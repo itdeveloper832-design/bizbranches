@@ -9,7 +9,7 @@ import Footer from '@/components/footer'
 import CitySearchDropdown from '@/components/ui/city-search-dropdown'
 import { CATEGORIES } from '@/lib/data'
 import { db } from '@/lib/firebase'
-import { collection, addDoc, query, where, getDocs, serverTimestamp } from 'firebase/firestore'
+import { collection, addDoc, query, where, getDocs, serverTimestamp, limit } from 'firebase/firestore'
 import { sendBusinessSubmissionEmail } from '@/lib/email-service'
 import { normalizeCategoryForStorage } from '@/lib/category-mappings'
 
@@ -269,6 +269,7 @@ export default function AddBussinessClient() {
     }
 
     setStatus('loading')
+    try {
 
   const baseSlug = generateSlug(formData.businessName, formData.city)
   let finalSlug = baseSlug
