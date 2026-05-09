@@ -37,16 +37,32 @@ interface Business {
 
 async function getBusinessBySlug(slug: string): Promise<Business | null> {
   try {
+    // 1. Try fetching by slug (New optimized structure)
     const q = query(
       collection(db, 'businesses'),
       where('slug', '==', slug),
       limit(1)
     )
     const querySnapshot = await getDocs(q)
-    if (querySnapshot.empty) return null
-    const doc = querySnapshot.docs[0]
-    return { id: doc.id, ...doc.data() } as Business
-  } catch {
+    
+    if (!querySnapshot.empty) {
+      const doc = querySnapshot.docs[0]
+      return { id: doc.id, ...doc.data() } as Business
+    }
+
+    // 2. Fallback: Try fetching by ID (Legacy support)
+    // Next.js params will treat /business/ID as /business/[slug]
+    const { doc, getDoc } = await import('firebase/firestore')
+    const docRef = doc(db, 'businesses', slug)
+    const docSnap = await getDoc(docRef)
+    
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() } as Business
+    }
+
+    return null
+  } catch (error) {
+    console.error('Error fetching business:', error)
     return null
   }
 }
