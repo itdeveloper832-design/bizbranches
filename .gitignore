@@ -203,3 +203,8 @@ firebase-debug.log*
 
 # Website information file (not for public indexing)
 WEBSITE-INFO.txt
+
+# Audit & temp extraction files
+*.docx
+*.zip
+docx_extracted/

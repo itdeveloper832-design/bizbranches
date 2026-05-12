@@ -132,7 +132,7 @@ export default async function CityPage(props: { params: Promise<{ city: string }
       '@type': 'ListItem',
       position: i + 1,
       name: b.businessName,
-      url: `${BASE_URL}/${b.slug}`,
+      url: `${BASE_URL}/business/${b.slug}/`,
     })),
   } : null
 
@@ -140,7 +140,7 @@ export default async function CityPage(props: { params: Promise<{ city: string }
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: b.businessName,
-    url: `${BASE_URL}/${b.slug}`,
+    url: `${BASE_URL}/business/${b.slug}/`,
     telephone: b.phone,
     address: {
       '@type': 'PostalAddress',

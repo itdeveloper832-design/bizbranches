@@ -189,7 +189,8 @@ export default function Footer() {
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2">
             <Link href="/privacy/" className="hover:text-white/80 transition-colors uppercase text-[10px] tracking-widest font-bold">Privacy</Link>
             <Link href="/terms/" className="hover:text-white/80 transition-colors uppercase text-[10px] tracking-widest font-bold">Terms</Link>
-            <Link href="/sitemap.xml" className="hover:text-white/80 transition-colors uppercase text-[10px] tracking-widest font-bold">Sitemap</Link>
+            <Link href="/html-sitemap/" className="hover:text-white/80 transition-colors uppercase text-[10px] tracking-widest font-bold">Sitemap</Link>
+            <Link href="/sitemap.xml" className="hover:text-white/80 transition-colors uppercase text-[10px] tracking-widest font-bold">XML Sitemap</Link>
           </div>
         </div>
       </div>

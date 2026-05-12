@@ -15,7 +15,7 @@ export const CATEGORY_MAPPINGS = {
   'logistics': ['logistics', 'transport', 'transportation', 'shipping', 'delivery'],
 }
 
-export const LIVE_STATUSES = new Set(['approved', 'pending'])
+export const LIVE_STATUSES = new Set(['approved'])
 
 // Function to get the main category ID from any category name
 export function getCategoryIdFromName(categoryName: string): string | null {

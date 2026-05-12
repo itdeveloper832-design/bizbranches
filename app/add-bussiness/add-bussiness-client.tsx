@@ -434,7 +434,7 @@ const businessData = {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 {submittedSlug && (
                   <Link
-                    href={`/${submittedSlug}`}
+                    href={`/business/${submittedSlug}/`}
                     target="_blank"
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all hover:scale-105 shadow-lg shadow-blue-600/20"
                   >

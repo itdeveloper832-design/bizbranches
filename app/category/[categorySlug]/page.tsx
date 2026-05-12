@@ -148,8 +148,8 @@ export default async function CategoryPage(props: { params: Promise<{ categorySl
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Categories', item: `${BASE_URL}/categories` },
-      { '@type': 'ListItem', position: 3, name: category.name, item: pageUrl },
+      { '@type': 'ListItem', position: 2, name: 'Categories', item: `${BASE_URL}/categories/` },
+      { '@type': 'ListItem', position: 3, name: category.name, item: `${pageUrl}/` },
     ],
   }
 
@@ -162,7 +162,7 @@ export default async function CategoryPage(props: { params: Promise<{ categorySl
       '@type': 'ListItem',
       position: i + 1,
       name: b.businessName,
-      url: `${BASE_URL}/${b.slug}`,
+      url: `${BASE_URL}/business/${b.slug}/`,
     })),
   } : null
 
@@ -198,7 +198,7 @@ export default async function CategoryPage(props: { params: Promise<{ categorySl
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: b.businessName,
-    url: `${BASE_URL}/${b.slug}`,
+    url: `${BASE_URL}/business/${b.slug}/`,
     telephone: b.phone,
     address: {
       '@type': 'PostalAddress',

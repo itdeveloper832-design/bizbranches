@@ -130,14 +130,12 @@ export default function AdminPage() {
       const business = businesses.find(b => b.id === businessId)
       await deleteDoc(doc(db, 'businesses', businessId))
       
-      // IndexNow Notification
-      if (business) {
-        const pageUrl = `${window.location.origin}/${business.slug || business.id}`
+      if (business?.slug) {
         fetch('/api/indexnow', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ urls: [pageUrl] })
-        }).catch(err => console.error('IndexNow submission failed:', err))
+          body: JSON.stringify({ urls: [`${window.location.origin}/business/${business.slug}/`] })
+        }).catch(() => {})
       }
 
       setBusinesses(prev => prev.filter(b => b.id !== businessId))
@@ -163,13 +161,13 @@ export default function AdminPage() {
       const businessRef = doc(db, 'businesses', selectedBusiness.id)
       await updateDoc(businessRef, editForm)
       
-      // IndexNow Notification
-      const pageUrl = `${window.location.origin}/${selectedBusiness.slug || selectedBusiness.id}`
-      fetch('/api/indexnow', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ urls: [pageUrl] })
-      }).catch(err => console.error('IndexNow submission failed:', err))
+      if (selectedBusiness.slug) {
+        fetch('/api/indexnow', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ urls: [`${window.location.origin}/business/${selectedBusiness.slug}/`] })
+        }).catch(() => {})
+      }
 
       setBusinesses(prev => prev.map(b => 
         b.id === selectedBusiness.id ? { ...b, ...editForm } : b
@@ -191,14 +189,15 @@ export default function AdminPage() {
       const businessRef = doc(db, 'businesses', businessId)
       await updateDoc(businessRef, { status: 'approved' })
       
-      // IndexNow Notification
-      if (business) {
-        const pageUrl = `${window.location.origin}/${business.slug || business.id}`
+      if (business?.slug) {
         fetch('/api/indexnow', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ urls: [pageUrl] })
-        }).catch(err => console.error('IndexNow submission failed:', err))
+          body: JSON.stringify({ urls: [
+            `${window.location.origin}/business/${business.slug}/`,
+            `${window.location.origin}/sitemaps/businesses.xml`,
+          ] })
+        }).catch(() => {})
       }
 
       setBusinesses(prev => prev.map(b =>
@@ -466,7 +465,7 @@ export default function AdminPage() {
                                 <Trash2 className="w-4 h-4" />
                               </button>
                               <Link
-                                href={`/${business.slug || business.id}`}
+                                href={`/business/${business.slug || business.id}/`}
                                 target="_blank"
                                 className="text-gray-600 hover:text-gray-900"
                               >

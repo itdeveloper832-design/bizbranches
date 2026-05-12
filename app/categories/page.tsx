@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     ...ORGANIC_SEED_KEYWORDS.slice(0, 8),
   ],
   alternates: {
-    canonical: 'https://pakbizbranhces.online/categories',
+    canonical: 'https://pakbizbranhces.online/categories/',
   },
 }
 
