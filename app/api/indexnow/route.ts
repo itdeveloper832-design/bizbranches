@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { submitToIndexNow } from '@/lib/indexnow';
-import sitemap from '@/app/sitemap';
 
 /**
  * GET /api/indexnow
@@ -19,17 +18,7 @@ export async function GET(req: NextRequest) {
   }
 
   if (action === 'sitemap') {
-    try {
-      const sitemapEntries = await sitemap();
-      const urls = sitemapEntries.map(entry => entry.url);
-      const result = await submitToIndexNow(urls);
-      return NextResponse.json({
-        ...result,
-        totalUrls: urls.length
-      });
-    } catch (error: any) {
-      return NextResponse.json({ success: false, message: error.message }, { status: 500 });
-    }
+    return NextResponse.json({ success: false, message: 'Sitemap submission is temporarily disabled.' }, { status: 501 });
   }
 
   return NextResponse.json({ 

@@ -27,12 +27,42 @@ const nextConfig = {
       },
       {
         source: '/category/:categorySlug',
-        destination: '/categories/:categorySlug',
+        destination: '/:categorySlug',
+        permanent: true,
+      },
+      {
+        source: '/best-restaurants',
+        destination: '/restaurants',
+        permanent: true,
+      },
+      {
+        source: '/healthcare-services',
+        destination: '/hospitals',
+        permanent: true,
+      },
+      {
+        source: '/top-real-estate',
+        destination: '/real-estate',
+        permanent: true,
+      },
+      {
+        source: '/smarttalk',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/cities/:city',
+        destination: '/:city',
         permanent: true,
       },
       {
         source: '/businesses/:city/:categorySlug',
-        destination: '/locations/:city/:categorySlug',
+        destination: '/:city/:categorySlug',
+        permanent: true,
+      },
+      {
+        source: '/locations/:city/:categorySlug',
+        destination: '/:city/:categorySlug',
         permanent: true,
       },
     ]

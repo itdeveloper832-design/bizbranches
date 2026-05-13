@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import AddBussinessClient from '../add-bussiness/add-bussiness-client'
+import AddBusinessClient from './add-business-client'
 
 export const metadata: Metadata = {
   title: 'List Your Business for Free | PakBizBranches',
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 }
 
 export default function AddBusinessPage() {
-  return <AddBussinessClient />
+  return <AddBusinessClient />
 }

@@ -241,3 +241,56 @@ export async function fetchCityBusinesses(
     return []
   }
 }
+
+// Fetch businesses by city and category - simple query with JS filtering to avoid index requirements
+export async function fetchCityCategoryBusinesses(
+  city: string,
+  categoryId: string,
+  pageLimit: number = 20
+): Promise<Business[]> {
+  try {
+    // Fetch businesses by city (which we likely already have an index for)
+    // then filter by category in memory to avoid needing a composite index
+    const q = query(
+      collection(db, 'businesses'),
+      where('city', '==', city),
+      orderBy('createdAt', 'desc'),
+      limit(pageLimit * 4) // Fetch more to allow for category filtering
+    )
+
+    const snapshot = await getDocs(q)
+    const businesses: Business[] = []
+    
+    snapshot.docs.forEach(doc => {
+      const data = doc.data() as any
+      const status = String(data.status ?? '').toLowerCase()
+      const matchesCategory = data.categoryId === categoryId || data.category === categoryId
+
+      if (matchesCategory && (!status || LIVE_STATUSES.has(status))) {
+        businesses.push({
+          id: doc.id,
+          businessName: data.businessName,
+          slug: data.slug,
+          city: data.city,
+          category: data.category,
+          categoryId: data.categoryId,
+          description: data.description,
+          phone: data.phone,
+          logoUrl: data.logoUrl,
+          status: data.status,
+          isFeatured: data.isFeatured,
+          createdAt: serializeTimestamp(data.createdAt),
+          rating: data.rating,
+          reviewCount: data.reviewCount,
+          websiteUrl: data.websiteUrl,
+          facebookPage: data.facebookPage,
+        })
+      }
+    })
+
+    return businesses.slice(0, pageLimit)
+  } catch (error) {
+    console.error('Error fetching city category businesses:', error)
+    return []
+  }
+}

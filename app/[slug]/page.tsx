@@ -1,17 +1,24 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Phone, Mail, MapPin, MessageCircle, Building2, Globe, Facebook, Youtube, ExternalLink } from 'lucide-react'
+import { ArrowLeft, Phone, Mail, MapPin, MessageCircle, Building2, Globe, Facebook, Youtube, ExternalLink, ChevronRight, ArrowRight } from 'lucide-react'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import { db } from '@/lib/firebase'
 import { collection, query, where, getDocs, limit } from 'firebase/firestore'
-import { CATEGORIES } from '@/lib/data'
-import { LIVE_STATUSES } from '@/lib/category-mappings'
+import { CATEGORIES, CITIES } from '@/lib/data'
+import { LIVE_STATUSES, getPossibleCategoryValues } from '@/lib/category-mappings'
+import { generateCategoryContent, generateCityContent } from '@/lib/seo-content'
+import { getCategoryKeywordCluster, getCityKeywordCluster } from '@/lib/organic-keywords'
+import BannerAd from '@/components/ads/banner-ad'
+import NativeAd from '@/components/ads/native-ad'
+import React from 'react'
 
 // Disable caching so new/updated business data appears immediately
-export const revalidate = 0
+export const revalidate = 60
 export const dynamic = 'force-dynamic'
+
+const BASE_URL = 'https://pakbizbranhces.online'
 
 interface Business {
   id: string
@@ -33,6 +40,15 @@ interface Business {
   createdAt: any
   status: string
   slug: string
+}
+
+function findCityBySlug(slug: string): string | null {
+  const normalized = slug.replace(/-/g, ' ').toLowerCase()
+  return CITIES.find(c => c.toLowerCase() === normalized) ?? null
+}
+
+function findCategoryBySlug(slug: string) {
+  return CATEGORIES.find(c => c.id === slug) ?? null
 }
 
 async function getBusinessBySlug(slug: string): Promise<Business | null> {
@@ -74,8 +90,44 @@ async function getSimilarBusinesses(city: string, category: string, excludeSlug:
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const params = await props.params;
-  const business = await getBusinessBySlug(params.slug)
+  const { slug } = params
 
+  // Check if it's a City
+  const cityName = findCityBySlug(slug)
+  if (cityName) {
+    const title = `${cityName} Business Directory | Local Businesses & Services`
+    const description = `Find verified local businesses in ${cityName} — restaurants, clinics, real estate, technology, beauty salons & more. Browse phone numbers and addresses on Pakistan's #1 free business directory.`
+    const url = `${BASE_URL}/${slug}/`
+    const keywordCluster = getCityKeywordCluster(cityName)
+
+    return {
+      title,
+      description,
+      keywords: [`${cityName} business directory`, `businesses in ${cityName}`, ...keywordCluster],
+      alternates: { canonical: url },
+      openGraph: { title, description, url, siteName: 'PakBizBranches', locale: 'en_PK', type: 'website' },
+    }
+  }
+
+  // Check if it's a Category
+  const category = findCategoryBySlug(slug)
+  if (category) {
+    const title = `Best ${category.name} in Pakistan | Find Phone Numbers & Addresses`
+    const description = `Browse verified ${category.name.toLowerCase()} businesses across Karachi, Lahore, Islamabad & 150+ Pakistani cities. Get phone numbers and addresses free on PakBizBranches.`
+    const url = `${BASE_URL}/${slug}/`
+    const keywordCluster = getCategoryKeywordCluster(slug)
+
+    return {
+      title,
+      description,
+      keywords: [`${category.name} in Pakistan`, ...keywordCluster],
+      alternates: { canonical: url },
+      openGraph: { title, description, url, siteName: 'PakBizBranches', locale: 'en_PK', type: 'website' },
+    }
+  }
+
+  // Business Detail
+  const business = await getBusinessBySlug(slug)
   if (!business) {
     return {
       title: 'Business Not Found | PakBizBranches',
@@ -83,565 +135,211 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
     }
   }
 
-  const category = CATEGORIES.find(c => c.id === business.category)
-  const categoryName = category?.name ?? business.category
-  const locationLabel = business.city
-
-  // Global SEO title format: "[Business Name] [Area/City] – Official Details & Contact Information"
-  const title = `${business.businessName} ${locationLabel} – Official Details & Contact Information`
-
-  // Meta description: includes business name, category, address, and target keywords
-  const description = `${business.businessName} is a verified ${categoryName} business located at ${business.address}, ${business.city}, Pakistan. Get official details, contact number (${business.phone}), address, reviews, and more.`
-
-  const url = `https://pakbizbranhces.online/${params.slug}`
+  const businessCategory = CATEGORIES.find(c => c.id === business.category)
+  const categoryName = businessCategory?.name ?? business.category
+  const title = `${business.businessName} ${business.city} – Official Details & Contact Information`
+  const description = `${business.businessName} is a verified ${categoryName} business located at ${business.address}, ${business.city}, Pakistan. Get contact number (${business.phone}), address, and more.`
+  const url = `${BASE_URL}/${slug}/`
 
   return {
     title,
     description,
-    keywords: [
-      business.businessName,
-      `${business.businessName} ${business.city}`,
-      `${business.businessName} contact`,
-      `${business.businessName} address`,
-      `${business.businessName} details`,
-      categoryName,
-      `${categoryName} in ${business.city}`,
-      `${business.city} business directory`,
-      'Pakistan business directory',
-    ].join(', '),
     alternates: { canonical: url },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: { index: true, follow: true },
-    },
-    openGraph: {
-      title,
-      description,
-      url,
-      siteName: 'PakBizBranches',
-      locale: 'en_PK',
-      type: 'website',
-      images: business.logoUrl
-        ? [{ url: business.logoUrl, alt: `${business.businessName} logo` }]
-        : [{ url: 'https://pakbizbranhces.online/logo-img.png', alt: 'PakBizBranches' }],
-    },
-    twitter: { card: 'summary_large_image', title, description },
+    openGraph: { title, description, url, siteName: 'PakBizBranches', locale: 'en_PK', type: 'website' },
   }
 }
 
-export default async function BusinessPage(props: { params: Promise<{ slug: string }> }) {
-  const params = await props.params;
-  const business = await getBusinessBySlug(params.slug)
+export default async function CatchAllPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params
+  const { slug } = params
 
-  if (!business) {
-    notFound()
+  // 1. City View
+  const cityName = findCityBySlug(slug)
+  if (cityName) {
+    let businesses: Business[] = []
+    try {
+      const q = query(collection(db, 'businesses'), where('city', '==', cityName), limit(40))
+      const snap = await getDocs(q)
+      businesses = snap.docs
+        .map(d => ({ id: d.id, ...d.data() } as Business))
+        .filter(b => {
+          const status = String((b as any).status ?? '').toLowerCase()
+          return !status || LIVE_STATUSES.has(status)
+        })
+    } catch {}
+
+    const content = generateCityContent(cityName)
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+        { '@type': 'ListItem', position: 2, name: cityName, item: `${BASE_URL}/${slug}` },
+      ],
+    }
+
+    return (
+      <>
+        <Navbar />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+        <main className="bg-[#f8fafc] min-h-screen">
+          <section className="bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] py-16">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center gap-3 mb-4">
+                <MapPin className="w-8 h-8 text-[#60a5fa]" />
+                <h1 className="text-4xl md:text-5xl font-bold text-white">Businesses in {cityName}</h1>
+              </div>
+              <p className="text-xl text-white/80 max-w-2xl">Discover top-rated local businesses in {cityName}.</p>
+            </div>
+          </section>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {businesses.map(biz => (
+                <Link key={biz.id} href={`/${biz.slug}`} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all group">
+                   <h3 className="font-bold text-gray-900 group-hover:text-[#60a5fa] truncate">{biz.businessName}</h3>
+                   <p className="text-sm text-gray-500">{biz.phone}</p>
+                </Link>
+              ))}
+            </div>
+            <div className="mt-12 prose prose-blue max-w-none bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+               {content.split('\n').map((line, i) => <p key={i}>{line}</p>)}
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </>
+    )
   }
 
-  const category = CATEGORIES.find(c => c.id === business.category)
-  const whatsappUrl = business.whatsapp
-    ? `https://wa.me/${business.whatsapp.replace(/[^0-9]/g, '')}`
-    : null
-  const mapQuery = encodeURIComponent(`${business.address}, ${business.city}, Pakistan`)
-  const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&output=embed`
-  const similarBusinesses = await getSimilarBusinesses(business.city, business.category, params.slug)
+  // 2. Category View
+  const category = findCategoryBySlug(slug)
+  if (category) {
+    let businesses: Business[] = []
+    try {
+      const categoryValues = getPossibleCategoryValues(slug).slice(0, 5)
+      const primaryQuery = query(collection(db, 'businesses'), where('categoryId', '==', slug), limit(60))
+      const fallbackQuery = query(collection(db, 'businesses'), where('category', 'in', categoryValues), limit(60))
+      const [pSnap, fSnap] = await Promise.all([getDocs(primaryQuery), getDocs(fallbackQuery)])
+      const merged = new Map<string, Business>()
+      pSnap.docs.forEach(doc => merged.set(doc.id, { id: doc.id, ...doc.data() } as Business))
+      fSnap.docs.forEach(doc => { if (!merged.has(doc.id)) merged.set(doc.id, { id: doc.id, ...doc.data() } as Business) })
+      businesses = Array.from(merged.values()).filter(b => {
+        const status = String((b as any).status ?? '').toLowerCase()
+        return !status || LIVE_STATUSES.has(status)
+      }).slice(0, 40)
+    } catch {}
 
-  const pageUrl = `https://pakbizbranhces.online/${params.slug}`
-  const categoryUrl = `/categories/${business.category}`
-  const cityUrl = `/cities/${encodeURIComponent(business.city.toLowerCase().replace(/ /g, '-'))}`
+    const content = generateCategoryContent(slug)
+    return (
+      <>
+        <Navbar />
+        <main className="bg-[#f8fafc] min-h-screen">
+          <section className="bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] py-16">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{category.name} in Pakistan</h1>
+              <p className="text-xl text-white/80">Browse verified {category.name.toLowerCase()} businesses across Pakistan.</p>
+            </div>
+          </section>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {businesses.map(biz => (
+                <Link key={biz.id} href={`/${biz.slug}`} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all group">
+                   <h3 className="font-bold text-gray-900 group-hover:text-[#60a5fa] truncate">{biz.businessName}</h3>
+                   <p className="text-sm text-gray-500">{biz.city}</p>
+                </Link>
+              ))}
+            </div>
+            <div className="mt-12 prose prose-blue max-w-none bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+               {content.split('\n').map((line, i) => <p key={i}>{line}</p>)}
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </>
+    )
+  }
 
-  const sameAs: string[] = []
-  if (business.websiteUrl) sameAs.push(business.websiteUrl)
-  if (business.facebookPage) sameAs.push(business.facebookPage)
-  if (business.youtubeChannel) sameAs.push(business.youtubeChannel)
+  // 3. Business Detail View
+  const business = await getBusinessBySlug(slug)
+  if (!business) notFound()
 
-  const localBusinessSchema: Record<string, unknown> = {
+  const businessCategory = CATEGORIES.find(c => c.id === business.category)
+  const whatsappUrl = business.whatsapp ? `https://wa.me/${business.whatsapp.replace(/[^0-9]/g, '')}` : null
+  const similarBusinesses = await getSimilarBusinesses(business.city, business.category, slug)
+
+  const localBusinessSchema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    '@id': pageUrl,
     name: business.businessName,
     description: business.description,
-    url: pageUrl,
+    url: `${BASE_URL}/${slug}`,
     telephone: business.phone,
-    priceRange: '$$',
-    ...(business.email && { email: business.email }),
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: business.address,
-      addressLocality: business.city,
-      addressRegion: business.city,
-      addressCountry: 'PK',
-    },
-    areaServed: {
-      '@type': 'City',
-      name: business.city,
-    },
-    ...(category && { knowsAbout: category.name }),
-    ...(business.logoUrl && { image: business.logoUrl, logo: business.logoUrl }),
-    ...(sameAs.length > 0 && { sameAs }),
-  }
-
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://pakbizbranhces.online' },
-      { '@type': 'ListItem', position: 2, name: category?.name ?? business.category, item: `https://pakbizbranhces.online${categoryUrl}` },
-      { '@type': 'ListItem', position: 3, name: business.businessName, item: pageUrl },
-    ],
-  }
-
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: `Where is ${business.businessName} located?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `${business.businessName} is located at ${business.address}, ${business.city}, Pakistan.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `What is the contact number for ${business.businessName}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `You can contact ${business.businessName} at ${business.phone}.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `What category does ${business.businessName} belong to?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `${business.businessName} is listed under the ${category?.name ?? business.category} category.`,
-        },
-      },
-    ],
+    address: { '@type': 'PostalAddress', streetAddress: business.address, addressLocality: business.city, addressCountry: 'PK' },
   }
 
   return (
     <>
       <Navbar />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
       <main className="bg-[#f8fafc] min-h-screen">
-        {/* Header */}
-        <section className="bg-white border-b border-gray-100">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {/* Breadcrumb */}
-            <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-              <Link href="/" className="hover:text-[#60a5fa] transition-colors">Home</Link>
-              <span>/</span>
-              {category && (
-                <>
-                  <Link href={categoryUrl} className="hover:text-[#60a5fa] transition-colors">
-                    {category.name}
-                  </Link>
-                  <span>/</span>
-                </>
-              )}
-              <span className="text-gray-800 font-medium truncate">{business.businessName}</span>
-            </nav>
-
-            <div className="flex flex-col md:flex-row gap-8 items-start">
-              {/* Logo */}
+        <section className="bg-white border-b border-gray-100 py-12">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row gap-8">
               <div className="shrink-0">
                 {business.logoUrl ? (
-                  <img
-                    src={business.logoUrl}
-                    alt={`${business.businessName} logo`}
-                    className="w-32 h-32 rounded-2xl object-cover border border-gray-200 shadow-sm"
-                    loading="lazy"
-                  />
+                  <img src={business.logoUrl} alt={business.businessName} className="w-32 h-32 rounded-2xl object-cover border border-gray-200" />
                 ) : (
-                  <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] flex items-center justify-center border border-gray-200">
+                  <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] flex items-center justify-center">
                     <Building2 className="w-16 h-16 text-white/60" />
                   </div>
                 )}
               </div>
-
-              {/* Business Info */}
-              <div className="flex-1 min-w-0">
-                <h1 className="text-3xl md:text-4xl font-bold text-[#0f2b3d] mb-2">
-                  {business.businessName} {business.city}
-                </h1>
-                <p className="text-sm text-gray-500 mb-3">
-                  Official Details &amp; Contact Information
-                </p>
-                <div className="flex flex-wrap items-center gap-3 text-gray-500 mb-4">
-                  {category && (
-                    <Link
-                      href={categoryUrl}
-                      className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 text-[#60a5fa] rounded-full text-sm font-medium hover:bg-blue-100 transition-colors"
-                    >
-                      {category.name}
-                    </Link>
-                  )}
-                  <Link
-                    href={cityUrl}
-                    className="flex items-center gap-1 px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-gray-200 transition-colors"
-                  >
-                    <MapPin className="w-3.5 h-3.5" />
-                    {business.city}
-                  </Link>
+              <div className="flex-1">
+                <h1 className="text-3xl md:text-4xl font-bold text-[#0f2b3d] mb-4">{business.businessName}</h1>
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="bg-blue-50 text-[#60a5fa] px-3 py-1 rounded-full text-sm font-medium">{businessCategory?.name || business.category}</span>
+                  <span className="flex items-center gap-1 text-gray-500 text-sm"><MapPin className="w-4 h-4" /> {business.city}</span>
                 </div>
-
-                <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                  {business.description}
-                </p>
-
-                {/* Contact Actions */}
-                <div className="flex flex-wrap gap-3">
-                  <a
-                    href={`tel:${business.phone}`}
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#0f2b3d] text-white rounded-xl font-semibold hover:bg-[#1a3f57] transition-colors"
-                  >
-                    <Phone className="w-4 h-4" />
-                    Call Now
-                  </a>
-
-                  {whatsappUrl && (
-                    <a
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors"
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                      WhatsApp
-                    </a>
-                  )}
-
-                  {business.email && (
-                    <a
-                      href={`mailto:${business.email}`}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-gray-600 text-white rounded-xl font-semibold hover:bg-gray-700 transition-colors"
-                    >
-                      <Mail className="w-4 h-4" />
-                      Email
-                    </a>
-                  )}
+                <p className="text-gray-600 text-lg mb-8">{business.description}</p>
+                <div className="flex flex-wrap gap-4">
+                  <a href={`tel:${business.phone}`} className="px-6 py-3 bg-[#0f2b3d] text-white rounded-xl font-semibold flex items-center gap-2 hover:bg-[#1a3f57]"><Phone className="w-4 h-4" /> Call Now</a>
+                  {whatsappUrl && <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-green-600 text-white rounded-xl font-semibold flex items-center gap-2 hover:bg-green-700"><MessageCircle className="w-4 h-4" /> WhatsApp</a>}
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Details */}
         <section className="py-12">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Main Content */}
               <div className="lg:col-span-2 space-y-6">
-                {/* About */}
                 <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-                  <h2 className="text-2xl font-bold text-[#0f2b3d] mb-4">
-                    About {business.businessName}
-                  </h2>
-                  <p className="text-gray-600 leading-relaxed text-lg mb-8">
-                    {business.description}
-                  </p>
-
-                  <div className="prose prose-blue max-w-none">
-                    <h3 className="text-xl font-bold text-[#0f2b3d] mb-4">Professional Overview</h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      {business.businessName} is a premier {category?.name || 'local business'} established to serve the community of {business.city}, Pakistan. 
-                      Located at {business.address}, this {category?.name || 'service provider'} has built a reputation for excellence within the {business.category} industry. 
-                      Whether you are looking for specific services in {business.subCategory || business.city} or general assistance, {business.businessName} provides 
-                      verified expertise and reliable support to its clients.
-                    </p>
-                    <p className="text-gray-600 leading-relaxed mt-4">
-                      As part of our commitment to transparency at PakBizBranches, we have verified the contact information for {business.businessName} 
-                      to ensure you can reach them directly via phone at {business.phone}{business.whatsapp ? ` or WhatsApp at ${business.whatsapp}` : ''}. 
-                      This listing is part of our comprehensive directory of businesses in {business.city}, helping local residents and visitors 
-                      find the best {category?.name || 'services'} in the region.
-                    </p>
-                  </div>
-                  
-                  {/* Service Highlights / Dynamic Points */}
-                  <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-xl border border-blue-100">
-                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
-                        <span className="text-[#60a5fa] font-bold">✓</span>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-[#0f2b3d] text-sm">Verified Contact</p>
-                        <p className="text-xs text-gray-500">Phone & WhatsApp verified</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-4 bg-green-50 rounded-xl border border-green-100">
-                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
-                        <span className="text-green-600 font-bold">✓</span>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-[#0f2b3d] text-sm">Local Business</p>
-                        <p className="text-xs text-gray-500">Serving {business.city} area</p>
-                      </div>
-                    </div>
-                  </div>
+                  <h2 className="text-2xl font-bold text-[#0f2b3d] mb-6">About {business.businessName}</h2>
+                  <p className="text-gray-600 leading-relaxed text-lg">{business.description}</p>
                 </div>
-
-                {/* FAQ Section */}
-                <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-                  <h2 className="text-2xl font-bold text-[#0f2b3d] mb-6">Frequently Asked Questions</h2>
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="font-bold text-[#0f2b3d] mb-2">How do I contact {business.businessName}?</h3>
-                      <p className="text-gray-600">You can call them directly at <a href={`tel:${business.phone}`} className="text-[#60a5fa] hover:underline font-medium">{business.phone}</a> or visit them at {business.address}, {business.city}.</p>
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-[#0f2b3d] mb-2">What services does {business.businessName} provide?</h3>
-                      <p className="text-gray-600">As a business in the {category?.name ?? business.category} category, they provide services related to {business.subCategory || (category?.name ?? business.category)}. Contact them for specific service details.</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Google Maps Embed */}
-                <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-                  <div className="p-6 pb-0">
-                    <h2 className="text-xl font-bold text-[#0f2b3d] mb-4 flex items-center gap-2">
-                      <MapPin className="w-5 h-5 text-[#60a5fa]" />
-                      Location
-                    </h2>
-                  </div>
-                  <div className="mt-4">
-                    <iframe
-                      src={mapSrc}
-                      width="100%"
-                      height="300"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title={`Map of ${business.businessName}`}
-                      className="w-full"
-                    />
-                  </div>
-                  <div className="p-4 text-sm text-gray-500">
-                    {business.address}, {business.city}, Pakistan
-                  </div>
-                </div>
-              </div>
-
-              {/* Sidebar */}
-              <div className="space-y-6">
-                {/* Contact Info */}
-                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                  <h3 className="text-lg font-semibold text-[#0f2b3d] mb-4">Contact Information</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <Phone className="w-5 h-5 text-[#60a5fa] mt-0.5 shrink-0" />
-                      <div>
-                        <p className="font-medium text-gray-900">{business.phone}</p>
-                        <p className="text-sm text-gray-500">Phone</p>
+                {similarBusinesses.length > 0 && (
+                   <div className="space-y-4">
+                      <h2 className="text-xl font-bold text-[#0f2b3d]">Similar Businesses in {business.city}</h2>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {similarBusinesses.map(biz => (
+                          <Link key={biz.id} href={`/${biz.slug}`} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:border-[#60a5fa]/30 transition-all flex items-center gap-3">
+                             <div className="w-10 h-10 rounded bg-gray-100 flex items-center justify-center shrink-0"><Building2 className="w-6 h-6 text-gray-400" /></div>
+                             <span className="font-semibold text-gray-900 truncate">{biz.businessName}</span>
+                          </Link>
+                        ))}
                       </div>
-                    </div>
-
-                    {business.whatsapp && (
-                      <div className="flex items-start gap-3">
-                        <MessageCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
-                        <div>
-                          <p className="font-medium text-gray-900">{business.whatsapp}</p>
-                          <p className="text-sm text-gray-500">WhatsApp</p>
-                        </div>
-                      </div>
-                    )}
-
-                    {business.email && (
-                      <div className="flex items-start gap-3">
-                        <Mail className="w-5 h-5 text-[#60a5fa] mt-0.5 shrink-0" />
-                        <div>
-                          <p className="font-medium text-gray-900">{business.email}</p>
-                          <p className="text-sm text-gray-500">Email</p>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="flex items-start gap-3">
-                      <MapPin className="w-5 h-5 text-[#60a5fa] mt-0.5 shrink-0" />
-                      <div>
-                        <p className="font-medium text-gray-900">{business.address}</p>
-                        <p className="text-sm text-gray-500">{business.city}, Pakistan</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Business Info */}
-                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                  <h3 className="text-lg font-semibold text-[#0f2b3d] mb-4">Business Details</h3>
-                  <div className="space-y-3">
-                    {category && (
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500">Category</span>
-                        <Link href={categoryUrl} className="text-sm font-medium text-[#60a5fa] hover:underline">
-                          {category.name}
-                        </Link>
-                      </div>
-                    )}
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">City</span>
-                      <Link href={cityUrl} className="text-sm font-medium text-[#60a5fa] hover:underline">
-                        {business.city}
-                      </Link>
-                    </div>
-                    {business.subCategory && (
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500">Sub-category</span>
-                        <span className="text-sm font-medium text-gray-900">{business.subCategory}</span>
-                      </div>
-                    )}
-                    {business.contactPerson && (
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500">Contact Person</span>
-                        <span className="text-sm font-medium text-gray-900">{business.contactPerson}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Digital Presence */}
-                {(business.websiteUrl || business.facebookPage || business.googleBusiness || business.youtubeChannel) && (
-                  <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                    <h3 className="text-lg font-semibold text-[#0f2b3d] mb-4">Digital Presence</h3>
-                    <div className="space-y-3">
-                      {business.websiteUrl && (
-                        <a
-                          href={business.websiteUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
-                        >
-                          <Globe className="w-5 h-5 text-[#60a5fa]" />
-                          <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 flex-1 truncate">Website</span>
-                          <ExternalLink className="w-4 h-4 text-gray-400" />
-                        </a>
-                      )}
-                      {business.facebookPage && (
-                        <a
-                          href={business.facebookPage}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
-                        >
-                          <Facebook className="w-5 h-5 text-blue-600" />
-                          <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 flex-1">Facebook</span>
-                          <ExternalLink className="w-4 h-4 text-gray-400" />
-                        </a>
-                      )}
-                      {business.youtubeChannel && (
-                        <a
-                          href={business.youtubeChannel}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
-                        >
-                          <Youtube className="w-5 h-5 text-red-600" />
-                          <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 flex-1">YouTube</span>
-                          <ExternalLink className="w-4 h-4 text-gray-400" />
-                        </a>
-                      )}
-                      {business.googleBusiness && (
-                        <a
-                          href={business.googleBusiness}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
-                        >
-                          <MapPin className="w-5 h-5 text-red-500" />
-                          <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 flex-1">Google Business</span>
-                          <ExternalLink className="w-4 h-4 text-gray-400" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
+                   </div>
                 )}
               </div>
-            </div>
-
-            {/* Similar Businesses */}
-            {similarBusinesses.length > 0 && (
-              <div className="mt-12">
-                <h2 className="text-2xl font-bold text-[#0f2b3d] mb-6">
-                  Similar Businesses in {business.city}
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {similarBusinesses.map(biz => (
-                    <Link
-                      key={biz.id}
-                      href={`/${biz.slug}`}
-                      className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md hover:border-[#60a5fa]/30 transition-all group"
-                    >
-                      <div className="flex items-center gap-3 mb-3">
-                        {biz.logoUrl ? (
-                          <img
-                            src={biz.logoUrl}
-                            alt={biz.businessName}
-                            className="w-12 h-12 rounded-lg object-cover border border-gray-100"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] flex items-center justify-center">
-                            <Building2 className="w-6 h-6 text-white/60" />
-                          </div>
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 group-hover:text-[#60a5fa] transition-colors text-sm leading-tight truncate">
-                            {biz.businessName}
-                          </p>
-                          <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
-                            <MapPin className="w-3 h-3" />
-                            {biz.city}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
-                        {biz.description}
-                      </p>
-                    </Link>
-                  ))}
+              <div className="space-y-6">
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                   <h3 className="font-bold text-[#0f2b3d] mb-4">Contact Details</h3>
+                   <div className="space-y-4">
+                      <div className="flex gap-3"><Phone className="w-5 h-5 text-[#60a5fa]" /> <div><p className="font-medium">{business.phone}</p><p className="text-xs text-gray-500">Phone Number</p></div></div>
+                      <div className="flex gap-3"><MapPin className="w-5 h-5 text-[#60a5fa]" /> <div><p className="font-medium">{business.address}</p><p className="text-xs text-gray-500">{business.city}, Pakistan</p></div></div>
+                   </div>
                 </div>
-                <div className="mt-4 text-center">
-                  <Link
-                    href={`/locations/${business.city.toLowerCase().replace(/ /g, '-')}/${business.category}`}
-                    className="inline-flex items-center gap-2 text-[#60a5fa] hover:text-blue-600 font-medium text-sm transition-colors"
-                  >
-                    View all {category?.name} businesses in {business.city}
-                    <ArrowLeft className="w-4 h-4 rotate-180" />
-                  </Link>
-                </div>
-              </div>
-            )}
-
-            {/* Internal Links */}
-            <div className="mt-12 bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-              <h2 className="text-lg font-bold text-[#0f2b3d] mb-4">Explore More</h2>
-              <div className="flex flex-wrap gap-3">
-                <Link href={`/locations/${business.city.toLowerCase().replace(/ /g, '-')}/${business.category}`} className="px-4 py-2 bg-blue-50 text-[#60a5fa] rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors">
-                  More {category?.name} in {business.city}
-                </Link>
-                <Link href={cityUrl} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
-                  All Businesses in {business.city}
-                </Link>
-                <Link href="/add-business" className="px-4 py-2 bg-green-50 text-green-700 rounded-lg text-sm font-medium hover:bg-green-100 transition-colors">
-                  List Your Business Free
-                </Link>
-                <Link href="/categories" className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
-                  Browse All Categories
-                </Link>
               </div>
             </div>
           </div>
