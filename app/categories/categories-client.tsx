@@ -190,7 +190,7 @@ function CategoriesContent() {
                   ));
                 })()}
                 <Link 
-                  href={city ? `/locations/${city.toLowerCase().replace(/ /g, '-')}/${selectedCat}` : `/category/${selectedCat}`}
+                  href={city ? `/${city.toLowerCase().replace(/ /g, '-')}/${selectedCat}/` : `/${selectedCat}/`}
                   className="text-[#60a5fa] text-sm font-semibold hover:underline mt-2 inline-block"
                 >
                   Read full guide for {CATEGORIES.find(c => c.id === selectedCat)?.name} →
@@ -219,7 +219,7 @@ function CategoriesContent() {
                   {businesses.map((business) => (
                     <Link
                       key={business.id}
-                      href={business.slug ? `/${business.slug}` : `/business/${business.id}`}
+                      href={business.slug ? `/${business.slug}/` : `/business/${business.id}/`}
                       className="group bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:border-[#60a5fa]/20 transition-all duration-300 hover:-translate-y-1"
                     >
                       <div className="flex items-start gap-4">

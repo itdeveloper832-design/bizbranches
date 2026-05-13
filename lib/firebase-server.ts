@@ -294,3 +294,34 @@ export async function fetchCityCategoryBusinesses(
     return []
   }
 }
+
+// Fetch ALL approved businesses for sitemap
+export async function fetchAllBusinessesForSitemap(): Promise<{ slug: string, logoUrl?: string }[]> {
+  try {
+    const q = query(
+      collection(db, 'businesses'),
+      orderBy('createdAt', 'desc')
+    )
+
+    const snapshot = await getDocs(q)
+    const businesses: { slug: string, logoUrl?: string }[] = []
+    
+    snapshot.docs.forEach(doc => {
+      const data = doc.data() as any
+      const status = String(data.status ?? '').toLowerCase()
+
+      if (data.slug && (!status || LIVE_STATUSES.has(status))) {
+        businesses.push({
+          slug: data.slug,
+          logoUrl: data.logoUrl
+        })
+      }
+    })
+
+    return businesses
+  } catch (error) {
+    console.error('Error fetching all businesses for sitemap:', error)
+    return []
+  }
+}
+

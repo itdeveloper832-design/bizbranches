@@ -121,7 +121,7 @@ function CitiesContent() {
                     {cities.map((cityName) => (
                       <Link
                         key={cityName}
-                        href={`/cities/${cityName.toLowerCase().replace(/ /g, '-')}${selectedCat ? `?cat=${selectedCat}` : ''}`}
+                        href={selectedCat ? `/${cityName.toLowerCase().replace(/ /g, '-')}/${selectedCat}/` : `/${cityName.toLowerCase().replace(/ /g, '-')}/`}
                         className="bg-white border border-gray-200 rounded-xl p-5 text-center hover:border-blue-300 hover:shadow-lg transition-all duration-200 group"
                       >
                         <div className="flex flex-col items-center">

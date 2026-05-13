@@ -36,7 +36,7 @@ export default function CategoriesGrid() {
             return (
               <Link
                 key={cat.id}
-                href={`/categories/${cat.id}/`}
+                href={`/${cat.id}/`}
                 title={`Find ${cat.name} in Pakistan`}
                 className="group bg-white border border-slate-200 rounded-2xl p-5 flex flex-col items-center text-center hover:shadow-lg hover:border-blue-300 transition-all duration-300 hover:-translate-y-1"
               >

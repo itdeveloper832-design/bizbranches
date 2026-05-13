@@ -87,12 +87,12 @@ export default function Footer() {
               <h3 className="font-bold text-white mb-6 uppercase text-xs tracking-widest">Top Sectors</h3>
               <ul className="space-y-3.5 text-sm">
                 {[
-                  { href: '/categories/restaurants/', label: 'Restaurants' },
-                  { href: '/categories/real-estate/', label: 'Real Estate' },
-                  { href: '/categories/healthcare/', label: 'Healthcare' },
-                  { href: '/categories/technology/', label: 'Technology' },
-                  { href: '/categories/retail/', label: 'Retail' },
-                  { href: '/categories/automotive/', label: 'Automotive' },
+                  { href: '/restaurants/', label: 'Restaurants' },
+                  { href: '/real-estate/', label: 'Real Estate' },
+                  { href: '/healthcare/', label: 'Healthcare' },
+                  { href: '/technology/', label: 'Technology' },
+                  { href: '/retail/', label: 'Retail' },
+                  { href: '/automotive/', label: 'Automotive' },
                 ].map(({ href, label }) => (
                   <li key={href}>
                     <Link href={href} className="text-white/60 hover:text-[#60a5fa] transition-colors inline-block" title={label}>
@@ -107,16 +107,16 @@ export default function Footer() {
               <h3 className="font-bold text-white mb-6 uppercase text-xs tracking-widest">Main Cities</h3>
               <ul className="space-y-3.5 text-sm">
                 {[
-                  { href: '/cities/karachi/', label: 'Karachi' },
-                  { href: '/cities/lahore/', label: 'Lahore' },
-                  { href: '/cities/islamabad/', label: 'Islamabad' },
-                  { href: '/cities/rawalpindi/', label: 'Rawalpindi' },
-                  { href: '/cities/faisalabad/', label: 'Faisalabad' },
-                  { href: '/cities/multan/', label: 'Multan' },
-                  { href: '/cities/peshawar/', label: 'Peshawar' },
-                  { href: '/cities/sialkot/', label: 'Sialkot' },
-                  { href: '/cities/hyderabad/', label: 'Hyderabad' },
-                  { href: '/cities/quetta/', label: 'Quetta' },
+                  { href: '/karachi/', label: 'Karachi' },
+                  { href: '/lahore/', label: 'Lahore' },
+                  { href: '/islamabad/', label: 'Islamabad' },
+                  { href: '/rawalpindi/', label: 'Rawalpindi' },
+                  { href: '/faisalabad/', label: 'Faisalabad' },
+                  { href: '/multan/', label: 'Multan' },
+                  { href: '/peshawar/', label: 'Peshawar' },
+                  { href: '/sialkot/', label: 'Sialkot' },
+                  { href: '/hyderabad/', label: 'Hyderabad' },
+                  { href: '/quetta/', label: 'Quetta' },
                 ].map(({ href, label }) => (
                   <li key={href}>
                     <Link href={href} className="text-white/60 hover:text-[#60a5fa] transition-colors inline-block" title={label}>
@@ -152,16 +152,16 @@ export default function Footer() {
             <h3 className="font-bold text-white mb-6 uppercase text-xs tracking-widest">Local Search</h3>
             <div className="flex flex-wrap gap-2">
               {[
-                { href: '/locations/karachi/restaurants/', label: 'Restaurants Karachi' },
-                { href: '/locations/lahore/real-estate/', label: 'Real Estate Lahore' },
-                { href: '/locations/islamabad/technology/', label: 'IT Companies Islamabad' },
-                { href: '/locations/karachi/healthcare/', label: 'Clinics Karachi' },
-                { href: '/locations/lahore/beauty/', label: 'Beauty Lahore' },
-                { href: '/locations/rawalpindi/automotive/', label: 'Auto Rawalpindi' },
-                { href: '/locations/faisalabad/retail/', label: 'Retail Faisalabad' },
-                { href: '/locations/multan/education/', label: 'Schools Multan' },
-                { href: '/locations/sialkot/logistics/', label: 'Cargo Sialkot' },
-                { href: '/locations/peshawar/travel/', label: 'Travel Peshawar' },
+                { href: '/karachi/restaurants/', label: 'Restaurants Karachi' },
+                { href: '/lahore/real-estate/', label: 'Real Estate Lahore' },
+                { href: '/islamabad/technology/', label: 'IT Companies Islamabad' },
+                { href: '/karachi/healthcare/', label: 'Clinics Karachi' },
+                { href: '/lahore/beauty/', label: 'Beauty Lahore' },
+                { href: '/rawalpindi/automotive/', label: 'Auto Rawalpindi' },
+                { href: '/faisalabad/retail/', label: 'Retail Faisalabad' },
+                { href: '/multan/education/', label: 'Schools Multan' },
+                { href: '/sialkot/logistics/', label: 'Cargo Sialkot' },
+                { href: '/peshawar/travel/', label: 'Travel Peshawar' },
               ].map(({ href, label }) => (
                 <Link
                   key={href}

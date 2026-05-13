@@ -195,7 +195,7 @@ export default async function CatchAllPage(props: { params: Promise<{ slug: stri
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {businesses.map(biz => (
-                <Link key={biz.id} href={`/${biz.slug}`} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all group">
+                <Link key={biz.id} href={`/${biz.slug}/`} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all group">
                    <h3 className="font-bold text-gray-900 group-hover:text-[#60a5fa] truncate">{biz.businessName}</h3>
                    <p className="text-sm text-gray-500">{biz.phone}</p>
                 </Link>
@@ -243,7 +243,7 @@ export default async function CatchAllPage(props: { params: Promise<{ slug: stri
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {businesses.map(biz => (
-                <Link key={biz.id} href={`/${biz.slug}`} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all group">
+                <Link key={biz.id} href={`/${biz.slug}/`} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all group">
                    <h3 className="font-bold text-gray-900 group-hover:text-[#60a5fa] truncate">{biz.businessName}</h3>
                    <p className="text-sm text-gray-500">{biz.city}</p>
                 </Link>
@@ -264,81 +264,196 @@ export default async function CatchAllPage(props: { params: Promise<{ slug: stri
   if (!business) notFound()
 
   const businessCategory = CATEGORIES.find(c => c.id === business.category)
+  const categoryName = businessCategory?.name ?? business.category
   const whatsappUrl = business.whatsapp ? `https://wa.me/${business.whatsapp.replace(/[^0-9]/g, '')}` : null
   const similarBusinesses = await getSimilarBusinesses(business.city, business.category, slug)
+  const mapQuery = encodeURIComponent(`${business.address}, ${business.city}, Pakistan`)
+  const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&output=embed`
+  const pageUrl = `${BASE_URL}/${slug}/`
+  const categoryUrl = `/${business.category}/`
+  const cityUrl = `/${encodeURIComponent(business.city.toLowerCase().replace(/ /g, '-'))}/`
+
+  const sameAs: string[] = []
+  if (business.websiteUrl) sameAs.push(business.websiteUrl)
+  if (business.facebookPage) sameAs.push(business.facebookPage)
+  if (business.youtubeChannel) sameAs.push(business.youtubeChannel)
 
   const localBusinessSchema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
+    '@id': pageUrl,
     name: business.businessName,
     description: business.description,
-    url: `${BASE_URL}/${slug}`,
+    url: pageUrl,
     telephone: business.phone,
-    address: { '@type': 'PostalAddress', streetAddress: business.address, addressLocality: business.city, addressCountry: 'PK' },
+    priceRange: '$$',
+    ...(business.email && { email: business.email }),
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: business.address,
+      addressLocality: business.city,
+      addressRegion: business.city,
+      addressCountry: 'PK',
+    },
+    areaServed: { '@type': 'City', name: business.city },
+    ...(businessCategory && { knowsAbout: businessCategory.name }),
+    ...(business.logoUrl && { image: business.logoUrl, logo: business.logoUrl }),
+    ...(sameAs.length > 0 && { sameAs }),
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+      { '@type': 'ListItem', position: 2, name: categoryName, item: `${BASE_URL}${categoryUrl}` },
+      { '@type': 'ListItem', position: 3, name: business.businessName, item: pageUrl },
+    ],
+  }
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `Where is ${business.businessName} located?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${business.businessName} is located at ${business.address}, ${business.city}, Pakistan.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `What is the contact number for ${business.businessName}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `You can contact ${business.businessName} at ${business.phone}.`,
+        },
+      },
+    ],
   }
 
   return (
     <>
       <Navbar />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      
       <main className="bg-[#f8fafc] min-h-screen">
-        <section className="bg-white border-b border-gray-100 py-12">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row gap-8">
+        {/* Header Section */}
+        <section className="bg-white border-b border-gray-100">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {/* Breadcrumb */}
+            <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+              <Link href="/" className="hover:text-[#60a5fa] transition-colors">Home</Link>
+              <ChevronRight className="w-3 h-3" />
+              <Link href={categoryUrl} className="hover:text-[#60a5fa] transition-colors">{categoryName}</Link>
+              <ChevronRight className="w-3 h-3" />
+              <span className="text-gray-800 font-medium truncate">{business.businessName}</span>
+            </nav>
+
+            <div className="flex flex-col md:flex-row gap-8 items-start">
               <div className="shrink-0">
                 {business.logoUrl ? (
-                  <img src={business.logoUrl} alt={business.businessName} className="w-32 h-32 rounded-2xl object-cover border border-gray-200" />
+                  <img src={business.logoUrl} alt={business.businessName} className="w-32 h-32 rounded-2xl object-cover border border-gray-200 shadow-sm" loading="lazy" />
                 ) : (
-                  <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] flex items-center justify-center">
+                  <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] flex items-center justify-center border border-gray-200">
                     <Building2 className="w-16 h-16 text-white/60" />
                   </div>
                 )}
               </div>
-              <div className="flex-1">
-                <h1 className="text-3xl md:text-4xl font-bold text-[#0f2b3d] mb-4">{business.businessName}</h1>
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="bg-blue-50 text-[#60a5fa] px-3 py-1 rounded-full text-sm font-medium">{businessCategory?.name || business.category}</span>
-                  <span className="flex items-center gap-1 text-gray-500 text-sm"><MapPin className="w-4 h-4" /> {business.city}</span>
+              <div className="flex-1 min-w-0">
+                <h1 className="text-3xl md:text-4xl font-bold text-[#0f2b3d] mb-2">{business.businessName} {business.city}</h1>
+                <div className="flex flex-wrap items-center gap-3 text-gray-500 mb-6">
+                  <Link href={categoryUrl} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 text-[#60a5fa] rounded-full text-sm font-medium hover:bg-blue-100 transition-colors">
+                    {categoryName}
+                  </Link>
+                  <Link href={cityUrl} className="flex items-center gap-1 px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-gray-200 transition-colors">
+                    <MapPin className="w-3.5 h-3.5" />
+                    {business.city}
+                  </Link>
                 </div>
-                <p className="text-gray-600 text-lg mb-8">{business.description}</p>
+                <p className="text-gray-600 text-lg leading-relaxed mb-8">{business.description}</p>
                 <div className="flex flex-wrap gap-4">
-                  <a href={`tel:${business.phone}`} className="px-6 py-3 bg-[#0f2b3d] text-white rounded-xl font-semibold flex items-center gap-2 hover:bg-[#1a3f57]"><Phone className="w-4 h-4" /> Call Now</a>
-                  {whatsappUrl && <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-green-600 text-white rounded-xl font-semibold flex items-center gap-2 hover:bg-green-700"><MessageCircle className="w-4 h-4" /> WhatsApp</a>}
+                  <a href={`tel:${business.phone}`} className="inline-flex items-center gap-2 px-6 py-3 bg-[#0f2b3d] text-white rounded-xl font-semibold hover:bg-[#1a3f57] transition-colors shadow-sm">
+                    <Phone className="w-4 h-4" /> Call Now
+                  </a>
+                  {whatsappUrl && (
+                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors shadow-sm">
+                      <MessageCircle className="w-4 h-4" /> WhatsApp
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </section>
 
+        {/* Content Section */}
         <section className="py-12">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-6">
-                <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 prose prose-blue max-w-none">
                   <h2 className="text-2xl font-bold text-[#0f2b3d] mb-6">About {business.businessName}</h2>
                   <p className="text-gray-600 leading-relaxed text-lg">{business.description}</p>
+                  
+                  <h3 className="text-xl font-bold text-[#0f2b3d] mt-8 mb-4">Professional Overview</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {business.businessName} is a verified <strong>{categoryName}</strong> business serving the <strong>{business.city}</strong> area. 
+                    Located at {business.address}, they are committed to providing quality services to their customers.
+                  </p>
+
+                  <h3 className="text-xl font-bold text-[#0f2b3d] mt-8 mb-4">Contact Information</h3>
+                  <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                    <li><strong>Address:</strong> {business.address}, {business.city}, Pakistan</li>
+                    <li><strong>Phone:</strong> <a href={`tel:${business.phone}`}>{business.phone}</a></li>
+                    {business.whatsapp && <li><strong>WhatsApp:</strong> {business.whatsapp}</li>}
+                    {business.email && <li><strong>Email:</strong> {business.email}</li>}
+                  </ul>
                 </div>
+
+                {/* Similar Businesses */}
                 {similarBusinesses.length > 0 && (
-                   <div className="space-y-4">
-                      <h2 className="text-xl font-bold text-[#0f2b3d]">Similar Businesses in {business.city}</h2>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {similarBusinesses.map(biz => (
-                          <Link key={biz.id} href={`/${biz.slug}`} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:border-[#60a5fa]/30 transition-all flex items-center gap-3">
-                             <div className="w-10 h-10 rounded bg-gray-100 flex items-center justify-center shrink-0"><Building2 className="w-6 h-6 text-gray-400" /></div>
-                             <span className="font-semibold text-gray-900 truncate">{biz.businessName}</span>
-                          </Link>
-                        ))}
-                      </div>
-                   </div>
+                  <div className="space-y-6">
+                    <h2 className="text-2xl font-bold text-[#0f2b3d]">Similar Businesses in {business.city}</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {similarBusinesses.map(biz => (
+                        <Link key={biz.id} href={`/${biz.slug}/`} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-[#60a5fa]/30 transition-all flex items-center gap-4 group">
+                          <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center shrink-0 group-hover:bg-blue-50">
+                            <Building2 className="w-6 h-6 text-gray-400 group-hover:text-[#60a5fa]" />
+                          </div>
+                          <div className="min-w-0">
+                            <span className="block font-bold text-gray-900 group-hover:text-[#60a5fa] truncate">{biz.businessName}</span>
+                            <span className="block text-sm text-gray-500">{biz.phone}</span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
+
+              {/* Sidebar */}
               <div className="space-y-6">
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                   <h3 className="font-bold text-[#0f2b3d] mb-4">Contact Details</h3>
-                   <div className="space-y-4">
-                      <div className="flex gap-3"><Phone className="w-5 h-5 text-[#60a5fa]" /> <div><p className="font-medium">{business.phone}</p><p className="text-xs text-gray-500">Phone Number</p></div></div>
-                      <div className="flex gap-3"><MapPin className="w-5 h-5 text-[#60a5fa]" /> <div><p className="font-medium">{business.address}</p><p className="text-xs text-gray-500">{business.city}, Pakistan</p></div></div>
-                   </div>
+                  <h3 className="font-bold text-[#0f2b3d] mb-4 flex items-center gap-2">
+                    <MapPin className="w-5 h-5 text-[#60a5fa]" /> Location
+                  </h3>
+                  <div className="rounded-xl overflow-hidden mb-4 border border-gray-100">
+                    <iframe src={mapSrc} width="100%" height="200" style={{ border: 0 }} allowFullScreen loading="lazy" title="Map Location" />
+                  </div>
+                  <p className="text-sm text-gray-600">{business.address}, {business.city}, Pakistan</p>
+                </div>
+
+                <div className="bg-[#0f2b3d] rounded-2xl p-6 text-white">
+                  <h3 className="font-bold mb-2">Claim this listing?</h3>
+                  <p className="text-sm text-white/70 mb-4">Is this your business? Contact us to verify and enhance your listing.</p>
+                  <Link href="/contact" className="block text-center py-2.5 bg-[#60a5fa] text-white rounded-xl text-sm font-bold hover:bg-blue-400 transition-colors">
+                    Contact Support
+                  </Link>
                 </div>
               </div>
             </div>
@@ -349,3 +464,4 @@ export default async function CatchAllPage(props: { params: Promise<{ slug: stri
     </>
   )
 }
+

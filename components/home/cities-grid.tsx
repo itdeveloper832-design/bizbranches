@@ -36,7 +36,7 @@ export default function CitiesGrid() {
           {featuredCities.map((city) => (
             <Link
               key={city}
-              href={`/cities/${city.toLowerCase().replace(/ /g, '-')}/`}
+              href={`/${city.toLowerCase().replace(/ /g, '-')}/`}
               title={`Businesses in ${city}, Pakistan`}
               className={`bg-gradient-to-br ${cityImages[city] || 'from-slate-500 to-slate-700'} rounded-xl p-5 text-white text-center card-hover flex flex-col items-center justify-center min-h-[90px]`}
             >

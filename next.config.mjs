@@ -22,27 +22,53 @@ const nextConfig = {
     return [
       {
         source: '/add-bussiness',
-        destination: '/add-business',
-        permanent: true,
-      },
-      {
-        source: '/category/:categorySlug',
-        destination: '/:categorySlug',
+        destination: '/add-business/',
         permanent: true,
       },
       {
         source: '/best-restaurants',
-        destination: '/restaurants',
+        destination: '/restaurants/',
         permanent: true,
       },
       {
         source: '/healthcare-services',
-        destination: '/hospitals',
+        destination: '/healthcare/',
         permanent: true,
       },
       {
         source: '/top-real-estate',
-        destination: '/real-estate',
+        destination: '/real-estate/',
+        permanent: true,
+      },
+      // Canonical Top-Level Redirects
+      {
+        source: '/business/:slug',
+        destination: '/:slug/',
+        permanent: true,
+      },
+      {
+        source: '/category/:slug',
+        destination: '/:slug/',
+        permanent: true,
+      },
+      {
+        source: '/categories/:slug',
+        destination: '/:slug/',
+        permanent: true,
+      },
+      {
+        source: '/cities/:city',
+        destination: '/:city/',
+        permanent: true,
+      },
+      {
+        source: '/businesses/:city/:categorySlug',
+        destination: '/:city/:categorySlug/',
+        permanent: true,
+      },
+      {
+        source: '/locations/:city/:categorySlug',
+        destination: '/:city/:categorySlug/',
         permanent: true,
       },
       {
@@ -50,23 +76,9 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
-      {
-        source: '/cities/:city',
-        destination: '/:city',
-        permanent: true,
-      },
-      {
-        source: '/businesses/:city/:categorySlug',
-        destination: '/:city/:categorySlug',
-        permanent: true,
-      },
-      {
-        source: '/locations/:city/:categorySlug',
-        destination: '/:city/:categorySlug',
-        permanent: true,
-      },
     ]
   },
 }
+
 
 export default nextConfig
