@@ -1,4 +1,4 @@
-import { NextResponse } from 'next'
+import { NextResponse } from 'next/server'
 import { CITIES, CATEGORIES } from '@/lib/data'
 
 const BASE_URL = 'https://pakbizbranhces.online'

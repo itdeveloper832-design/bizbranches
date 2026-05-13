@@ -1,4 +1,4 @@
-import { NextResponse } from 'next'
+import { NextResponse } from 'next/server'
 import { fetchAllBusinessesForSitemap } from '@/lib/firebase-server'
 
 const BASE_URL = 'https://pakbizbranhces.online'

@@ -1,4 +1,4 @@
-import { NextResponse } from 'next'
+import { NextResponse } from 'next/server'
 import { BLOG_POSTS } from '@/lib/blog-data'
 import { fetchAllBusinessesForSitemap } from '@/lib/firebase-server'
 
