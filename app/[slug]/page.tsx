@@ -95,15 +95,15 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   // Check if it's a City
   const cityName = findCityBySlug(slug)
   if (cityName) {
-    const title = `${cityName} Business Directory | Local Businesses & Services`
-    const description = `Find verified local businesses in ${cityName} — restaurants, clinics, real estate, technology, beauty salons & more. Browse phone numbers and addresses on Pakistan's #1 free business directory.`
+    const title = `${cityName} Business Directory 2026 | Verified Local Businesses & Services`
+    const description = `Find verified local businesses in ${cityName} — restaurants, clinics, real estate, technology, beauty salons & more. Browse direct phone numbers and addresses. Pakistan's trusted free directory.`
     const url = `${BASE_URL}/${slug}/`
     const keywordCluster = getCityKeywordCluster(cityName)
 
     return {
       title,
       description,
-      keywords: [`${cityName} business directory`, `businesses in ${cityName}`, ...keywordCluster],
+      keywords: [`${cityName} business directory`, `businesses in ${cityName}`, `${cityName} local services`, ...keywordCluster],
       alternates: { canonical: url },
       openGraph: { title, description, url, siteName: 'PakBizBranches', locale: 'en_PK', type: 'website' },
     }
@@ -112,15 +112,15 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   // Check if it's a Category
   const category = findCategoryBySlug(slug)
   if (category) {
-    const title = `Best ${category.name} in Pakistan | Find Phone Numbers & Addresses`
-    const description = `Browse verified ${category.name.toLowerCase()} businesses across Karachi, Lahore, Islamabad & 150+ Pakistani cities. Get phone numbers and addresses free on PakBizBranches.`
+    const title = `Best ${category.name} in Pakistan 2026 | Verified Listings & Phone Numbers`
+    const description = `Browse verified ${category.name.toLowerCase()} businesses across Karachi, Lahore, Islamabad & 150+ Pakistani cities. Get direct phone numbers and addresses — free on PakBizBranches.`
     const url = `${BASE_URL}/${slug}/`
     const keywordCluster = getCategoryKeywordCluster(slug)
 
     return {
       title,
       description,
-      keywords: [`${category.name} in Pakistan`, ...keywordCluster],
+      keywords: [`${category.name} in Pakistan`, `best ${category.name.toLowerCase()} Pakistan`, ...keywordCluster],
       alternates: { canonical: url },
       openGraph: { title, description, url, siteName: 'PakBizBranches', locale: 'en_PK', type: 'website' },
     }
@@ -137,8 +137,8 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
 
   const businessCategory = CATEGORIES.find(c => c.id === business.category)
   const categoryName = businessCategory?.name ?? business.category
-  const title = `${business.businessName} ${business.city} – Official Details & Contact Information`
-  const description = `${business.businessName} is a verified ${categoryName} business located at ${business.address}, ${business.city}, Pakistan. Get contact number (${business.phone}), address, and more.`
+  const title = `${business.businessName} ${business.city} | Verified Phone, Address & Contact`
+  const description = `${business.businessName} is a verified ${categoryName} business in ${business.city}, Pakistan. Get direct phone number (${business.phone}), address, WhatsApp & full contact details — free on PakBizBranches.`
   const url = `${BASE_URL}/${slug}/`
 
   return {

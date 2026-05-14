@@ -4,17 +4,27 @@ import { CATEGORIES } from '@/lib/data'
 const BASE_URL = 'https://pakbizbranhces.online'
 
 export async function GET() {
-  const lastmod = '2026-05-05'
+  const lastmod = new Date().toISOString().split('T')[0]
+
+  // Category pages live at /categories/[slug]/ AND at /[slug]/ (catch-all)
+  // Submit both canonical forms — the /categories/[slug]/ is the canonical
+  const urls: { url: string; priority: string }[] = []
+
+  CATEGORIES.forEach(cat => {
+    // Primary canonical URL
+    urls.push({ url: `/categories/${cat.id}/`, priority: '0.9' })
+    // Top-level shortcut URL (catch-all handles this)
+    urls.push({ url: `/${cat.id}/`, priority: '0.8' })
+  })
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${CATEGORIES.map(cat => `
-  <url>
-    <loc>${BASE_URL}/${cat.id}/</loc>
+${urls.map(({ url, priority }) => `  <url>
+    <loc>${BASE_URL}${url}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>`).join('')}
+    <priority>${priority}</priority>
+  </url>`).join('\n')}
 </urlset>`
 
   return new NextResponse(xml, {

@@ -88,7 +88,11 @@ export default function FeaturedBusinessesSection({ businesses }: FeaturedBusine
                     <img
                       src={business.logoUrl}
                       alt={`${business.businessName} logo`}
+                      width={64}
+                      height={64}
                       className="w-16 h-16 rounded-lg object-cover border-2 border-white shadow-sm"
+                      loading="lazy"
+                      decoding="async"
                     />
                   ) : (
                     <div 

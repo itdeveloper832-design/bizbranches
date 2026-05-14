@@ -11,7 +11,8 @@ const BASE_URL = 'https://pakbizbranhces.online'
 export const revalidate = 86400 // revalidate once per day
 
 export async function generateStaticParams() {
-  return BLOG_POSTS.map(post => ({ slug: post.slug }))
+  // Only build static pages for non-hidden posts
+  return BLOG_POSTS.filter(post => !post.hidden).map(post => ({ slug: post.slug }))
 }
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -21,7 +22,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
 
   const title = `${post.title} – Business Blog`
   const description = post.excerpt?.substring(0, 160) || 'Read this business guide on PakBizBranches blog.'
-  const url = `${BASE_URL}/blog/${params.slug}`
+  const url = `${BASE_URL}/blog/${params.slug}/`
 
   return {
     title,
@@ -62,8 +63,8 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
     },
     datePublished: new Date(post.date).toISOString(),
     dateModified: new Date(post.date).toISOString(),
-    url: pageUrl,
-    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+    url: `${BASE_URL}/blog/${params.slug}/`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/blog/${params.slug}/` },
     image: `${BASE_URL}/logo-img.png`,
     keywords: (post.keywords || post.tags || []).join(', '),
   }
@@ -73,8 +74,8 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE_URL}/blog` },
-      { '@type': 'ListItem', position: 3, name: post.title, item: pageUrl },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE_URL}/blog/` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `${BASE_URL}/blog/${params.slug}/` },
     ],
   }
 

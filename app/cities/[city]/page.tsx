@@ -55,8 +55,8 @@ export async function generateMetadata(props: { params: Promise<{ city: string }
     businessesCount = snap.size
   } catch {}
 
-  const title = `${cityName} Business Directory | Local Businesses & Services`
-  const description = `Find verified local businesses in ${cityName} — restaurants, clinics, real estate, technology, beauty salons & more. Browse phone numbers and addresses on Pakistan's #1 free business directory.`
+  const title = `${cityName} Business Directory 2026 | Verified Local Businesses & Services`
+  const description = `Find verified local businesses in ${cityName} — restaurants, clinics, real estate, technology, beauty salons & more. Browse direct phone numbers and addresses. Pakistan's trusted free directory.`
   const url = `${BASE_URL}/cities/${params.city}/`
   const keywordCluster = getCityKeywordCluster(cityName)
 
@@ -136,6 +136,37 @@ export default async function CityPage(props: { params: Promise<{ city: string }
     })),
   } : null
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `How do I find businesses in ${cityName}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Browse the ${cityName} business directory on PakBizBranches. Filter by category to find restaurants, clinics, real estate agents, technology companies, and more in ${cityName}.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `Can I list my business in ${cityName} for free?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Yes! You can add your ${cityName} business to PakBizBranches for free. No registration or payment required. Your listing will appear in city and category search results.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `What types of businesses are listed in ${cityName}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `PakBizBranches lists all types of businesses in ${cityName} including restaurants, real estate, healthcare, technology, education, retail, automotive, finance, beauty, logistics, and construction.`,
+        },
+      },
+    ],
+  }
+
   const localBusinessSchemas = businesses.map(b => ({
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
@@ -158,6 +189,7 @@ export default async function CityPage(props: { params: Promise<{ city: string }
       {itemListSchema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       )}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       {localBusinessSchemas.map((schema, idx) => (
         <script key={idx} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       ))}

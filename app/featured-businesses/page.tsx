@@ -4,11 +4,11 @@ import Footer from '@/components/footer'
 import FeaturedBusinessesClient from '@/components/featured-businesses-client'
 
 export const metadata: Metadata = {
-  title: 'Featured Businesses | Pakistan Business Directory',
+  title: 'Featured Businesses in Pakistan | Top Rated & Verified Listings – PakBizBranches',
   description:
-    'Browse featured businesses in Pakistan. Find premium listings across all categories and cities.',
+    'Browse Pakistan\'s top featured businesses. Premium verified listings across all categories and cities — restaurants, real estate, healthcare, technology & more.',
   alternates: {
-    canonical: 'https://pakbizbranhces.online/featured-businesses',
+    canonical: 'https://pakbizbranhces.online/featured-businesses/',
   },
 }
 

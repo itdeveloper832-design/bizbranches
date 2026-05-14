@@ -19,7 +19,7 @@ export default function CTASection() {
           List Your Company <span className="text-[#60a5fa]">Free</span> Today
         </h2>
         <p className="mt-4 text-white/65 text-lg max-w-xl mx-auto text-pretty">
-          Join 50,000+ businesses already growing with PakBizBranches.
+          Join 15,000+ businesses already growing with PakBizBranches.
           It&apos;s completely free and takes less than 2 minutes.
         </p>
 

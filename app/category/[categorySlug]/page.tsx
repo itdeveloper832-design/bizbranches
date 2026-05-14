@@ -50,8 +50,8 @@ export async function generateMetadata(props: { params: Promise<{ categorySlug: 
     businessesCount = snap.size
   } catch {}
 
-  const title = `Best ${category.name} in Pakistan | Find Phone Numbers & Addresses`
-  const description = `Browse verified ${category.name.toLowerCase()} businesses across Karachi, Lahore, Islamabad & 150+ Pakistani cities. Get phone numbers, WhatsApp contacts, and addresses — free on PakBizBranches.`
+  const title = `Best ${category.name} in Pakistan 2026 | Verified Listings & Phone Numbers`
+  const description = `Browse verified ${category.name.toLowerCase()} businesses across Karachi, Lahore, Islamabad & 150+ Pakistani cities. Get direct phone numbers, WhatsApp contacts, and addresses — free on PakBizBranches.`
   const url = `${BASE_URL}/categories/${params.categorySlug}/`
   const keywordCluster = getCategoryKeywordCluster(params.categorySlug)
 

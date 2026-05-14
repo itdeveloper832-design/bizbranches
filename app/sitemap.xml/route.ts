@@ -3,40 +3,25 @@ import { NextResponse } from 'next/server'
 const BASE_URL = 'https://pakbizbranhces.online'
 
 export async function GET() {
-  const lastmod = '2026-05-05'
-  
+  // Dynamic lastmod — always current date for freshness signals
+  const lastmod = new Date().toISOString().split('T')[0]
+
+  const sitemaps = [
+    { loc: `${BASE_URL}/sitemap-pages.xml`, priority: 'high' },
+    { loc: `${BASE_URL}/sitemap-services.xml`, priority: 'high' },
+    { loc: `${BASE_URL}/sitemap-areas.xml`, priority: 'high' },
+    { loc: `${BASE_URL}/sitemap-blog.xml`, priority: 'medium' },
+    { loc: `${BASE_URL}/sitemap-static.xml`, priority: 'low' },
+    { loc: `${BASE_URL}/sitemap-businesses.xml`, priority: 'high' },
+  ]
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap>
-    <loc>${BASE_URL}/sitemap-pages.xml</loc>
+${sitemaps.map(s => `  <sitemap>
+    <loc>${s.loc}</loc>
     <lastmod>${lastmod}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${BASE_URL}/sitemap-services.xml</loc>
-    <lastmod>${lastmod}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${BASE_URL}/sitemap-areas.xml</loc>
-    <lastmod>${lastmod}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${BASE_URL}/sitemap-blog.xml</loc>
-    <lastmod>${lastmod}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${BASE_URL}/sitemap-static.xml</loc>
-    <lastmod>${lastmod}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${BASE_URL}/sitemap-businesses.xml</loc>
-    <lastmod>${lastmod}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${BASE_URL}/sitemap-images.xml</loc>
-    <lastmod>${lastmod}</lastmod>
-  </sitemap>
+  </sitemap>`).join('\n')}
 </sitemapindex>`
-
 
   return new NextResponse(xml, {
     headers: {
@@ -45,4 +30,3 @@ export async function GET() {
     },
   })
 }
-

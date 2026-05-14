@@ -97,14 +97,16 @@ export async function fetchLatestBusinesses(count: number = 8): Promise<Business
   }
 }
 
-// Fetch featured businesses - avoid composite index by filtering in JS
+// Fetch featured businesses - use isFeatured index directly
 export async function fetchFeaturedBusinesses(count: number = 4): Promise<Business[]> {
   try {
-    // Fetch all recent businesses, then filter for featured (avoids composite index)
+    // Query directly for featured businesses — requires a Firestore index on isFeatured + createdAt.
+    // If the index doesn't exist yet, this falls back to the JS-filter approach.
     const q = query(
       collection(db, 'businesses'),
+      where('isFeatured', '==', true),
       orderBy('createdAt', 'desc'),
-      limit(50) // Fetch more to find featured ones
+      limit(count * 2) // small over-fetch to allow status filtering
     )
     
     const snapshot = await getDocs(q)
@@ -114,8 +116,7 @@ export async function fetchFeaturedBusinesses(count: number = 4): Promise<Busine
       const data = doc.data() as any
       const status = String(data.status ?? '').toLowerCase()
       
-      // Filter for featured and live status
-      if ((data.isFeatured === true) && (!status || LIVE_STATUSES.has(status))) {
+      if (!status || LIVE_STATUSES.has(status)) {
         businesses.push({
           id: doc.id,
           businessName: data.businessName,

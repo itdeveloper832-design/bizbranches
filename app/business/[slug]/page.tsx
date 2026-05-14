@@ -9,9 +9,9 @@ import { collection, query, where, getDocs, limit } from 'firebase/firestore'
 import { CATEGORIES } from '@/lib/data'
 import { LIVE_STATUSES } from '@/lib/category-mappings'
 
-// Disable caching so new/updated business data appears immediately
-export const revalidate = 0
-export const dynamic = 'force-dynamic'
+// ISR: revalidate every 5 minutes — business data is relatively stable.
+// On-demand revalidation can be triggered via the IndexNow API route.
+export const revalidate = 300
 
 interface Business {
   id: string
@@ -103,8 +103,8 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   const categoryName = category?.name ?? business.category
   const locationLabel = business.city
 
-  const title = `${business.businessName} ${locationLabel} – Official Details & Contact Information`
-  const description = `${business.businessName} is a verified ${categoryName} business located at ${business.address}, ${business.city}, Pakistan. Get official details, contact number (${business.phone}), address, reviews, and more.`
+  const title = `${business.businessName} ${locationLabel} | Verified Phone, Address & Contact`
+  const description = `${business.businessName} is a verified ${categoryName} business in ${business.city}, Pakistan. Get direct phone number (${business.phone}), address, WhatsApp & full contact details — free on PakBizBranches.`
 
   const url = `https://pakbizbranhces.online/business/${params.slug}/`
 
@@ -276,8 +276,12 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
                   <img
                     src={business.logoUrl}
                     alt={`${business.businessName} logo`}
+                    width={128}
+                    height={128}
                     className="w-32 h-32 rounded-2xl object-cover border border-gray-200 shadow-sm"
-                    loading="lazy"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
                   />
                 ) : (
                   <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] flex items-center justify-center border border-gray-200">
@@ -522,11 +526,14 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
                     >
                       <div className="flex items-center gap-3 mb-3">
                         {biz.logoUrl ? (
-                          <img
+                        <img
                             src={biz.logoUrl}
                             alt={biz.businessName}
+                            width={48}
+                            height={48}
                             className="w-12 h-12 rounded-lg object-cover border border-gray-100"
                             loading="lazy"
+                            decoding="async"
                           />
                         ) : (
                           <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] flex items-center justify-center">

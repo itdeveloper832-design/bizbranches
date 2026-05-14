@@ -13,7 +13,17 @@ export default function robots(): MetadataRoute.Robots {
           '/auth/',
           '/user/',
           '/add-bussiness',   // typo redirect — keep blocked
+          '/search?',         // prevent crawling search result URLs with query params
         ],
+      },
+      // Block AI training bots from scraping business data
+      {
+        userAgent: 'GPTBot',
+        disallow: '/',
+      },
+      {
+        userAgent: 'CCBot',
+        disallow: '/',
       },
     ],
     sitemap: 'https://pakbizbranhces.online/sitemap.xml',

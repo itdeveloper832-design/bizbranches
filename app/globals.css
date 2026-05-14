@@ -49,7 +49,8 @@
 }
 
 @theme inline {
-  --font-sans: 'Outfit', 'Outfit Fallback', sans-serif;
+  /* Use the CSS variable injected by next/font — falls back to system-ui */
+  --font-sans: var(--font-outfit, 'system-ui', sans-serif);
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
 
   --color-background: var(--background);
@@ -82,6 +83,11 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    /* scroll-behavior: smooth removed — it forces synchronous layout on every
+       programmatic scroll and hurts TBT. Use CSS scroll-behavior only on
+       specific containers that need it. */
+  }
+  html {
     scroll-behavior: smooth;
   }
   body {
@@ -90,9 +96,14 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-sans;
   }
+  /* Prevent layout shift for images without explicit dimensions */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
-/* Card hover lift */
+/* Card hover lift — use will-change only on hover to avoid compositing cost */
 .card-hover {
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }

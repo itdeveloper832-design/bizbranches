@@ -1,31 +1,18 @@
-'use client'
+// Server Component — no 'use client' directive.
+// Only the search form (HeroSearchForm) is a client component.
+// This means the hero shell (H1, description, links) is rendered as static HTML
+// with zero JS overhead — critical for FCP and LCP.
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Search, MapPin } from 'lucide-react'
-import { CITIES } from '@/lib/data'
-import CitySearchDropdown from '@/components/ui/city-search-dropdown'
+import HeroSearchForm from './hero-search-form'
 
 export default function HeroSection() {
-  const router = useRouter()
-  const [query, setQuery] = useState('')
-  const [city, setCity] = useState('')
-
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault()
-    const params = new URLSearchParams()
-    if (query) params.set('q', query)
-    if (city) params.set('city', city)
-    router.push(`/categories?${params.toString()}`)
-  }
-
   return (
     <section
       className="relative bg-[#0f2b3d] overflow-hidden py-16 md:py-28"
       aria-labelledby="hero-heading"
     >
-      {/* Decorative circles */}
+      {/* Decorative circles — pure CSS, no JS */}
       <div aria-hidden="true" className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#60a5fa]/10" />
       <div aria-hidden="true" className="absolute -bottom-32 -left-32 w-[32rem] h-[32rem] rounded-full bg-[#0ea5e9]/8" />
 
@@ -42,46 +29,14 @@ export default function HeroSection() {
           id="hero-heading"
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4"
         >
-          Pakistan&apos;s #1 Free Business Directory – Find Verified Local Services
+          Pakistan&apos;s Free Business Directory — Find Any Business, Any City
         </h1>
         <p className="text-base sm:text-lg md:text-xl text-white/90 mb-8 leading-relaxed max-w-2xl sm:max-w-3xl mx-auto">
           Get verified contact details, WhatsApp numbers, and addresses for 15,000+ businesses across 150+ cities in Pakistan.
         </p>
 
-        {/* Search Bar */}
-        <form
-          onSubmit={handleSearch}
-          className="mt-6 sm:mt-8 lg:mt-10 bg-white rounded-2xl shadow-2xl p-3 sm:p-4 flex flex-col sm:flex-row gap-3"
-          role="search"
-          aria-label="Search businesses"
-        >
-          <div className="flex items-center gap-2 flex-1 px-3">
-            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 shrink-0" aria-hidden="true" />
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search businesses, categories..."
-              className="flex-1 text-gray-800 placeholder-gray-400 bg-transparent outline-none text-sm sm:text-base py-1"
-              aria-label="Search query"
-            />
-          </div>
-          <div className="flex items-center gap-2 sm:border-l border-gray-200 sm:pl-3 px-3 flex-1">
-            <CitySearchDropdown
-              value={city}
-              onChange={setCity}
-              placeholder="All Cities"
-              className="w-full"
-              inputClassName="border-none focus:ring-0 py-1 pl-8"
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-[#0f2b3d] hover:bg-[#1a3f57] text-white font-semibold px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl transition-colors duration-200 text-sm sm:text-base cursor-pointer"
-          >
-            Search
-          </button>
-        </form>
+        {/* Search Bar — client component for interactivity */}
+        <HeroSearchForm />
 
         {/* Action Buttons */}
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">

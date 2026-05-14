@@ -2,19 +2,20 @@ import { Metadata } from 'next'
 import CitiesClient from './cities-client'
 import { ORGANIC_SEED_KEYWORDS } from '@/lib/organic-keywords'
 
-// Add metadata for SEO
 export const metadata: Metadata = {
-  title: 'Pakistan Cities Directory | Find Businesses by City',
+  title: 'Pakistan Cities Business Directory | Find Local Businesses by City 2026',
   description:
-    'Explore Pakistan cities and find local businesses by category, phone number, and location. City-wise business discovery for fast local search.',
+    'Browse 150+ Pakistan cities and find verified local businesses by category, phone number, and address. City-wise business discovery for Karachi, Lahore, Islamabad & more.',
   keywords: [
     'Pakistan cities business directory',
     'find businesses by city Pakistan',
     'city business directory Pakistan',
-    ...ORGANIC_SEED_KEYWORDS.slice(8, 14),
+    'Karachi business directory',
+    'Lahore business directory',
+    'Islamabad business directory',
   ],
   alternates: {
-    canonical: 'https://pakbizbranhces.online/cities',
+    canonical: 'https://pakbizbranhces.online/cities/',
   },
 }
 

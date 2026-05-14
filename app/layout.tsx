@@ -1,13 +1,31 @@
 import type { Metadata } from 'next'
+import { Outfit } from 'next/font/google'
 import './globals.css'
 import AntiCopyWrapper from '@/components/anti-copy-wrapper'
 import FloatingWhatsAppButton from '@/components/floating-whatsapp-button'
-import ChatWidget from '@/components/chat/ChatWidget'
+import dynamic from 'next/dynamic'
+
+// ─── next/font: zero render-blocking, automatic font-display:swap, self-hosted ──
+const outfit = Outfit({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-outfit',
+  // Only the weights actually used in the design system
+  weight: ['400', '500', '600', '700', '800'],
+  preload: true,
+  fallback: ['system-ui', 'sans-serif'],
+})
+
+// ─── Lazy-load heavy client widgets — they are NOT needed for first paint ───────
+const ChatWidget = dynamic(() => import('@/components/chat/ChatWidget'), {
+  ssr: false,
+  loading: () => null,
+})
 
 export const metadata: Metadata = {
-  title: 'Pakistan Business Directory | Find Local Businesses & Services',
+  title: 'Pakistan Business Directory | Find Local Businesses & Services – PakBizBranches',
   description:
-    'The most trusted Pakistan business directory. Find verified local businesses, phone numbers, and addresses by city and category. List your business for free.',
+    'Pakistan\'s trusted free business directory. Find verified local businesses, phone numbers, and addresses by city and category. 15,000+ listings across 150+ cities. List your business free.',
   keywords:
     'Pakistan business directory, free business listing Pakistan, Karachi business listings, Lahore business directory, Islamabad business listings, local services Pakistan, business phone numbers Pakistan, companies in Pakistan by city, verified business contacts Pakistan, WhatsApp business directory Pakistan',
   authors: [{ name: 'PakBizBranches', url: 'https://pakbizbranhces.online/' }],
@@ -21,9 +39,9 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: 'Pakistan Business Directory | Find Local Businesses & Services',
+    title: 'Pakistan Business Directory | Find Local Businesses & Services – PakBizBranches',
     description:
-      'Search verified Pakistan businesses by category and city. Compare listings and contact local services quickly on the #1 business directory.',
+      'Search verified Pakistan businesses by category and city. 15,000+ listings across 150+ cities. Find phone numbers, addresses & WhatsApp contacts — free on PakBizBranches.',
     url: 'https://pakbizbranhces.online/',
     siteName: 'PakBizBranches',
     locale: 'en_PK',
@@ -46,24 +64,41 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={outfit.variable}>
       <head>
         <meta name="google-site-verification" content="D2TTC8ZWjbjA3wgOFcyrfBnFkjC3TAiCG7E6wDxDGK4" />
         <link rel="alternate" hrefLang="en-PK" href="https://pakbizbranhces.online/" />
         <link rel="alternate" hrefLang="x-default" href="https://pakbizbranhces.online/" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet" />
-        
-        {/* Google Analytics - Set your ID here to track traffic */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1R80X5ZVE"></script>
+
+        {/* Preconnect to Firebase (Firestore data) and Google APIs */}
+        <link rel="preconnect" href="https://firebasestorage.googleapis.com" />
+        <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://wa.me" />
+
+        {/* Google Analytics — loaded after page is interactive to avoid TBT */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-H1R80X5ZVE');
+              gtag('config', 'G-H1R80X5ZVE', { send_page_view: true });
+              // Defer GA script load until after LCP
+              (function() {
+                function loadGA() {
+                  var s = document.createElement('script');
+                  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-H1R80X5ZVE';
+                  s.async = true;
+                  document.head.appendChild(s);
+                }
+                if (document.readyState === 'complete') {
+                  setTimeout(loadGA, 0);
+                } else {
+                  window.addEventListener('load', function() { setTimeout(loadGA, 0); }, { once: true });
+                }
+              })();
             `,
           }}
         />
@@ -78,7 +113,7 @@ export default function RootLayout({
               name: 'PakBizBranches',
               url: 'https://pakbizbranhces.online/',
               logo: 'https://pakbizbranhces.online/logo-img.png',
-              description: 'Pakistan\'s #1 free business directory with 12,450+ listings. No registration required. Helps users find local businesses phone numbers by city and category and allows business owners to add their local citations for free.',
+              description: 'Pakistan\'s trusted free business directory with 15,000+ verified listings. No registration required. Helps users find local businesses by city and category and allows business owners to add their local citations for free.',
               sameAs: [
                 'https://facebook.com/pakbizbranches',
                 'https://twitter.com/pakbizbranches',
@@ -118,7 +153,7 @@ export default function RootLayout({
               '@id': 'https://pakbizbranhces.online/#website',
               name: 'PakBizBranches',
               url: 'https://pakbizbranhces.online/',
-              description: 'Pakistan\'s #1 free business directory with 12,450+ listings. No registration required. Find local businesses phone numbers by city and category with WhatsApp details. Add your business free.',
+              description: 'Pakistan\'s trusted free business directory with 15,000+ verified listings. No registration required. Find local businesses by city and category with WhatsApp details. Add your business free.',
               publisher: {
                 '@id': 'https://pakbizbranhces.online/#organization'
               },
@@ -161,7 +196,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased" cz-shortcut-listen="true">
+      <body className="font-sans antialiased">
         <AntiCopyWrapper />
         <FloatingWhatsAppButton />
         <ChatWidget />

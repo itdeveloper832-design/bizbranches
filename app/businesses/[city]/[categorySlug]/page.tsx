@@ -38,8 +38,8 @@ export async function generateMetadata(props: { params: Promise<{ city: string; 
   const category = CATEGORIES.find(c => c.id === params.categorySlug)
   if (!cityName || !category) return { title: 'Not Found | PakBizBranches' }
 
-  const title = `Top ${category.name} in ${cityName} | Verified Local Listings`
-  const description = `Find the best ${category.name.toLowerCase()} in ${cityName} with direct phone numbers, local addresses, and trusted business listings.`
+  const title = `Top ${category.name} in ${cityName} 2026 | Verified Listings & Direct Contacts`
+  const description = `Find the best ${category.name.toLowerCase()} in ${cityName} with direct phone numbers, WhatsApp contacts, local addresses, and trusted business listings. Updated 2026.`
   const url = `${BASE_URL}/locations/${params.city}/${params.categorySlug}/`
   const keywordCluster = [
     ...getCategoryKeywordCluster(params.categorySlug),

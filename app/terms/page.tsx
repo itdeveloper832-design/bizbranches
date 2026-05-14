@@ -3,8 +3,12 @@ import Footer from '@/components/footer'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | PakBizBranches',
-  description: 'Terms of service for PakBizBranches Business Directory.',
+  title: 'Terms of Service | PakBizBranches Pakistan Business Directory',
+  description: 'Read the terms of service for PakBizBranches. Understand the rules and guidelines for using Pakistan\'s free business directory.',
+  alternates: {
+    canonical: 'https://pakbizbranhces.online/terms/',
+  },
+  robots: { index: true, follow: true },
 }
 
 export default function TermsPage() {

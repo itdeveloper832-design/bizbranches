@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Building2, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
+import Image from 'next/image'
+import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -9,10 +10,13 @@ export default function Footer() {
           {/* Brand & Contact */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-6" title="PakBizBranches - Home">
-              <img 
-                src="/logo-img.png" 
-                alt="PakBizBranches Logo" 
-                className="w-10 h-10 object-contain rounded-md"
+              <Image
+                src="/logo-img.png"
+                alt="PakBizBranches Logo"
+                width={40}
+                height={40}
+                className="object-contain rounded-md"
+                loading="lazy"
               />
               <span className="text-white font-bold text-xl tracking-tight">
                 PakBiz<span className="text-[#60a5fa]">Branches</span>

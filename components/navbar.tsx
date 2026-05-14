@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Menu, X, Building2 } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -24,10 +25,13 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <img 
-              src="/logo-img.png" 
-              alt="PakBizBranches Logo" 
-              className="w-10 h-10 object-contain rounded-md"
+            <Image
+              src="/logo-img.png"
+              alt="PakBizBranches Logo"
+              width={40}
+              height={40}
+              className="object-contain rounded-md"
+              priority
             />
             <span className="text-white font-bold text-xl tracking-tight">
               PakBiz<span className="text-[#60a5fa]">Branches</span>

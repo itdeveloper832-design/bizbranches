@@ -3,22 +3,25 @@ import { NextResponse } from 'next/server'
 const BASE_URL = 'https://pakbizbranhces.online'
 
 export async function GET() {
-  const lastmod = '2026-05-05'
+  const lastmod = new Date().toISOString().split('T')[0]
+
   const staticPages = [
-    '/privacy/',
-    '/terms/',
-    '/priority/', // Found in app directory
+    { url: '/privacy/', priority: '0.4' },
+    { url: '/terms/', priority: '0.4' },
+    { url: '/about/', priority: '0.7' },
+    { url: '/contact/', priority: '0.7' },
+    { url: '/add-business/', priority: '0.9' },
+    { url: '/featured-businesses/', priority: '0.8' },
   ]
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${staticPages.map(page => `
-  <url>
-    <loc>${BASE_URL}${page}</loc>
+${staticPages.map(({ url, priority }) => `  <url>
+    <loc>${BASE_URL}${url}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>`).join('')}
+    <priority>${priority}</priority>
+  </url>`).join('\n')}
 </urlset>`
 
   return new NextResponse(xml, {

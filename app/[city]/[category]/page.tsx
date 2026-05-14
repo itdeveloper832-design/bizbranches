@@ -29,8 +29,8 @@ export async function generateMetadata(props: { params: Promise<{ city: string; 
   
   if (!cityName || !category) return { title: 'Not Found | PakBizBranches' }
 
-  const title = `Best ${category.name} in ${cityName} | Verified Local Directory`
-  const description = `Find the best ${category.name.toLowerCase()} in ${cityName}, Pakistan. Get verified contact numbers, office addresses, and WhatsApp details for top ${category.name.toLowerCase()} businesses in ${cityName}.`
+  const title = `Best ${category.name} in ${cityName} 2026 | Verified Listings & Direct Contacts`
+  const description = `Find the best ${category.name.toLowerCase()} in ${cityName}, Pakistan. Get verified contact numbers, WhatsApp details, and addresses for top ${category.name.toLowerCase()} businesses in ${cityName}. Updated 2026.`
   const url = `${BASE_URL}/${params.city}/${params.category}/`
 
   return {
@@ -90,6 +90,37 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
     })),
   } : null
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `What are the best ${category.name.toLowerCase()} in ${cityName}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `You can find the top ${category.name.toLowerCase()} in ${cityName} on PakBizBranches. Browse verified listings with direct phone numbers, WhatsApp contacts, and addresses.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `How do I contact ${category.name.toLowerCase()} businesses in ${cityName}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Each listing on PakBizBranches includes direct phone numbers, WhatsApp contacts, and addresses for ${category.name.toLowerCase()} businesses in ${cityName}. Click any listing to view full contact details.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `Can I add my ${category.name.toLowerCase()} business in ${cityName} for free?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Yes! You can list your ${category.name.toLowerCase()} business in ${cityName} for free on PakBizBranches. No registration or payment required.`,
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <Navbar />
@@ -97,6 +128,7 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
       {itemListSchema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       )}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       
       <main className="bg-[#f8fafc] min-h-screen">
         {/* Hero */}

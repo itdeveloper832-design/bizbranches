@@ -2,16 +2,19 @@ import { Metadata } from 'next'
 import CategoriesClient from './categories-client'
 import { ORGANIC_SEED_KEYWORDS } from '@/lib/organic-keywords'
 
-// Add metadata for SEO
 export const metadata: Metadata = {
-  title: 'Business Categories in Pakistan | Find Local Companies',
+  title: 'Business Categories in Pakistan | Browse All Sectors – PakBizBranches',
   description:
-    'Browse top business categories in Pakistan and discover local companies by city. Compare listings, phone numbers, and services in one place.',
+    'Browse 12+ business categories in Pakistan. Find verified restaurants, real estate, healthcare, technology, retail, automotive, beauty & more. Free local business directory.',
   keywords: [
     'Pakistan business categories',
     'find businesses by category Pakistan',
-    'local business categories Pakistan',
-    ...ORGANIC_SEED_KEYWORDS.slice(0, 8),
+    'restaurants Pakistan directory',
+    'healthcare businesses Pakistan',
+    'real estate Pakistan directory',
+    'technology companies Pakistan',
+    'retail businesses Pakistan',
+    'beauty salons Pakistan',
   ],
   alternates: {
     canonical: 'https://pakbizbranhces.online/categories/',

@@ -3,8 +3,12 @@ import Footer from '@/components/footer'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | PakBizBranches',
-  description: 'Privacy policy for PakBizBranches Business Directory.',
+  title: 'Privacy Policy | PakBizBranches Pakistan Business Directory',
+  description: 'Read the privacy policy for PakBizBranches. Learn how we collect, use, and protect your data on Pakistan\'s free business directory.',
+  alternates: {
+    canonical: 'https://pakbizbranhces.online/privacy/',
+  },
+  robots: { index: true, follow: true },
 }
 
 export default function PrivacyPage() {

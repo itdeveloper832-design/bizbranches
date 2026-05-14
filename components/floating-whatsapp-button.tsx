@@ -1,21 +1,11 @@
 'use client'
 
 import { MessageCircle } from 'lucide-react'
-import { useState, useEffect } from 'react'
 
 export default function FloatingWhatsAppButton() {
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    // Show button after page loads
-    setIsVisible(true)
-  }, [])
-
   const whatsappNumber = '923345636230'
   const message = encodeURIComponent('Hi, I want to promote my business on your listing website. Please share details.')
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
-
-  if (!isVisible) return null
 
   return (
     <a
