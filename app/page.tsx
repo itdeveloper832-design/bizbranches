@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic'
 import { fetchLatestBusinesses, fetchFeaturedBusinesses } from '@/lib/firebase-server'
 import { CATEGORIES, CITIES } from '@/lib/data'
 import Link from 'next/link'
+import { BannerAdLoader, NativeAdLoader } from '@/components/ads/ads-loader'
 
 // ─── Above-the-fold: loaded eagerly ─────────────────────────────────────────
 import AboutSection from '@/components/home/about-section'
@@ -39,14 +40,6 @@ const FAQSection = dynamic(
 const TrustSection = dynamic(
   () => import('@/components/home/trust-section'),
   { ssr: true }
-)
-const BannerAd = dynamic(
-  () => import('@/components/ads/banner-ad'),
-  { ssr: false }
-)
-const NativeAd = dynamic(
-  () => import('@/components/ads/native-ad'),
-  { ssr: false }
 )
 
 // ISR: page is statically rendered and revalidated every 60 seconds.
@@ -135,7 +128,7 @@ export default async function HomePage() {
 
         {/* Ad slot 1: banner below header / hero */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <BannerAd variant="inline" />
+          <BannerAdLoader variant="inline" />
         </div>
 
         <AboutSection />
@@ -144,14 +137,14 @@ export default async function HomePage() {
 
         {/* Ad slot 2: native ad between featured and latest sections */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <NativeAd />
+          <NativeAdLoader />
         </div>
 
         <LatestBusinesses businesses={latestBusinesses} />
 
         {/* Ad slot 3: banner after second business section */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <BannerAd variant="inline" />
+          <BannerAdLoader variant="inline" />
         </div>
 
         <CategoriesGrid />
@@ -242,7 +235,7 @@ export default async function HomePage() {
 
         {/* Ad slot 4: footer banner */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-6">
-          <BannerAd variant="inline" />
+          <BannerAdLoader variant="inline" />
         </div>
       </main>
       <Footer />

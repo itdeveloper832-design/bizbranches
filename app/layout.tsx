@@ -3,23 +3,16 @@ import { Outfit } from 'next/font/google'
 import './globals.css'
 import AntiCopyWrapper from '@/components/anti-copy-wrapper'
 import FloatingWhatsAppButton from '@/components/floating-whatsapp-button'
-import dynamic from 'next/dynamic'
+import ChatWidgetLoader from '@/components/chat-widget-loader'
 
 // ─── next/font: zero render-blocking, automatic font-display:swap, self-hosted ──
 const outfit = Outfit({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-outfit',
-  // Only the weights actually used in the design system
   weight: ['400', '500', '600', '700', '800'],
   preload: true,
   fallback: ['system-ui', 'sans-serif'],
-})
-
-// ─── Lazy-load heavy client widgets — they are NOT needed for first paint ───────
-const ChatWidget = dynamic(() => import('@/components/chat/ChatWidget'), {
-  ssr: false,
-  loading: () => null,
 })
 
 export const metadata: Metadata = {
@@ -199,7 +192,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <AntiCopyWrapper />
         <FloatingWhatsAppButton />
-        <ChatWidget />
+        <ChatWidgetLoader />
         {children}
       </body>
     </html>
