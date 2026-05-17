@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 const BASE_URL = 'https://pakbizbranhces.online'
 
 export async function GET() {
-  const lastmod = new Date().toISOString().split('T')[0]
+  const lastmod = '2026-05-17'
 
   const staticPages = [
     { url: '/privacy/', priority: '0.4' },

@@ -4,7 +4,7 @@ const BASE_URL = 'https://pakbizbranhces.online'
 
 export async function GET() {
   // Dynamic lastmod — always today's date so Google sees fresh content
-  const lastmod = new Date().toISOString().split('T')[0]
+  const lastmod = '2026-05-17'
 
   const pages = [
     { url: '/', priority: '1.0', changefreq: 'daily' },

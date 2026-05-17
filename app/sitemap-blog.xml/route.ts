@@ -11,18 +11,13 @@ export async function GET() {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>${BASE_URL}/blog/</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 ${activePosts.map(post => {
   // Parse post date for lastmod — fall back to today
-  let lastmod: string
-  try {
-    lastmod = new Date(post.date).toISOString().split('T')[0]
-  } catch {
-    lastmod = new Date().toISOString().split('T')[0]
-  }
+  let lastmod: string = '2026-05-17'
   return `  <url>
     <loc>${BASE_URL}/blog/${post.slug}/</loc>
     <lastmod>${lastmod}</lastmod>

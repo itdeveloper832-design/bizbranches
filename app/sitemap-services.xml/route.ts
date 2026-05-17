@@ -4,7 +4,7 @@ import { CATEGORIES } from '@/lib/data'
 const BASE_URL = 'https://pakbizbranhces.online'
 
 export async function GET() {
-  const lastmod = new Date().toISOString().split('T')[0]
+  const lastmod = '2026-05-17'
 
   // Category pages live at /categories/[slug]/ AND at /[slug]/ (catch-all)
   // Submit both canonical forms — the /categories/[slug]/ is the canonical
