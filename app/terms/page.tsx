@@ -3,8 +3,8 @@ import Footer from '@/components/footer'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | PakBizBranches Pakistan Business Directory',
-  description: 'Read the terms of service for PakBizBranches. Understand the rules and guidelines for using Pakistan\'s free business directory.',
+  title: 'Terms of Service: PakBizBranches Business Directory',
+  description: 'Read the PakBizBranches terms of service. Learn the rules and guidelines for listing and searching businesses on our free Pakistan directory.',
   alternates: {
     canonical: 'https://pakbizbranhces.online/terms/',
   },

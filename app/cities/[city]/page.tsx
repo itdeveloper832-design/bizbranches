@@ -42,7 +42,7 @@ function findCityBySlug(slug: string): string | null {
 export async function generateMetadata(props: { params: Promise<{ city: string }> }): Promise<Metadata> {
   const params = await props.params;
   const cityName = findCityBySlug(params.city)
-  if (!cityName) return { title: 'City Not Found | PakBizBranches' }
+  if (!cityName) return { title: 'City Not Found: PakBizBranches Directory' }
 
   let businessesCount = 0
   try {
@@ -55,8 +55,24 @@ export async function generateMetadata(props: { params: Promise<{ city: string }
     businessesCount = snap.size
   } catch {}
 
-  const title = `${cityName} Business Directory 2026 | Verified Local Businesses & Services`
-  const description = `Find verified local businesses in ${cityName} — restaurants, clinics, real estate, technology, beauty salons & more. Browse direct phone numbers and addresses. Pakistan's trusted free directory.`
+  // Title: 50-60 chars, no pipes or dashes
+  let title = `${cityName} Business Directory: Find Local Companies`
+  if (title.length < 50) {
+    title = `${cityName} Business Directory: Find Verified Local Companies`
+  }
+  if (title.length > 60) {
+    title = title.substring(0, 60)
+  }
+
+  // Description: 140-155 chars
+  let description = `Search verified local businesses in ${cityName}. Find phone numbers, WhatsApp contacts, and physical addresses on the PakBizBranches directory free.`
+  if (description.length < 140) {
+    description = `Search verified local businesses in ${cityName}. Find direct phone numbers, WhatsApp contacts, and physical addresses on the PakBizBranches directory free.`
+  }
+  if (description.length > 155) {
+    description = description.substring(0, 152) + '...'
+  }
+
   const url = `${BASE_URL}/cities/${params.city}/`
   const keywordCluster = getCityKeywordCluster(cityName)
 

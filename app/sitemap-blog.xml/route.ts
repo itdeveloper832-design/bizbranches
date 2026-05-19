@@ -17,7 +17,7 @@ export async function GET() {
   </url>
 ${activePosts.map(post => {
   // Parse post date for lastmod — fall back to today
-  let lastmod: string = '2026-05-17'
+  let lastmod: string = '2026-05-19'
   return `  <url>
     <loc>${BASE_URL}/blog/${post.slug}/</loc>
     <lastmod>${lastmod}</lastmod>

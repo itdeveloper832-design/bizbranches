@@ -5,8 +5,8 @@ import Footer from '@/components/footer'
 import { CATEGORIES, CITIES } from '@/lib/data'
 
 export const metadata: Metadata = {
-  title: 'HTML Sitemap | PakBizBranches Pakistan Business Directory',
-  description: 'Complete sitemap of PakBizBranches — browse all categories, cities, and pages of Pakistan\'s #1 free business directory.',
+  title: 'Sitemap: Find Businesses in All Cities of Pakistan',
+  description: 'Browse all cities, categories, and business directories on PakBizBranches. Find verified phone numbers and local services across Pakistan easily.',
   alternates: { canonical: 'https://pakbizbranhces.online/html-sitemap/' },
   robots: { index: true, follow: true },
 }

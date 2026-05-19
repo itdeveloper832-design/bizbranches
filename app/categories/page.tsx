@@ -3,9 +3,9 @@ import CategoriesClient from './categories-client'
 import { ORGANIC_SEED_KEYWORDS } from '@/lib/organic-keywords'
 
 export const metadata: Metadata = {
-  title: 'Business Categories in Pakistan | Browse All Sectors – PakBizBranches',
+  title: 'Business Categories: Find Local Service Sectors',
   description:
-    'Browse 12+ business categories in Pakistan. Find verified restaurants, real estate, healthcare, technology, retail, automotive, beauty & more. Free local business directory.',
+    'Browse all business categories in Pakistan. Find verified listings for restaurants, real estate, technology, healthcare, and retail near you.',
   keywords: [
     'Pakistan business categories',
     'find businesses by category Pakistan',

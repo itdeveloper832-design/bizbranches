@@ -88,15 +88,28 @@ async function getSimilarBusinesses(city: string, category: string, excludeSlug:
   }
 }
 
-export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ city: string }> }): Promise<Metadata> {
   const params = await props.params;
-  const { slug } = params
+  const slug = params.city
 
   // Check if it's a City
   const cityName = findCityBySlug(slug)
   if (cityName) {
-    const title = `${cityName} Business Directory 2026 | Verified Local Businesses & Services`
-    const description = `Find verified local businesses in ${cityName} — restaurants, clinics, real estate, technology, beauty salons & more. Browse direct phone numbers and addresses. Pakistan's trusted free directory.`
+    let title = `${cityName} Business Directory: Find Local Companies`
+    if (title.length < 50) {
+      title = `${cityName} Business Directory: Find Verified Local Companies`
+    }
+    if (title.length > 60) {
+      title = title.substring(0, 60)
+    }
+
+    let description = `Search verified local businesses in ${cityName}. Find phone numbers, WhatsApp, and physical addresses on the trusted PakBizBranches directory free.`
+    if (description.length < 140) {
+      description = `Search verified local businesses in ${cityName}. Find phone numbers, WhatsApp contacts, and physical addresses on the trusted PakBizBranches directory free.`
+    }
+    if (description.length > 155) {
+      description = description.substring(0, 152) + '...'
+    }
     const url = `${BASE_URL}/${slug}/`
     const keywordCluster = getCityKeywordCluster(cityName)
 
@@ -112,8 +125,27 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   // Check if it's a Category
   const category = findCategoryBySlug(slug)
   if (category) {
-    const title = `Best ${category.name} in Pakistan 2026 | Verified Listings & Phone Numbers`
-    const description = `Browse verified ${category.name.toLowerCase()} businesses across Karachi, Lahore, Islamabad & 150+ Pakistani cities. Get direct phone numbers and addresses — free on PakBizBranches.`
+    let title = `${category.name} in Pakistan: Find Verified Contact Details`
+    if (title.length > 60) {
+      title = `${category.name} in Pakistan: Verified Contacts`
+    }
+    if (title.length < 50) {
+      title = `Best ${category.name} in Pakistan: Find Verified Contacts`
+    }
+    if (title.length < 50) {
+      title = `Best ${category.name} Services in Pakistan: Find Local Contacts`
+    }
+    if (title.length > 60) {
+      title = title.substring(0, 60)
+    }
+
+    let description = `Browse verified ${category.name.toLowerCase()} listings and local services in Pakistan. Find contact phone numbers, WhatsApp links, and physical addresses free.`
+    if (description.length < 140) {
+      description = `Browse verified ${category.name.toLowerCase()} listings and local services across Pakistan. Find contact phone numbers, WhatsApp links, and physical addresses free.`
+    }
+    if (description.length > 155) {
+      description = description.substring(0, 152) + '...'
+    }
     const url = `${BASE_URL}/${slug}/`
     const keywordCluster = getCategoryKeywordCluster(slug)
 
@@ -130,15 +162,51 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   const business = await getBusinessBySlug(slug)
   if (!business) {
     return {
-      title: 'Business Not Found | PakBizBranches',
+      title: 'Business Not Found: PakBizBranches',
       description: 'The business you are looking for could not be found.',
     }
   }
 
   const businessCategory = CATEGORIES.find(c => c.id === business.category)
   const categoryName = businessCategory?.name ?? business.category
-  const title = `${business.businessName} ${business.city} | Verified Phone, Address & Contact`
-  const description = `${business.businessName} is a verified ${categoryName} business in ${business.city}, Pakistan. Get direct phone number (${business.phone}), address, WhatsApp & full contact details — free on PakBizBranches.`
+
+  let title = `${business.businessName} in ${business.city}: Contact and Address`
+  if (title.length > 60) {
+    title = `${business.businessName} in ${business.city}`
+  }
+  if (title.length > 60) {
+    title = business.businessName
+  }
+  if (title.length > 60) {
+    title = title.substring(0, 57) + '...'
+  }
+  if (title.length < 50) {
+    title = `${business.businessName} in ${business.city}: Phone and Address`
+    if (title.length < 50) {
+      title = `${business.businessName} in ${business.city}: Verified Phone and Address`
+    }
+    if (title.length > 60) {
+      title = title.substring(0, 60)
+    }
+  }
+
+  let description = `Contact ${business.businessName} in ${business.city} for ${categoryName.toLowerCase()} services. Find verified phone number, address, and WhatsApp contact free.`
+  if (description.length > 155) {
+    description = `Contact ${business.businessName} in ${business.city}. Find verified phone number, address, and WhatsApp details free on PakBizBranches directory.`
+  }
+  if (description.length > 155) {
+    description = `${business.businessName} in ${business.city}: Find phone, address, and contact details free on PakBizBranches.`
+  }
+  if (description.length > 155) {
+    description = description.substring(0, 152) + '...'
+  }
+  if (description.length < 140) {
+    description = `${description} List your business free on PakBizBranches to reach local clients.`
+    if (description.length > 155) {
+      description = description.substring(0, 152) + '...'
+    }
+  }
+
   const url = `${BASE_URL}/${slug}/`
 
   return {
@@ -149,9 +217,9 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   }
 }
 
-export default async function CatchAllPage(props: { params: Promise<{ slug: string }> }) {
+export default async function CatchAllPage(props: { params: Promise<{ city: string }> }) {
   const params = await props.params
-  const { slug } = params
+  const slug = params.city
 
   // 1. City View
   const cityName = findCityBySlug(slug)
@@ -464,4 +532,3 @@ export default async function CatchAllPage(props: { params: Promise<{ slug: stri
     </>
   )
 }
-

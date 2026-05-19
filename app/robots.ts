@@ -25,6 +25,33 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: 'CCBot',
         disallow: '/',
       },
+      // Explicitly allow AI search/answer citation crawlers
+      {
+        userAgent: 'OAI-SearchBot',
+        allow: '/',
+        disallow: [
+          '/api/',
+          '/_next/',
+          '/admin/',
+          '/auth/',
+          '/user/',
+          '/add-bussiness',
+          '/search?',
+        ],
+      },
+      {
+        userAgent: 'PerplexityBot',
+        allow: '/',
+        disallow: [
+          '/api/',
+          '/_next/',
+          '/admin/',
+          '/auth/',
+          '/user/',
+          '/add-bussiness',
+          '/search?',
+        ],
+      },
     ],
     sitemap: 'https://pakbizbranhces.online/sitemap.xml',
     host: 'https://pakbizbranhces.online',

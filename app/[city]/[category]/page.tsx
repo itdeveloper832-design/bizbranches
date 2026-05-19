@@ -27,10 +27,23 @@ export async function generateMetadata(props: { params: Promise<{ city: string; 
   const cityName = findCityBySlug(params.city)
   const category = findCategoryBySlug(params.category)
   
-  if (!cityName || !category) return { title: 'Not Found | PakBizBranches' }
+  if (!cityName || !category) return { title: 'Not Found: PakBizBranches' }
 
-  const title = `Best ${category.name} in ${cityName} 2026 | Verified Listings & Direct Contacts`
-  const description = `Find the best ${category.name.toLowerCase()} in ${cityName}, Pakistan. Get verified contact numbers, WhatsApp details, and addresses for top ${category.name.toLowerCase()} businesses in ${cityName}. Updated 2026.`
+  // Build title: 50-60 chars, no pipes
+  let title = `${category.name} in ${cityName}: Verified Phone Numbers`
+  if (title.length > 60) title = `${category.name} in ${cityName}: Contacts`
+  if (title.length > 60) title = title.substring(0, 60)
+  if (title.length < 50) title = `Find ${category.name} in ${cityName}: Verified Contacts`
+  if (title.length > 60) title = title.substring(0, 60)
+
+  // Build description: 140-155 chars
+  let description = `Browse verified ${category.name.toLowerCase()} businesses in ${cityName}. Get direct phone numbers, WhatsApp links, and exact addresses free on PakBizBranches.`
+  if (description.length > 155) description = description.substring(0, 152) + '...'
+  if (description.length < 140) {
+    description = `Find the best ${category.name.toLowerCase()} in ${cityName}, Pakistan. Get verified phone numbers, WhatsApp contacts, and addresses free on PakBizBranches.`
+    if (description.length > 155) description = description.substring(0, 152) + '...'
+  }
+
   const url = `${BASE_URL}/${params.city}/${params.category}/`
 
   return {

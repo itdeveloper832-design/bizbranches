@@ -1,5 +1,48 @@
 // Blog posts data
 export const BLOG_POSTS = [
+  // New Competitor Heading Study Post
+  {
+    id: 101,
+    title: "Verified Business Directory & Search Portal in Pakistan: 2026 Growth Guide",
+    slug: "verified-business-directory-search-portal-pakistan-guide",
+    excerpt: "Learn how to use Pakistan's verified business directory and search portal to promote your business for free. Explore FBR NTN setups, SECP registrations, and direct WhatsApp contact strategies.",
+    content: `
+      <p class="lead">In 2026, building a digital footprint is essential for small and medium enterprises (SMEs) in Pakistan. While setting up custom websites can be expensive and complex, utilizing a free local directory provides immediate visibility. This guide explores how to leverage a verified business directory and search portal in Pakistan to grow your customer base.</p>
+      
+      <h2>Verified Business Directory & Search Portal in Pakistan</h2>
+      <p>A <strong>verified business directory and search portal in Pakistan</strong> serves as a bridge between local buyers and service providers. Instead of navigating outdated phonebooks, customers search these portals to find active contact details. While legacy platforms often charge registration fees, modern portals like PakBizBranches offer free listings with verified phone numbers, addresses, and instant WhatsApp chat links.</p>
+      
+      <h2>Why List Your Business on Local Citation Directories?</h2>
+      <p>Directories act as citation engines that boost your local search presence on Google and generative AI search systems. Here is how they help:</p>
+      
+      <h3>100% Free FBR NTN & SECP Business Promotion</h3>
+      <p>Legitimate local businesses need to establish trust. By listing your business with official registration indicators—such as your <strong>FBR NTN (Federal Board of Revenue National Tax Number)</strong> or <strong>SECP (Securities and Exchange Commission of Pakistan)</strong> registration status—you signal authority to search models and prospective clients. Directories verify these inputs to ensure a high-quality, spam-free database.</p>
+      
+      <h3>Instant Direct WhatsApp and Call Contact Details</h3>
+      <p>Traditional directories require users to register or log in to view phone numbers, creating friction that leads to high drop-off rates. PakBizBranches eliminates this by providing direct, one-click WhatsApp and call buttons, allowing customers to contact you immediately from their mobile devices.</p>
+      
+      <h2>Top Cities for Business Growth in Pakistan</h2>
+      <p>Our business data hub covers all major cities, ensuring local relevance. Here is how local directories target these geographic areas:</p>
+      <ul>
+        <li><strong>Karachi:</strong> Connect with commercial buyers in Clifton, Bahadurabad,SITE Area, and Shahrah-e-Faisal.</li>
+        <li><strong>Lahore:</strong> Drive foot traffic and inquiries in Gulberg III, Model Town, Hall Road, and DHA Phase 5.</li>
+        <li><strong>Islamabad:</strong> Reach professional clients in the Blue Area, G-9 Markaz, and I-8 Sector.</li>
+      </ul>
+
+      <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-6 rounded">
+        <h4 class="font-bold text-blue-800 mb-2">💡 Pro Tip for Pakistan SMEs</h4>
+        <p class="text-blue-700">Are you registered with the Lahore Chamber of Commerce (LCCI) or Karachi Chamber of Commerce (KCCI)? Make sure to list your business on <a href="/add-business" class="underline font-semibold">PakBizBranches</a> to build trusted local citations today!</p>
+      </div>
+    `,
+    author: "Alex Rivers",
+    date: "May 19, 2026",
+    readTime: "5 min read",
+    category: "Business Guide",
+    featured: true,
+    hidden: false,
+    keywords: ["verified business directory", "search portal in Pakistan", "FBR NTN", "SECP registration", "local business search"],
+    tags: ["Business Directory", "Local Marketing", "SEO", "SME Guide", "Pakistan"]
+  },
   // New SEO Keyword Gap Post
   {
     id: 100,

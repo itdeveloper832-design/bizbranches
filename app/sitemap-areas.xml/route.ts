@@ -13,7 +13,7 @@ const TOP_CITIES = [
 ]
 
 export async function GET() {
-  const lastmod = '2026-05-17'
+  const lastmod = '2026-05-19'
 
   const urls: { url: string; priority: string }[] = []
 

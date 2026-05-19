@@ -5,8 +5,8 @@ import Footer from '@/components/footer'
 import LoginClient from './login-client'
 
 export const metadata: Metadata = {
-  title: 'Login - PakBizBranches',
-  description: 'Sign in to your PakBizBranches account to manage your business listings',
+  title: 'Sign In: Access Your PakBizBranches Business Account',
+  description: 'Log in to your free PakBizBranches directory account to update, edit, and optimize your business contact listings and maps across Pakistan easily.',
   robots: {
     index: false,
     follow: false,

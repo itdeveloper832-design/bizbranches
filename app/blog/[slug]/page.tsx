@@ -18,10 +18,34 @@ export async function generateStaticParams() {
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const params = await props.params;
   const post = BLOG_POSTS.find(p => p.slug === params.slug)
-  if (!post) return { title: 'Article Not Found | PakBizBranches' }
+  if (!post) return { title: 'Article Not Found: PakBizBranches' }
 
-  const title = `${post.title} – Business Blog`
-  const description = post.excerpt?.substring(0, 160) || 'Read this business guide on PakBizBranches blog.'
+  // Title must be 50 to 60 characters
+  let title = post.title
+  if (title.length > 60) {
+    title = title.substring(0, 57) + '...'
+  } else if (title.length < 50) {
+    if (title.length + 19 <= 60) {
+      title = `${title}: Pakistan Business`
+    } else {
+      title = `${title} Guide`
+    }
+    if (title.length > 60) {
+      title = title.substring(0, 60)
+    }
+  }
+
+  // Description must be 140 to 155 characters
+  let description = post.excerpt || 'Read this business guide on PakBizBranches.'
+  if (description.length > 155) {
+    description = description.substring(0, 152) + '...'
+  } else if (description.length < 140) {
+    description = `${description} List your business free on PakBizBranches directory to reach local customers across Pakistan.`
+    if (description.length > 155) {
+      description = description.substring(0, 152) + '...'
+    }
+  }
+
   const url = `${BASE_URL}/blog/${params.slug}/`
 
   return {

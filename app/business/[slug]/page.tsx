@@ -94,7 +94,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
 
   if (!business) {
     return {
-      title: 'Business Not Found | PakBizBranches',
+      title: 'Business Not Found: PakBizBranches',
       description: 'The business you are looking for could not be found.',
     }
   }
@@ -103,8 +103,38 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   const categoryName = category?.name ?? business.category
   const locationLabel = business.city
 
-  const title = `${business.businessName} ${locationLabel} | Verified Phone, Address & Contact`
-  const description = `${business.businessName} is a verified ${categoryName} business in ${business.city}, Pakistan. Get direct phone number (${business.phone}), address, WhatsApp & full contact details — free on PakBizBranches.`
+  let title = `${business.businessName} in ${locationLabel}: Phone and Address Details`
+  if (title.length > 60) {
+    title = `${business.businessName} in ${locationLabel}: Contact Details`
+  }
+  if (title.length > 60) {
+    title = `${business.businessName} in ${locationLabel}: Phone Number`
+  }
+  if (title.length > 60) {
+    title = `${business.businessName} in ${locationLabel}`
+  }
+  if (title.length > 60) {
+    title = business.businessName
+  }
+  if (title.length > 60) {
+    title = title.substring(0, 57) + '...'
+  }
+  if (title.length < 50) {
+    title = `Verified Details for ${business.businessName} in ${locationLabel}`
+    if (title.length > 60) {
+      title = title.substring(0, 60)
+    }
+  }
+
+  let description = `${business.businessName} is a verified ${categoryName.toLowerCase()} business in ${business.city}, Pakistan. Get direct phone number ${business.phone}, address, and WhatsApp contact free.`
+  if (description.length > 155) {
+    description = description.substring(0, 152) + '...'
+  } else if (description.length < 140) {
+    description = `${business.businessName} is a verified ${categoryName.toLowerCase()} business in ${business.city}, Pakistan. Get direct phone number ${business.phone}, address, and WhatsApp contact free on PakBizBranches.`
+    if (description.length > 155) {
+      description = description.substring(0, 152) + '...'
+    }
+  }
 
   const url = `https://pakbizbranhces.online/business/${params.slug}/`
 

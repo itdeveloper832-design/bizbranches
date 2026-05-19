@@ -164,7 +164,7 @@ export default function ContactClient() {
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Call Us</h3>
                     <p className="text-gray-600">+92 314 2552851</p>
-                    <p className="text-sm text-gray-500">Direct Support Line (Mon-Fri)</p>
+                    <p className="text-sm text-gray-500">Direct Support Line (Monday to Friday)</p>
                   </div>
                 </div>
 
@@ -196,12 +196,12 @@ export default function ContactClient() {
                 <h3 className="font-semibold text-gray-900 mb-4">Business Hours</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Monday - Friday</span>
-                    <span className="font-medium">9:00 AM - 6:00 PM</span>
+                    <span className="text-gray-600">Monday to Friday</span>
+                    <span className="font-medium">9:00 AM to 6:00 PM</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Saturday</span>
-                    <span className="font-medium">10:00 AM - 4:00 PM</span>
+                    <span className="font-medium">10:00 AM to 4:00 PM</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Sunday</span>

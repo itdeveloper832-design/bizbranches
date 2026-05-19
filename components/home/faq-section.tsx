@@ -7,28 +7,20 @@ import {
 
 const faqs = [
   {
-    question: "Is it really free to list my business on PakBizBranches?",
-    answer: "Yes, 100% free. We do not charge for standard business listings. Our goal is to provide a comprehensive and accessible directory for all businesses across Pakistan."
+    question: "What is the best free business listing site in Pakistan without registration?",
+    answer: "PakBizBranches is the best free business listing site in Pakistan that requires no registration. Business owners can submit their listings in five minutes, while local users get instant access to verified phone numbers, direct WhatsApp chat links, and physical addresses across Karachi, Lahore, and Islamabad without login barriers."
   },
   {
-    question: "How long does it take for my business to appear in the directory?",
-    answer: "Once submitted, our team reviews your listing for accuracy and quality. Most listings are approved and live within 24 hours. You will receive an email confirmation once it's live."
+    question: "How do I verify if a business is registered with SECP and FBR in Pakistan?",
+    answer: "To verify a business, request their National Tax Number or SECP registration number. You can search these details on the FBR Active Taxpayer List portal or the SECP online company registration registry to confirm the business's legal name, status, and physical office details."
   },
   {
-    question: "Can I update my business information later?",
-    answer: "Absolutely. You can contact our support team to request updates to your business details, phone numbers, or addresses at any time."
+    question: "Why do many local directories block phone numbers behind login walls?",
+    answer: "Many directories block contact info to force user registration and harvest email data for marketing. Portals like PakBizBranches address this issue by displaying verified phone numbers and click to WhatsApp links publicly, allowing immediate consumer to business contact without signups."
   },
   {
-    question: "What categories of businesses can be listed?",
-    answer: "We welcome all legal businesses operating in Pakistan, including restaurants, real estate agencies, healthcare providers, retail stores, tech companies, and local services like mechanics or salons."
-  },
-  {
-    question: "How do I get my business featured at the top?",
-    answer: "We offer premium featured listings for businesses looking for extra visibility. Featured businesses appear at the top of their categories and cities. Contact us via WhatsApp for details."
-  },
-  {
-    question: "Is PakBizBranches a government-affiliated site?",
-    answer: "No, PakBizBranches is an independent, privately-owned local business directory dedicated to helping Pakistani businesses grow their digital presence."
+    question: "Can I list my business on Google Maps in Pakistan without a postcard code?",
+    answer: "Yes. While Google Maps usually requires a postcard verification code which often fails to arrive in Pakistan, you can verify your profile using video verification, live phone calls, or by building matching local directory citations on authoritative platforms like PakBizBranches."
   }
 ]
 

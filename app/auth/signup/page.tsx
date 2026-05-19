@@ -5,8 +5,8 @@ import Footer from '@/components/footer'
 import SignupClient from './signup-client'
 
 export const metadata: Metadata = {
-  title: 'Sign Up - PakBizBranches',
-  description: 'Create a new PakBizBranches account to manage your business listings',
+  title: 'Register Free Account: PakBizBranches Business Portal',
+  description: 'Create a free user account on the PakBizBranches portal. Sign up today to submit, verify, and manage your local business listings across Pakistan.',
   robots: {
     index: false,
     follow: false,

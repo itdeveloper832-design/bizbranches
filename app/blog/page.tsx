@@ -6,15 +6,15 @@ import { Calendar, ArrowRight, Building2, Clock, User, Star } from 'lucide-react
 import { BLOG_POSTS, FEATURED_POSTS, RECENT_POSTS } from '@/lib/blog-data'
 
 export const metadata: Metadata = {
-  title: 'Business Blog Pakistan | Tips, Guides & Growth Strategies – PakBizBranches',
-  description: 'Read expert business tips, growth guides, and local market insights for Pakistani entrepreneurs. Updated 2026 — marketing strategies, SEO advice, and success stories.',
+  title: 'Pakistan Business Blog: Marketing and Growth Guides',
+  description: 'Read actionable guides and tips to grow your local business in Pakistan. Learn SEO, social media marketing, and registry growth hacks from experts.',
   keywords: 'Pakistan business blog, business growth tips Pakistan, small business advice Pakistan, marketing strategies Pakistan, entrepreneur guide Pakistan 2026',
   alternates: {
     canonical: 'https://pakbizbranhces.online/blog/',
   },
   openGraph: {
-    title: 'Business Blog Pakistan | Tips, Guides & Growth Strategies – PakBizBranches',
-    description: 'Read expert business tips and growth guides for Pakistani entrepreneurs. Marketing strategies and local business advice.',
+    title: 'Pakistan Business Blog: Marketing and Growth Guides',
+    description: 'Read actionable guides and tips to grow your local business in Pakistan. Learn SEO, social media marketing, and registry growth hacks from experts.',
     url: 'https://pakbizbranhces.online/blog/',
     siteName: 'PakBizBranches',
     locale: 'en_PK',

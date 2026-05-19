@@ -37,7 +37,7 @@ export async function generateStaticParams() {
 export async function generateMetadata(props: { params: Promise<{ categorySlug: string }> }): Promise<Metadata> {
   const params = await props.params;
   const category = CATEGORIES.find(c => c.id === params.categorySlug)
-  if (!category) return { title: 'Category Not Found | PakBizBranches' }
+  if (!category) return { title: 'Category Not Found: PakBizBranches' }
 
   let businessesCount = 0
   try {
@@ -50,8 +50,27 @@ export async function generateMetadata(props: { params: Promise<{ categorySlug: 
     businessesCount = snap.size
   } catch {}
 
-  const title = `Best ${category.name} in Pakistan 2026 | Verified Listings & Phone Numbers`
-  const description = `Browse verified ${category.name.toLowerCase()} businesses across Karachi, Lahore, Islamabad & 150+ Pakistani cities. Get direct phone numbers, WhatsApp contacts, and addresses — free on PakBizBranches.`
+  let title = `Best ${category.name} in Pakistan 2026: Verified Contact Details`
+  if (title.length > 60) {
+    title = `Best ${category.name} in Pakistan 2026: Verified Contacts`
+  }
+  if (title.length < 50) {
+    title = `Best ${category.name} Listings in Pakistan 2026: Verified Contacts`
+  }
+  if (title.length > 60) {
+    title = title.substring(0, 60)
+  }
+
+  let description = `Browse verified ${category.name.toLowerCase()} listings in Karachi, Lahore, Islamabad, and 150 plus cities. Find direct phone and WhatsApp numbers on PakBizBranches.`
+  if (description.length > 155) {
+    description = description.substring(0, 152) + '...'
+  } else if (description.length < 140) {
+    description = `Browse verified ${category.name.toLowerCase()} listings across Karachi, Lahore, Islamabad, and 150 plus cities in Pakistan. Find direct phone and WhatsApp numbers free.`
+    if (description.length > 155) {
+      description = description.substring(0, 152) + '...'
+    }
+  }
+
   const url = `${BASE_URL}/categories/${params.categorySlug}/`
   const keywordCluster = getCategoryKeywordCluster(params.categorySlug)
 

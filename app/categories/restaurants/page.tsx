@@ -3,8 +3,8 @@ import RestaurantsClient from './restaurants-client'
 
 // Add metadata for SEO
 export const metadata: Metadata = {
-  title: 'Restaurants in Pakistan – Food & Dining Directory',
-  description: 'Find best restaurants, cafes, and food businesses in Pakistan. Browse by city, get contact details, phone numbers, and addresses. Free restaurant directory.',
+  title: 'Restaurants in Pakistan: Food and Dining Directory',
+  description: 'Browse verified restaurants across Pakistan. Get direct phone numbers, locations, and menus. Click to find top-rated dining spots on PakBizBranches.',
   keywords: 'Pakistan restaurants, food directory Pakistan, cafes Pakistan, dining Pakistan, restaurants near me Pakistan, food businesses Pakistan, restaurant contact details Pakistan',
 }
 

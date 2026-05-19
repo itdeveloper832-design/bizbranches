@@ -16,9 +16,9 @@ const outfit = Outfit({
 })
 
 export const metadata: Metadata = {
-  title: 'Pakistan Business Directory | Find Local Businesses & Services – PakBizBranches',
+  title: 'Pakistan Business Directory: Find Local Businesses',
   description:
-    'Pakistan\'s trusted free business directory. Find verified local businesses, phone numbers, and addresses by city and category. 15,000+ listings across 150+ cities. List your business free.',
+    'Find verified local businesses, phone numbers, and addresses by city and category. 15,000 plus listings across 150 plus cities on PakBizBranches.',
   keywords:
     'Pakistan business directory, free business listing Pakistan, Karachi business listings, Lahore business directory, Islamabad business listings, local services Pakistan, business phone numbers Pakistan, companies in Pakistan by city, verified business contacts Pakistan, WhatsApp business directory Pakistan',
   authors: [{ name: 'PakBizBranches', url: 'https://pakbizbranhces.online/' }],
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: 'Pakistan Business Directory | Find Local Businesses & Services – PakBizBranches',
+    title: 'Pakistan Business Directory: Find Local Businesses',
     description:
-      'Search verified Pakistan businesses by category and city. 15,000+ listings across 150+ cities. Find phone numbers, addresses & WhatsApp contacts — free on PakBizBranches.',
+      'Search verified Pakistan businesses by category and city. Find phone numbers, addresses, and WhatsApp contacts free on PakBizBranches.',
     url: 'https://pakbizbranhces.online/',
     siteName: 'PakBizBranches',
     locale: 'en_PK',
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pakistan Business Directory | Find Local Businesses & Services',
+    title: 'Pakistan Business Directory: Find Local Businesses',
     description:
-      'List your business for free and get discovered by thousands of local customers across Pakistan.',
+      'List your business for free and get discovered by thousands of local customers across Pakistan on PakBizBranches directory.',
   },
   robots: {
     index: true,

@@ -5,8 +5,8 @@ import Footer from '@/components/footer'
 import UserProfileClient from './user-profile-client'
 
 export const metadata: Metadata = {
-  title: 'My Profile - PakBizBranches',
-  description: 'Manage your PakBizBranches profile and business listings',
+  title: 'User Profile Dashboard: Manage Your Registered Listings',
+  description: 'Access your PakBizBranches user dashboard to view, modify, and optimize your submitted company details, contact information, and business profiles.',
   robots: {
     index: false,
     follow: false,

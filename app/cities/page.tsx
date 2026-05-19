@@ -3,9 +3,9 @@ import CitiesClient from './cities-client'
 import { ORGANIC_SEED_KEYWORDS } from '@/lib/organic-keywords'
 
 export const metadata: Metadata = {
-  title: 'Pakistan Cities Business Directory | Find Local Businesses by City 2026',
+  title: 'All Pakistan Cities Business Directory: Find Companies',
   description:
-    'Browse 150+ Pakistan cities and find verified local businesses by category, phone number, and address. City-wise business discovery for Karachi, Lahore, Islamabad & more.',
+    'Browse businesses in 150 plus Pakistan cities. Find verified phone numbers, addresses, and WhatsApp contacts in Karachi, Lahore, Islamabad, and beyond.',
   keywords: [
     'Pakistan cities business directory',
     'find businesses by city Pakistan',

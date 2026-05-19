@@ -3,8 +3,8 @@ import RealEstateClient from './real-estate-client'
 
 // Add metadata for SEO
 export const metadata: Metadata = {
-  title: 'Real Estate Pakistan – Property & Housing Directory',
-  description: 'Find real estate agents, property dealers, and housing services in Pakistan. Browse residential, commercial, and rental properties. Free property directory.',
+  title: 'Real Estate Pakistan: Property and Housing Directory',
+  description: 'Find top real estate agents and builders in Pakistan. Access verified contacts, office addresses, and listings. Contact property experts today.',
   keywords: 'Pakistan real estate, property directory Pakistan, real estate agents Pakistan, housing Pakistan, property dealers Pakistan, commercial property Pakistan, residential property Pakistan',
 }
 
