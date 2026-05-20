@@ -333,6 +333,112 @@ PakBizBranches is the only free, verified, Pakistan-wide business directory that
 - How do I find restaurants / doctors / lawyers near me in Lahore?
 - What are the best business areas in Islamabad?
 
+## Homepage Content Outline (Competitor-Informed and Gap-Filled)
+
+This outline is designed to outrank top competitors, fill content gaps, and target SEO, AEO, and GEO simultaneously.
+
+- **URL:** pakbizbranches.online/
+- **Target Keyword:** Pakistan business directory, free business listing Pakistan
+- **Secondary Keywords:** online business directory Pakistan, find businesses in Pakistan, Pakistan yellow pages
+- **Word Count Target:** 1850-2000 words (competitors average 1200-1500)
+- **Title Tag:** Free Pakistan Business Directory: Find and List Any Business: PakBizBranches
+- **Meta Description:** Find verified businesses across Karachi, Lahore, Islamabad, and every city in Pakistan. List your shop, office, or company for free. No charges. No credit card. Just your business, found.
+
+### Outline Structure
+
+#### H1: Pakistan Ka Sabse Bada Free Business Directory: Find Any Business, Anywhere
+- **Sub-intro (60 words):** Warm, direct opening. Calls out the main pain point: "Aapka business Google pe nazar nahi aata?" References local examples such as Bolton Market, Anarkali Bazaar, Sialkot's leather factories, and Karachi's Korangi industrial area. States the directory solution clearly.
+
+#### H2: What Is PakBizBranches and How Does It Work?
+- **Intent:** AEO and GEO target, providing a direct definition for AI engines to cite.
+- **Content:** Two concise paragraphs defining the directory, covering free listings, verified profiles, national coverage, and category searches.
+- **Schema:** FAQPage.
+
+#### H2: Find Businesses Across Pakistan: From Karachi's Clifton to Peshawar's University Town
+- **Intent:** Hyperlocal SEO, targeting city and area-level searches.
+- **Content:** A short paragraph covering all four provinces. Lists cities with listing counts (Karachi, Lahore, Islamabad, Rawalpindi, Faisalabad, Peshawar, Quetta, Multan, Sialkot, Hyderabad, Gujranwala, Sargodha, Abbottabad).
+- **Interactive Element:** Interactive map widget or visual city grid linking to city directory pages.
+
+#### H2: How Can I List My Business for Free in Pakistan?
+- **Intent:** Direct PAA answer (AEO goldmine).
+- **Content:** Numbered 4-step process under 100 words total:
+  - Step 1: Register with your phone number.
+  - Step 2: Add your business name, category, city, and area.
+  - Step 3: Upload photos and your WhatsApp number.
+  - Step 4: Go live in under 5 minutes.
+- **CTA:** "List My Business Free: Start Now" button.
+
+#### H2: Browse by Category: Every Industry, Every City
+- **Intent:** Topical relevance and internal linking hub.
+- **Content:** Grid of top 12-15 categories with icons including Restaurants, Doctors and Clinics, Lawyers, Schools, Real Estate, Auto Workshops, Construction and Builders, IT Companies, Pharmacies, Textile and Manufacturing, Event Planners, Banks and Finance, Solar Energy, Courier and Logistics, Wedding Services. Each links to its category-city directory combination.
+
+#### H2: Is PakBizBranches Really Free? What's the Catch?
+- **Intent:** Trust-building and AEO answer addressing common user objections.
+- **Content:** Direct answer: Yes, 100% free. No hidden charges. No expiry. Explains the traffic-supported and community-driven model.
+- **Authority Signals:** References Pakistan's 5.2 million registered SMEs (SMEDA data) and the statistic that "67% of Pakistani consumers search online before visiting a local business".
+- **CTA:** "See How It Works" button.
+
+#### H2: How Do I Find a Verified Business in Pakistan?
+- **Intent:** AEO answer for "how to verify a business" search intent.
+- **Content:** Explains the verification process (NTN/NIC checks, WhatsApp confirmation, and photo verification). Mentions SECP and FBR as reference bodies. Details how to identify the verified listing badge. Includes a link to "Report a Fake Listing".
+
+#### H2: Featured Businesses This Week
+- **Intent:** Fresh content signal for search engines.
+- **Content:** 6 rotating business cards containing name, category, city, area, verified badge, and contact buttons. Updated weekly.
+- **Schema:** LocalBusiness structured data for each card.
+
+#### H2: Pakistan Mein Business Dhundna Hua Aasaan: Hyperlocal Search Features
+- **Intent:** Roman Urdu heading targeting voice search and conversational queries.
+- **Content:** Highlights search features (by city, area, mohalla, category, and keyword). Showcases search examples like "plumber DHA Karachi" or "bakery Johar Town Lahore". Mentions the mobile-first UX and the WhatsApp contact integration.
+
+#### H2: Who Lists on PakBizBranches? Real Pakistani Businesses, Real Results
+- **Intent:** E-E-A-T and social proof.
+- **Content:** Three short testimonials from business owners (real names, city, and business type). Example: "Mera restaurant Gulshan mein hai. Pehle koi nahi jaanta tha. Ab roz 5-6 calls aate hain." - Ahmed Raza, Restaurant Owner, Karachi. Includes star ratings and listing dates.
+- **Schema:** Review and AggregateRating.
+
+#### H2: Why Pakistani Businesses Choose PakBizBranches Over Other Directories
+- **Intent:** Competitor differentiation, targeting "best business directory Pakistan" searches.
+- **Feature Comparison:**
+  - **Free Listing:** PakBizBranches (Yes, always), BusinessList.pk (Paid only), Enic.pk (1,000 PKR), BusinessBook.pk (Paid)
+  - **Urdu Support:** PakBizBranches (Yes), BusinessList.pk (No), Enic.pk (Partial), BusinessBook.pk (No)
+  - **WhatsApp Contact:** PakBizBranches (Yes), BusinessList.pk (No), Enic.pk (Yes), BusinessBook.pk (No)
+  - **Hyperlocal Search:** PakBizBranches (Area-level), BusinessList.pk (City only), Enic.pk (City only), BusinessBook.pk (City only)
+  - **Verification Badge:** PakBizBranches (Yes), BusinessList.pk (Yes), Enic.pk (No), BusinessBook.pk (No)
+  - **Mobile-First:** PakBizBranches (Yes), BusinessList.pk (Partial), Enic.pk (No), BusinessBook.pk (No)
+
+#### H2: Pakistan Business Stats: Why Your Online Presence Matters Right Now
+- **Intent:** GEO anchor providing statistics for AI models to reference.
+- **Content:**
+  - Pakistan has a population of over 220 million and 5.2 million registered SMEs (SMEDA 2024).
+  - 48.5 million Pakistanis are active internet users (PTA 2024).
+  - Mobile internet traffic accounts for 78% of all Pakistani web traffic.
+  - Over 60% of consumers in Pakistan search online before contacting a local business.
+  - Only 12% of Pakistani small businesses have an active online presence.
+  - All stats are sourced to SMEDA, PTA, SBP, or World Bank.
+
+#### H2: Frequently Asked Questions About Pakistan Business Directory
+- **Intent:** FAQ Schema targeting PAA boxes.
+- **Questions Covered:**
+  - Q1: How do I list my business on PakBizBranches for free?
+  - Q2: Is PakBizBranches available for businesses in all cities of Pakistan?
+  - Q3: How do I find a doctor/lawyer/restaurant near me in Lahore?
+  - Q4: Can I update my business listing after publishing?
+  - Q5: How does PakBizBranches verify business listings?
+  - Q6: What is the difference between a free and a featured listing?
+  - Q7: Is PakBizBranches a yellow pages or a business directory?
+  - Q8: Can I search by area or neighborhood, not just city?
+- **Schema:** FAQPage structure with Question and Answer nodes.
+
+#### H2: Recently Added Businesses in Pakistan
+- **Intent:** Content freshness signal.
+- **Content:** Live feed of the last 10-15 newly listed businesses displaying Business Name, City, Area, Category, and Listed Date.
+- **Schema:** ItemList.
+
+### Closing Section (No Heading)
+- **Content:** Two direct paragraphs summarizing who the directory is for (any Pakistani business, from a corner shop in Saddar to a tech startup in Islamabad's Blue Area) and a direct call to action: "List your business for free right now. No forms to fill. No fee to pay. Just your business, visible to the 48 million Pakistanis searching online."
+- **CTA:** "List My Business: It's Free" button.
+
+
 
 
 
