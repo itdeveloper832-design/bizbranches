@@ -48,9 +48,9 @@ export const revalidate = 60
 const BASE_URL = 'https://pakbizbranhces.online'
 
 export const metadata: Metadata = {
-  title: 'Pakistan Business Directory: Search Local Services',
+  title: 'Free Pakistan Business Directory: Find and List Any Business: PakBizBranches',
   description:
-    'Search verified businesses in Pakistan. Find phone numbers, WhatsApp, and addresses for local services. List your business free on PakBizBranches.',
+    'Find verified businesses across Karachi, Lahore, Islamabad, and every city in Pakistan. List your shop, office, or company for free. No charges. No credit card. Just your business, found.',
   keywords:
     'Pakistan business directory, free business listing Pakistan, Karachi business listings, Lahore business directory, Islamabad business listings, local services Pakistan, business phone numbers Pakistan, verified business contacts Pakistan, find businesses Pakistan 2026',
   authors: [{ name: 'PakBizBranches', url: 'https://pakbizbranhces.online/' }],
@@ -58,9 +58,9 @@ export const metadata: Metadata = {
     canonical: 'https://pakbizbranhces.online/',
   },
   openGraph: {
-    title: 'Pakistan Business Directory: Search Local Services',
+    title: 'Free Pakistan Business Directory: Find and List Any Business: PakBizBranches',
     description:
-      'Search verified businesses in Pakistan. Find phone numbers, WhatsApp, and addresses for local services. List your business free on PakBizBranches.',
+      'Find verified businesses across Karachi, Lahore, Islamabad, and every city in Pakistan. List your shop, office, or company for free. No charges. No credit card. Just your business, found.',
     url: 'https://pakbizbranhces.online/',
     siteName: 'PakBizBranches',
     locale: 'en_PK',
@@ -100,9 +100,32 @@ const homeFaqs = [
   }
 ]
 
+const formatListedDate = (createdAt: any) => {
+  if (!createdAt) return 'May 2026'
+  try {
+    let dateObj: Date
+    if (typeof createdAt.toDate === 'function') {
+      dateObj = createdAt.toDate()
+    } else if (createdAt instanceof Date) {
+      dateObj = createdAt
+    } else if (typeof createdAt === 'string' || typeof createdAt === 'number') {
+      dateObj = new Date(createdAt)
+    } else {
+      return 'May 2026'
+    }
+    return dateObj.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  } catch (e) {
+    return 'May 2026'
+  }
+}
+
 export default async function HomePage() {
   const [latestBusinesses, featuredBusinesses] = await Promise.all([
-    fetchLatestBusinesses(8),
+    fetchLatestBusinesses(12),
     fetchFeaturedBusinesses(4),
   ])
 
@@ -188,6 +211,20 @@ export default async function HomePage() {
     ]
   }
 
+  // Recently Added Businesses ItemList Schema
+  const recentlyAddedSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    'name': 'Recently Added Businesses in Pakistan',
+    'description': 'Live feed of newly listed local businesses in Pakistan.',
+    'itemListElement': latestBusinesses.map((b, idx) => ({
+      '@type': 'ListItem',
+      'position': idx + 1,
+      'url': `${BASE_URL}/business/${b.slug}/`,
+      'name': b.businessName
+    }))
+  }
+
   // Top cities for internal linking
   const topCities = ['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta', 'Sialkot', 'Gujranwala']
 
@@ -200,6 +237,10 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(recentlyAddedSchema) }}
       />
       <Navbar />
       <main id="main-content">
@@ -540,6 +581,26 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* Voice Search & Conversational SEO Section: Pakistan Mein Business Dhundna Hua Aasaan: Hyperlocal Search Features */}
+        <section className="py-16 bg-white border-b border-gray-100" aria-labelledby="hyperlocal-search-heading">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="hyperlocal-search-heading" className="text-3xl font-bold text-[#0f2b3d] mb-6 text-center">
+              Pakistan Mein Business Dhundna Hua Aasaan: Hyperlocal Search Features
+            </h2>
+            <div className="prose prose-gray max-w-none text-gray-600 leading-relaxed space-y-6">
+              <p className="text-lg font-medium text-gray-800 text-center">
+                Aap mobile phone par voice search se ya simple typing se apna matlooba business talash kar sakte hain. Ab Pakistan ke har mohalla aur har city mein local shops ko dhoondna bohat aasaan ho gaya hai.
+              </p>
+              <p>
+                Many directories only allow searching by city names. This creates issues for users because Karachi and Lahore are huge. If you live in DHA Karachi, you do not want to see listings in Korangi. Our search engine uses a neighborhood filter. You can type specific phrases like &ldquo;plumber DHA Karachi&rdquo; or &ldquo;bakery Johar Town Lahore&rdquo; to see shops near your street.
+              </p>
+              <p>
+                We build every page for mobile phones since mobile internet drives 78% of Pakistani web traffic. The search form responds quickly and loads fast. Every listing has direct contact links. You can click to call or tap to start a WhatsApp conversation with the owner. This helps you get quotes and addresses without any signup delay.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Competitor Comparison Section: Why Pakistani Businesses Choose PakBizBranches Over Other Directories */}
         <section className="py-16 bg-white border-b border-gray-100" aria-labelledby="compare-directories-heading">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -709,6 +770,65 @@ export default async function HomePage() {
               <p className="text-[#0f2b3d] font-semibold text-base">
                 Join thousands of active Pakistani business owners who attract new local customers by listing your own company completely free today.
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Recently Added Businesses Section: Recently Added Businesses in Pakistan */}
+        <section className="py-16 bg-white border-b border-gray-100" aria-labelledby="recently-added-heading">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="recently-added-heading" className="text-3xl font-bold text-[#0f2b3d] mb-6 text-center">
+              Recently Added Businesses in Pakistan
+            </h2>
+            <p className="text-lg text-gray-700 leading-relaxed mb-8 text-center max-w-2xl mx-auto">
+              Check out our live feed of newly listed local businesses. These owners recently joined PakBizBranches to build their online presence and connect with buyers in their cities.
+            </p>
+
+            <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-sm mb-6">
+              <table className="min-w-full divide-y divide-gray-200 text-sm text-left">
+                <thead className="bg-[#f8fafc] text-gray-700 font-semibold">
+                  <tr>
+                    <th className="px-6 py-3 border-b">Business Name</th>
+                    <th className="px-6 py-3 border-b">City</th>
+                    <th className="px-6 py-3 border-b">Area / Address</th>
+                    <th className="px-6 py-3 border-b">Category</th>
+                    <th className="px-6 py-3 border-b text-right">Listed Date</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 text-gray-600">
+                  {latestBusinesses.slice(0, 10).map((b) => {
+                    const category = CATEGORIES.find(c => c.id === b.category);
+                    return (
+                      <tr key={b.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 font-medium text-[#0f2b3d]">
+                          <Link href={`/business/${b.slug}/`} className="hover:text-emerald-600 transition-colors">
+                            {b.businessName}
+                          </Link>
+                        </td>
+                        <td className="px-6 py-4">{b.city}</td>
+                        <td className="px-6 py-4 max-w-[200px] truncate" title={b.address || 'N/A'}>
+                          {b.address || 'N/A'}
+                        </td>
+                        <td className="px-6 py-4">
+                          {category ? category.name : b.category}
+                        </td>
+                        <td className="px-6 py-4 text-right whitespace-nowrap text-gray-500">
+                          {formatListedDate(b.createdAt)}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="text-center">
+              <Link
+                href="/categories/"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#0f2b3d] text-white rounded-xl font-semibold text-sm hover:bg-[#1a3f57] transition-colors"
+              >
+                Explore More Businesses
+              </Link>
             </div>
           </div>
         </section>

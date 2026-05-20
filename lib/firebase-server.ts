@@ -31,6 +31,8 @@ export interface Business {
   reviewCount?: number
   websiteUrl?: string
   facebookPage?: string
+  address?: string
+  whatsapp?: string
 }
 
 // Helper: Convert Firestore Timestamp to ISO string
@@ -86,6 +88,8 @@ export async function fetchLatestBusinesses(count: number = 8): Promise<Business
           reviewCount: data.reviewCount,
           websiteUrl: data.websiteUrl,
           facebookPage: data.facebookPage,
+          address: data.address,
+          whatsapp: data.whatsapp,
         })
       }
     })
@@ -134,6 +138,8 @@ export async function fetchFeaturedBusinesses(count: number = 4): Promise<Busine
           reviewCount: data.reviewCount,
           websiteUrl: data.websiteUrl,
           facebookPage: data.facebookPage,
+          address: data.address,
+          whatsapp: data.whatsapp,
         })
       }
     })
@@ -183,6 +189,8 @@ export async function fetchCategoryBusinesses(
           reviewCount: data.reviewCount,
           websiteUrl: data.websiteUrl,
           facebookPage: data.facebookPage,
+          address: data.address,
+          whatsapp: data.whatsapp,
         })
       }
     })
@@ -232,6 +240,8 @@ export async function fetchCityBusinesses(
           reviewCount: data.reviewCount,
           websiteUrl: data.websiteUrl,
           facebookPage: data.facebookPage,
+          address: data.address,
+          whatsapp: data.whatsapp,
         })
       }
     })
@@ -285,6 +295,8 @@ export async function fetchCityCategoryBusinesses(
           reviewCount: data.reviewCount,
           websiteUrl: data.websiteUrl,
           facebookPage: data.facebookPage,
+          address: data.address,
+          whatsapp: data.whatsapp,
         })
       }
     })
