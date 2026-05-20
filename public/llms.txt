@@ -261,5 +261,30 @@ These are gaps none of your top 5 competitors are filling:
 - **Trust Entities:** SECP registered, FBR-verified, NTN number, NIC verified, Google Business verified, chamber of commerce member, ISO certified, PEC registered
 - **Semantic Keywords (LSI and NLP):** find local businesses Pakistan, verified business listings, business contact number, company address Pakistan, online yellow pages Pakistan, business phone number, business location map, customer reviews, business hours, directions, near me, business verification, free listing, company registration
 
+## AI-Detectable Words: Never Use These
+
+### The Full Blacklist (sourced from Contentbeta, ProfileTree, HumanizeAI, Embryo: 2026)
+
+- **Transition Phrases:** Additionally, Furthermore, Moreover, Indeed, In conclusion, It is important to note that, It is worth noting, To summarize, In today's fast-paced world, In today's digital landscape, In the realm of, It goes without saying, Needless to say, Last but not least, First and foremost, Without further ado, Having said that
+- **Buzzword Fillers:** Seamless, Robust, Cutting-edge, Innovative, Groundbreaking, Revolutionary, Transformative, Leverage, Unlock the potential of, Drive impact, Elevate your, Foster, Delve into, Navigate, Embark on a journey, Empower, Paradigm shift, Holistic approach, Synergy, Game-changer, Future-ready, Scalable solutions, Comprehensive suite
+- **AI Opener Patterns:** "Welcome to...", "Are you looking for...", "Whether you're a... or a...", "In this article, we will explore...", "This guide will help you...", "In today's competitive landscape..."
+- **Vague Authority Claims:** "Industry-leading", "World-class", "Best-in-class", "State-of-the-art", "Unparalleled", "Unprecedented", "Second to none", "One-stop solution"
+- **Over-explained Obvious Things:** "As we all know", "It is well established that", "Research shows that" (without citing actual research), "Studies have found" (without a source), "Experts agree that"
+
+### Structural AI Patterns to Avoid
+- Three-part lists that always have exactly the same sentence structure
+- Every paragraph starting with the subject
+- Ending every section with a summary sentence that repeats what was just said
+- Using hyphens or dashes to add dramatic pauses
+- Bullet points for things that read better in a sentence
+
+### Replace With
+- Real numbers from SECP, PBS, SBP, SMEDA
+- Quotes from real Pakistani business owners (your GMB reviews)
+- Specific streets, markets, areas
+- Conversational phrases: "Dekha jaye to", "Seedha baat ye hai ke", "Agar aap ne kabhi"
+- Natural Urdu-adjacent phrasing that reflects how Pakistanis actually write in Roman Urdu
+
+
 
 
