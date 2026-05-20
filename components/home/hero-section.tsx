@@ -29,11 +29,22 @@ export default function HeroSection() {
           id="hero-heading"
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4"
         >
-          Pakistan&apos;s Free Business Directory: Find Any Business, Any City
+          Pakistan Business Directory: Claim Your Free Business Listing Pakistan
         </h1>
-        <p className="text-base sm:text-lg md:text-xl text-white/90 mb-8 leading-relaxed max-w-2xl sm:max-w-3xl mx-auto">
-          Get verified contact details, WhatsApp numbers, and addresses for 15,000+ businesses across 150+ cities in Pakistan.
+        <p className="text-[#60a5fa] font-semibold text-sm sm:text-base mb-6 tracking-wide uppercase">
+          Har Business, Har City: Connecting local shops with buyers across the country.
         </p>
+        <div className="text-base sm:text-lg text-white/90 mb-8 leading-relaxed max-w-2xl sm:max-w-3xl mx-auto space-y-4">
+          <p>
+            Many local shops in Bolton Market Karachi and Anarkali Lahore lose good customers every single day. Millions of Pakistani businesses are invisible online because buyers cannot find them. Your customers want to buy from you, but they do not know your phone number or where your shop is located.
+          </p>
+          <p>
+            We want to help you fix this. Our website gives you free, verified, nationwide, and searchable listings. Now, people from any city can find your business, see your details, and call you directly without any trouble.
+          </p>
+          <p>
+            Pakistan has 5.2 million registered SMEs according to SMEDA, but only 12% have an active online presence. We must change this to grow our economy. List your business today — it takes under 5 minutes and costs nothing.
+          </p>
+        </div>
 
         {/* Search Bar: client component for interactivity */}
         <HeroSearchForm />
