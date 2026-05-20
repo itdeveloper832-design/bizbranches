@@ -244,4 +244,22 @@ These are gaps none of your top 5 competitors are filling:
 - **AI Overview bait:** Write structured "What is / How to / Where to" content. No competitor does this.
 - **Seasonal content:** Ramadan deals, Eid businesses, summer AC services, winter heater services.
 
+## Semantic Entities to Weave into All Content
+
+### Core Entities (from competitor analysis and GMB review patterns)
+- **Business Types:** SECP registered companies, sole proprietorships, partnerships, SMEs, startups, freelancers, manufacturers, exporters, importers, retailers, wholesalers, service providers, contractors, consultants, traders
+- **Location Entities (hyperlocal):**
+  - Karachi (Saddar, DHA, Clifton, Gulshan, PECHS, Korangi, North Nazimabad, Landhi, Malir)
+  - Lahore (Gulberg, Model Town, Johar Town, DHA, Anarkali, Liberty Market, Mall Road, Allama Iqbal Town)
+  - Islamabad (F-7, G-9, Blue Area, I-8, G-13, Bahria Town)
+  - Rawalpindi (Saddar, Commercial Market, Murree Road, Raja Bazaar)
+  - Faisalabad (Susan Road, Jhang Road, D-Ground, Kohinoor City)
+  - Peshawar (University Town, Hayatabad, Saddar)
+  - Multan (Gulgasht, Bosan Road, Shah Rukn-e-Alam)
+  - Quetta, Sialkot, Gujranwala, Hyderabad, Abbottabad, Sargodha
+- **Industry Entities:** Real estate, restaurants, hospitals, clinics, schools, colleges, universities, law firms, construction, textile mills, IT companies, digital marketing agencies, pharmacies, bakeries, garment factories, auto workshops, solar panels, property dealers, wedding halls, catering services, event planners, tutors, driving schools, courier services, travel agents, tour operators
+- **Trust Entities:** SECP registered, FBR-verified, NTN number, NIC verified, Google Business verified, chamber of commerce member, ISO certified, PEC registered
+- **Semantic Keywords (LSI and NLP):** find local businesses Pakistan, verified business listings, business contact number, company address Pakistan, online yellow pages Pakistan, business phone number, business location map, customer reviews, business hours, directions, near me, business verification, free listing, company registration
+
+
 
