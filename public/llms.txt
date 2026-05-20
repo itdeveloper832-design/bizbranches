@@ -71,3 +71,40 @@ Karachi, Lahore, Islamabad, Rawalpindi, Faisalabad, Multan, Peshawar, Quetta, Gu
 
 ## Mission
 To make Pakistani businesses easily discoverable online without the complexity of registration requirements or listing fees, connecting customers with local businesses across Pakistan.
+
+## Latest Ranking Trends (2026)
+
+### What is Working Right Now
+Traditional SEO is not dead - but it is no longer enough. Based on live data from Goodfirms, eMarketer, and Search Engine Land (2025-2026):
+- 60% of Google searches now end with zero clicks. AI Overviews answer before the user reaches your site.
+- AI Overviews appear in 89% of brand-related searches (Ahrefs, Dec 2025).
+- 18-21% of all Google searches now trigger an AI Overview result.
+- 31.3% of the US population uses generative AI search in 2026 - South Asia is catching up fast.
+- 65% of marketers call AI-driven search changes their single biggest challenge right now.
+- 43% of marketers are actively implementing GEO strategies - up from near zero in 2025.
+- Reddit, LinkedIn, and YouTube are among the most-referenced domains by LLMs (Oct 2025).
+- Content quality and search intent are the #1 active strategy named by 54% of SEO professionals.
+
+### The Three-Layer Ranking Framework for 2026
+All three layers must work together. A single well-structured page can rank on Google (SEO), appear as a snippet (AEO), and be cited by AI (GEO) simultaneously.
+
+- **SEO (Search Engine Optimization)**
+  - What It Does: Ranks your page in the 10 blue links.
+  - Your Goal: Page 1, Position 1-3.
+- **AEO (Answer Engine Optimization)**
+  - What It Does: Gets you the Featured Snippet / PAA answer slot.
+  - Your Goal: Zero-click answer box.
+- **GEO (Generative Engine Optimization)**
+  - What It Does: Gets your brand cited in ChatGPT, Gemini, Perplexity.
+  - Your Goal: AI mentions your site by name.
+
+### What Signals AI Systems Use to Cite Your Content
+- Short, quoteable factual statements (under 25 words)
+- Clear question-and-answer structure in H2/H3 headings
+- Schema markup: FAQ, LocalBusiness, Organization, BreadcrumbList
+- E-E-A-T signals: real author bios, external citations, references to trusted Pakistani institutions (SECP, FBR, SBP, SMEDA)
+- Entity-rich content (named cities, markets, industries, landmarks)
+- Structured tables and numbered lists
+- Fresh data with year references (2025, 2026)
+- Off-site validation: third-party mentions, press coverage, GMB listing
+
