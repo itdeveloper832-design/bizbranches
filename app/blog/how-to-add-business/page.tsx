@@ -1,7 +1,17 @@
+import type { Metadata } from 'next'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import Link from 'next/link'
 import { CheckCircle2, ArrowRight, Upload, Phone, MessageCircle, Globe, Facebook, MapPin, Building2, Star, Users, TrendingUp } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'How to Add Your Business: PakBizBranches Listing Guide',
+  description: 'Learn how to list your business on Pakistan\'s free directory. Follow our step-by-step guide to add your company and get more local customers.',
+  keywords: 'add business Pakistan, list business free Pakistan, business listing guide, local SEO Pakistan, submit business directory',
+  alternates: {
+    canonical: 'https://pakbizbranhces.online/blog/how-to-add-business/',
+  },
+}
 
 export default function BlogPage() {
   return (

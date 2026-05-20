@@ -334,7 +334,7 @@ export default async function CityPage(props: { params: Promise<{ city: string }
             {businesses.length > 0 && (
               <div className="mt-6 text-center">
                 <Link href="/add-business" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#0f2b3d] to-[#1a3f57] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
-                  Add Your Business in {cityName} — Free
+                  Add Your Business in {cityName} - Free
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -350,7 +350,7 @@ export default async function CityPage(props: { params: Promise<{ city: string }
               return <p key={i} className="text-gray-600 leading-relaxed">{line}</p>
             })}
 
-            {/* Popular Searches — city+category cross-links */}
+            {/* Popular Searches: city+category cross-links */}
             {businesses.length > 0 && (
               <div className="mt-8 pt-6 border-t border-gray-100">
                 <h2 className="text-lg font-bold text-[#0f2b3d] mb-4">Popular Searches in {cityName}</h2>

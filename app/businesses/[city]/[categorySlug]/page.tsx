@@ -314,7 +314,7 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
             {businesses.length > 0 && (
               <div className="mt-6 text-center">
                 <Link href="/add-business/" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#0f2b3d] to-[#1a3f57] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
-                  Add Your {category.name} Business in {cityName} — Free <ArrowRight className="w-4 h-4" />
+                  Add Your {category.name} Business in {cityName} - Free <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             )}

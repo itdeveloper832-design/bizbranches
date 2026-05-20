@@ -9,7 +9,7 @@ import { collection, query, where, getDocs, limit } from 'firebase/firestore'
 import { CATEGORIES } from '@/lib/data'
 import { LIVE_STATUSES } from '@/lib/category-mappings'
 
-// ISR: revalidate every 5 minutes — business data is relatively stable.
+// ISR: revalidate every 5 minutes: business data is relatively stable.
 // On-demand revalidation can be triggered via the IndexNow API route.
 export const revalidate = 300
 
@@ -420,7 +420,7 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
                     <ul className="list-disc pl-5 space-y-2 text-gray-600">
                       <li><strong>Verified Listing:</strong> This business has been verified on PakBizBranches, ensuring you get accurate contact details.</li>
                       <li><strong>Local Expertise:</strong> Deeply rooted in {business.city}, they understand the local needs and standards of Pakistani customers.</li>
-                      <li><strong>Direct Contact:</strong> No middlemen — connect directly via phone at <a href={`tel:${business.phone}`} className="text-[#60a5fa] font-medium">{business.phone}</a>{business.whatsapp ? ` or WhatsApp at ${business.whatsapp}` : ''}.</li>
+                      <li><strong>Direct Contact:</strong> No middlemen: connect directly via phone at <a href={`tel:${business.phone}`} className="text-[#60a5fa] font-medium">{business.phone}</a>{business.whatsapp ? ` or WhatsApp at ${business.whatsapp}` : ''}.</li>
                       <li><strong>Central Location:</strong> Conveniently located at {business.address} for easy access within {business.city}.</li>
                     </ul>
 

@@ -1,7 +1,7 @@
-// Server Component — no 'use client' directive.
+// Server Component: no 'use client' directive.
 // Only the search form (HeroSearchForm) is a client component.
 // This means the hero shell (H1, description, links) is rendered as static HTML
-// with zero JS overhead — critical for FCP and LCP.
+// with zero JS overhead: critical for FCP and LCP.
 
 import Link from 'next/link'
 import HeroSearchForm from './hero-search-form'
@@ -12,7 +12,7 @@ export default function HeroSection() {
       className="relative bg-[#0f2b3d] overflow-hidden py-16 md:py-28"
       aria-labelledby="hero-heading"
     >
-      {/* Decorative circles — pure CSS, no JS */}
+      {/* Decorative circles: pure CSS, no JS */}
       <div aria-hidden="true" className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#60a5fa]/10" />
       <div aria-hidden="true" className="absolute -bottom-32 -left-32 w-[32rem] h-[32rem] rounded-full bg-[#0ea5e9]/8" />
 
@@ -29,13 +29,13 @@ export default function HeroSection() {
           id="hero-heading"
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4"
         >
-          Pakistan&apos;s Free Business Directory — Find Any Business, Any City
+          Pakistan&apos;s Free Business Directory: Find Any Business, Any City
         </h1>
         <p className="text-base sm:text-lg md:text-xl text-white/90 mb-8 leading-relaxed max-w-2xl sm:max-w-3xl mx-auto">
           Get verified contact details, WhatsApp numbers, and addresses for 15,000+ businesses across 150+ cities in Pakistan.
         </p>
 
-        {/* Search Bar — client component for interactivity */}
+        {/* Search Bar: client component for interactivity */}
         <HeroSearchForm />
 
         {/* Action Buttons */}
@@ -96,7 +96,7 @@ export default function HeroSection() {
           </Link>
         </div>
 
-        {/* Popular Searches — keyword-rich city+category links */}
+        {/* Popular Searches: keyword-rich city+category links */}
         <div className="mt-4 sm:mt-5 flex flex-wrap items-center justify-center gap-2">
           <span className="text-white/40 text-xs">Popular:</span>
           {[

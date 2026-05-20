@@ -264,7 +264,7 @@ export default async function CategoryPage(props: { params: Promise<{ categorySl
         </section>
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Top inline banner — placed AFTER H1 per spec */}
+          {/* Top inline banner: placed AFTER H1 per spec */}
           <BannerAd variant="inline" className="mt-0 mb-10" />
 
           {/* Intro Paragraph */}
@@ -362,7 +362,7 @@ export default async function CategoryPage(props: { params: Promise<{ categorySl
             {businesses.length > 0 && (
               <div className="mt-6 text-center">
                 <Link href="/add-business" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#0f2b3d] to-[#1a3f57] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
-                  Add Your {category.name} Business — Free <ArrowRight className="w-4 h-4" />
+                  Add Your {category.name} Business - Free <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             )}
@@ -437,7 +437,7 @@ export default async function CategoryPage(props: { params: Promise<{ categorySl
           </section>
         </div>
       </main>
-      {/* Sticky bottom banner — mobile only, does not cover primary buttons */}
+      {/* Sticky bottom banner: mobile only, does not cover primary buttons */}
       <BannerAd variant="sticky-mobile" />
       <Footer />
     </>

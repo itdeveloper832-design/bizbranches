@@ -170,7 +170,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                 </div>
               </div>
 
-              {/* Related Posts — topically matched by category first */}
+              {/* Related Posts: topically matched by category first */}
               <div className="mt-12 pt-8 border-t border-gray-100">
                 <h2 className="text-xl font-bold text-[#0f2b3d] mb-6">Related Articles</h2>
                 <div className="grid md:grid-cols-2 gap-5">

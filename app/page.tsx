@@ -141,7 +141,7 @@ export default async function HomePage() {
 
         <CategoriesGrid />
 
-        {/* SEO Internal Linking Section — Top Business Categories */}
+        {/* SEO Internal Linking Section: Top Business Categories */}
         <section className="py-12 bg-[#f8fafc]" aria-labelledby="top-categories-heading">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 id="top-categories-heading" className="text-2xl md:text-3xl font-bold text-[#0f2b3d] mb-6 text-center">
@@ -167,11 +167,11 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* SEO Internal Linking Section — Popular Cities */}
+        {/* SEO Internal Linking Section: Popular Cities */}
         <section className="py-12 bg-white" aria-labelledby="popular-cities-heading">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 id="popular-cities-heading" className="text-2xl md:text-3xl font-bold text-[#0f2b3d] mb-6 text-center">
-              Popular Cities — Find Local Businesses Near You
+              Popular Cities: Find Local Businesses Near You
             </h2>
             <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
               Pakistan's largest cities covered. Click your city to browse all local businesses, restaurants, clinics, and services.
@@ -200,7 +200,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* SEO Section — Why Use PakBizBranches */}
+        {/* SEO Section: Why Use PakBizBranches */}
         <section className="py-16 bg-[#f8fafc]" aria-labelledby="why-pakbizbranches-heading">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 id="why-pakbizbranches-heading" className="text-3xl font-bold text-[#0f2b3d] mb-8 text-center">

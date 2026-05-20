@@ -38,7 +38,7 @@ export default function AboutSection() {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-1">Free Listing</h3>
-              <p className="text-sm text-gray-600">Add your business free—no hidden charges, no subscriptions.</p>
+              <p className="text-sm text-gray-600">Add your business free: no hidden charges, no subscriptions.</p>
             </div>
           </div>
           
