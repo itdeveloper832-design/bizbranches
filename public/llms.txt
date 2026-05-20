@@ -285,6 +285,55 @@ These are gaps none of your top 5 competitors are filling:
 - Conversational phrases: "Dekha jaye to", "Seedha baat ye hai ke", "Agar aap ne kabhi"
 - Natural Urdu-adjacent phrasing that reflects how Pakistanis actually write in Roman Urdu
 
+## Pitch, Tone and Voice Guide
+
+### Core Positioning Statement
+PakBizBranches is the only free, verified, Pakistan-wide business directory that speaks to businesses the way Pakistanis actually talk.
+
+### Pitch Framework
+- **Pain:** Pakistani business owners are invisible online. Customers cannot find them. Competitors get the calls.
+- **Agitate:** Paid directories charge thousands. International platforms do not understand our cities, our markets, our mohallas.
+- **Solve:** PakBizBranches gives every Pakistani business - from a dukaan in Karachi's Bolton Market to a factory in Sialkot's Sambrial - a free verified online presence, right where customers search.
+
+### Tone Rules
+- **Write like a trusted dost (friend) giving advice** (not like a corporate brochure)
+- **Use specific real places: DHA Lahore, Saddar Karachi** (not vague geography like "major cities across Pakistan")
+- **Cite SECP, SMEDA, SBP data for authority** (not saying "research shows" with no source)
+- **Use active voice: "List your business today"** (not passive voice like "Businesses can be listed on our platform")
+- **Mix English and Roman Urdu naturally** (not forcing full Urdu that reads unnatural)
+- **Short punchy sentences, then one longer one with real detail** (not all sentences the same length)
+- **Address "you" directly** (not saying "users" or "businesses" in third person)
+
+### Reading Level
+- **Target:** Grade 8 (Flesch-Kincaid) - the reading level of a typical Class 10 Pakistani student. Short words. Direct sentences. No jargon without explanation.
+
+## People Also Ask (PAA): Questions to Answer
+
+### High-Intent PAA (Homepage and Category Pages)
+- How can I list my business for free in Pakistan?
+- Which is the best business directory website in Pakistan?
+- How do I find a verified business in Karachi / Lahore / Islamabad?
+- Is PakBizBranches free to use?
+- How do I find a company's contact number in Pakistan?
+- What is the best online yellow pages in Pakistan?
+- How do I verify if a business is registered in Pakistan?
+- Can I list my shop or small business for free?
+- How do I find businesses near me in Pakistan?
+- Which Pakistani business directories rank on Google?
+
+### Mid-Intent PAA (Blog and Supporting Pages)
+- How many small businesses are in Pakistan?
+- How do I register my business in Pakistan online?
+- What is SECP business registration in Pakistan?
+- How do I grow my local business online in Pakistan?
+- What is a business directory and how does it help SEO?
+- How do I get my business found on Google in Pakistan?
+- Is there a Pakistani version of Google Business Profile?
+- How do I get more customers for my business in Karachi?
+- How do I find restaurants / doctors / lawyers near me in Lahore?
+- What are the best business areas in Islamabad?
+
+
 
 
 
