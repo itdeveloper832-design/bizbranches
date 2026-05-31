@@ -1,5 +1,5 @@
 const INDEXNOW_API_KEY = '2f7faa808792498083543bb6cffb4123';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pakbizbranhces.online';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pakbizbranches.online';
 const DOMAIN = new URL(SITE_URL).hostname;
 const KEY_LOCATION = `${SITE_URL}/${INDEXNOW_API_KEY}.txt`;
 

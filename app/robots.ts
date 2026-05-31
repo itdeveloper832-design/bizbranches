@@ -14,6 +14,9 @@ export default function robots(): MetadataRoute.Robots {
           '/user/',
           '/add-bussiness',   // typo redirect — keep blocked
           '/search?',         // prevent crawling search result URLs with query params
+          '/*?sort=',         // block crawling sort parameter variations
+          '/*?filter=',       // block crawling filter parameter variations
+          '/*?page=*',        // block crawling duplicate paginated pages with params
         ],
       },
       // Block AI training bots from scraping business data
@@ -37,6 +40,9 @@ export default function robots(): MetadataRoute.Robots {
           '/user/',
           '/add-bussiness',
           '/search?',
+          '/*?sort=',
+          '/*?filter=',
+          '/*?page=*',
         ],
       },
       {
@@ -50,10 +56,13 @@ export default function robots(): MetadataRoute.Robots {
           '/user/',
           '/add-bussiness',
           '/search?',
+          '/*?sort=',
+          '/*?filter=',
+          '/*?page=*',
         ],
       },
     ],
-    sitemap: 'https://pakbizbranhces.online/sitemap.xml',
-    host: 'https://pakbizbranhces.online',
+    sitemap: 'https://pakbizbranches.online/sitemap.xml',
+    host: 'https://pakbizbranches.online',
   }
 }

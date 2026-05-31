@@ -136,7 +136,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
     }
   }
 
-  const url = `https://pakbizbranhces.online/business/${params.slug}/`
+  const url = `https://pakbizbranches.online/business/${params.slug}/`
 
   return {
     title,
@@ -167,7 +167,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
       type: 'website',
       images: business.logoUrl
         ? [{ url: business.logoUrl, alt: `${business.businessName} logo` }]
-        : [{ url: 'https://pakbizbranhces.online/logo-img.png', alt: 'PakBizBranches' }],
+        : [{ url: 'https://pakbizbranches.online/logo-img.png', alt: 'PakBizBranches' }],
     },
     twitter: { card: 'summary_large_image', title, description },
   }
@@ -189,7 +189,7 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
   const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&output=embed`
   const similarBusinesses = await getSimilarBusinesses(business.city, business.category, params.slug)
 
-  const pageUrl = `https://pakbizbranhces.online/business/${params.slug}/`
+  const pageUrl = `https://pakbizbranches.online/business/${params.slug}/`
   const categoryUrl = `/categories/${business.category}/`
   const cityUrl = `/cities/${encodeURIComponent(business.city.toLowerCase().replace(/ /g, '-'))}/`
 
@@ -228,8 +228,8 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://pakbizbranhces.online/' },
-      { '@type': 'ListItem', position: 2, name: category?.name ?? business.category, item: `https://pakbizbranhces.online${categoryUrl}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://pakbizbranches.online/' },
+      { '@type': 'ListItem', position: 2, name: category?.name ?? business.category, item: `https://pakbizbranches.online${categoryUrl}` },
       { '@type': 'ListItem', position: 3, name: business.businessName, item: pageUrl },
     ],
   }
@@ -551,7 +551,7 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
                   {similarBusinesses.map(biz => (
                     <Link
                       key={biz.id}
-                      href={`/business/${biz.slug}/`}
+                      href={`/${biz.slug}/`}
                       className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md hover:border-[#60a5fa]/30 transition-all group"
                     >
                       <div className="flex items-center gap-3 mb-3">

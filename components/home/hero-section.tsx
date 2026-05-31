@@ -27,12 +27,12 @@ export default function HeroSection() {
 
         <h1
           id="hero-heading"
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 text-balance"
         >
-          Pakistan Business Directory: Claim Your Free Business Listing Pakistan
+          Find Any Business in Pakistan – Karachi, Lahore, Islamabad & Beyond
         </h1>
         <p className="text-[#60a5fa] font-semibold text-sm sm:text-base mb-6 tracking-wide uppercase">
-          Har Business, Har City: Connecting local shops with buyers across the country.
+          Pakistan Business Directory: Connecting local shops with buyers across the country.
         </p>
         <div className="text-base sm:text-lg text-white/90 mb-8 leading-relaxed max-w-2xl sm:max-w-3xl mx-auto space-y-4">
           <p>
@@ -93,14 +93,14 @@ export default function HeroSection() {
           </Link>
           <span className="text-white/30">•</span>
           <Link
-            href="/categories/restaurants/"
+            href="/restaurants/"
             className="text-white/60 hover:text-white text-xs sm:text-sm transition-colors"
           >
             🍽️ Restaurants
           </Link>
           <span className="text-white/30">•</span>
           <Link
-            href="/categories/healthcare/"
+            href="/healthcare/"
             className="text-white/60 hover:text-white text-xs sm:text-sm transition-colors"
           >
             🏥 Healthcare
@@ -111,11 +111,11 @@ export default function HeroSection() {
         <div className="mt-4 sm:mt-5 flex flex-wrap items-center justify-center gap-2">
           <span className="text-white/40 text-xs">Popular:</span>
           {[
-            { href: '/locations/karachi/restaurants/', label: 'Restaurants Karachi' },
-            { href: '/locations/lahore/real-estate/', label: 'Real Estate Lahore' },
-            { href: '/locations/islamabad/technology/', label: 'IT Companies Islamabad' },
-            { href: '/locations/karachi/healthcare/', label: 'Clinics Karachi' },
-            { href: '/categories/beauty/', label: 'Beauty Salons' },
+            { href: '/karachi/restaurants/', label: 'Restaurants Karachi' },
+            { href: '/lahore/real-estate/', label: 'Real Estate Lahore' },
+            { href: '/islamabad/technology/', label: 'IT Companies Islamabad' },
+            { href: '/karachi/healthcare/', label: 'Clinics Karachi' },
+            { href: '/beauty/', label: 'Beauty Salons' },
           ].map(({ href, label }) => (
             <Link
               key={href}

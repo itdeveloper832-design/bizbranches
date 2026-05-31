@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Learn about PakBizBranches, the free Pakistan business directory helping users find verified local businesses, contact details, and services across cities.',
   keywords: 'about PakBizBranches, Pakistan business directory mission, free business listing Pakistan, local business platform Pakistan, trusted business directory Pakistan',
   alternates: {
-    canonical: 'https://pakbizbranhces.online/about/',
+    canonical: 'https://pakbizbranches.online/about/',
   },
 }
 
@@ -77,6 +77,44 @@ export default function AboutPage() {
               <p>
                 Today, with thousands of verified business listings across Pakistan and thousands of daily visitors, we are proud to be one of Pakistan&apos;s most trusted free business directories. And we are just getting started.
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Corporate Identity & EEAT Upgrades */}
+        <section className="py-12 bg-white border-t border-gray-100">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-bold text-[#0f2b3d] mb-6">Corporate Identity & Leadership</h2>
+            <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-6 text-gray-600 text-sm sm:text-base leading-relaxed">
+              <p>
+                <strong>PakBizBranches</strong> is operated as an independent business directory and local search citation service designed specifically for the Pakistani market. We are committed to transparency and accuracy.
+              </p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-slate-200/60">
+                <div>
+                  <h4 className="font-bold text-[#0f2b3d] mb-2">Our Leadership</h4>
+                  <ul className="space-y-1 text-sm">
+                    <li><strong>Lead Founder:</strong> Muhammad Usman Butt</li>
+                    <li><strong>Co-Founder:</strong> Farhan Ahmed Siddiqui</li>
+                    <li><strong>SEO & Technical Architect:</strong> Sana Fatima</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-bold text-[#0f2b3d] mb-2">Corporate Information</h4>
+                  <ul className="space-y-1 text-sm">
+                    <li><strong>HQ Location:</strong> Gulghast Colony, Urdu Bazar, Multan, Punjab, Pakistan</li>
+                    <li><strong>Email:</strong> support@pakbizbranches.online</li>
+                    <li><strong>Hotline:</strong> +92 314 2552851</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-slate-200/60">
+                <h4 className="font-bold text-[#0f2b3d] mb-2">Directory Data Quality & Verification framework</h4>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Every listing submitted to PakBizBranches is verified using an automated OTP check on the owner&apos;s mobile number. Additionally, our administrative team manually reviews each listing to check the listed shopfront/office photos and WhatsApp handles, ensuring dead contacts and duplicate profiles are kept off the platform. Verified listings receive our signature green <strong>Verified Badge</strong>.
+                </p>
+              </div>
             </div>
           </div>
         </section>

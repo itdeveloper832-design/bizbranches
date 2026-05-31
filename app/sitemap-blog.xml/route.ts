@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { BLOG_POSTS } from '@/lib/blog-data'
 
-const BASE_URL = 'https://pakbizbranhces.online'
+const BASE_URL = 'https://pakbizbranches.online'
 
 export async function GET() {
   // Use post date as lastmod for accurate freshness signals

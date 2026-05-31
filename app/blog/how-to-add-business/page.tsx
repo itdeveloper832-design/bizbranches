@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Learn how to list your business on Pakistan\'s free directory. Follow our step-by-step guide to add your company and get more local customers.',
   keywords: 'add business Pakistan, list business free Pakistan, business listing guide, local SEO Pakistan, submit business directory',
   alternates: {
-    canonical: 'https://pakbizbranhces.online/blog/how-to-add-business/',
+    canonical: 'https://pakbizbranches.online/blog/how-to-add-business/',
   },
 }
 

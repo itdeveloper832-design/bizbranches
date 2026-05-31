@@ -6,7 +6,7 @@ import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import { BLOG_POSTS } from '@/lib/blog-data'
 
-const BASE_URL = 'https://pakbizbranhces.online'
+const BASE_URL = 'https://pakbizbranches.online'
 
 export const revalidate = 86400 // revalidate once per day
 

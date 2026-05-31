@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 const RESEND_API_KEY = process.env.RESEND_API_KEY
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'PakBizBranches <onboarding@resend.dev>'
 const WHATSAPP_NUMBER = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || process.env.WHATSAPP_BUSINESS_NUMBER || '923001234567').replace(/[^0-9]/g, '')
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pakbizbranhces.online'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pakbizbranches.online'
 
 interface SubmissionEmailPayload {
   to: string

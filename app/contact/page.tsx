@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: 'Get in touch with PakBizBranches. Submit feedback, report listings, or request help. Our support team is ready to assist your Pakistan business.',
   keywords: 'contact PakBizBranches, business directory support Pakistan, business listing help Pakistan, contact business directory Pakistan',
   alternates: {
-    canonical: 'https://pakbizbranhces.online/contact/',
+    canonical: 'https://pakbizbranches.online/contact/',
   },
 }
 

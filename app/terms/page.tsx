@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Terms of Service: PakBizBranches Business Directory',
   description: 'Read the PakBizBranches terms of service. Learn the rules and guidelines for listing and searching businesses on our free Pakistan directory.',
   alternates: {
-    canonical: 'https://pakbizbranhces.online/terms/',
+    canonical: 'https://pakbizbranches.online/terms/',
   },
   robots: { index: true, follow: true },
 }
@@ -22,7 +22,7 @@ export default function TermsPage() {
           
           <h2 className="text-xl font-bold text-[#0f2b3d] mt-8 mb-4">1. Agreement to Terms</h2>
           <p className="mb-4">
-            These Terms of Service constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and <strong>PakBizBranches</strong> (“we,” “us” or “our”), concerning your access to and use of the <a href="https://pakbizbranhces.online" className="text-blue-600 hover:underline">pakbizbranhces.online</a> website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”).
+            These Terms of Service constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and <strong>PakBizBranches</strong> (“we,” “us” or “our”), concerning your access to and use of the <a href="https://pakbizbranches.online" className="text-blue-600 hover:underline">pakbizbranches.online</a> website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”).
           </p>
           <p className="mb-4">
             You agree that by accessing the Site, you have read, understood, and agree to be bound by all of these Terms of Service. If you do not agree with all of these Terms of Service, then you are expressly prohibited from using the Site and you must discontinue use immediately.
@@ -71,7 +71,7 @@ export default function TermsPage() {
           </p>
           <p className="font-medium text-gray-900">
             PakBizBranches Support<br />
-            Email: support@pakbizbranhces.online<br />
+            Email: support@pakbizbranches.online<br />
             Address: Gulghast Colony, Urdu Bazar, Multan, Pakistan
           </p>
         </div>

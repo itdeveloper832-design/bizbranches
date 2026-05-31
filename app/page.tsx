@@ -45,23 +45,23 @@ const TrustSection = dynamic(
 // ISR: page is statically rendered and revalidated every 60 seconds.
 export const revalidate = 60
 
-const BASE_URL = 'https://pakbizbranhces.online'
+const BASE_URL = 'https://pakbizbranches.online'
 
 export const metadata: Metadata = {
-  title: 'Free Pakistan Business Directory: Find and List Any Business: PakBizBranches',
+  title: 'Pakistan Business Directory – Find Companies, Shops & Services Across Pakistan | PakBizBranches',
   description:
-    'Find verified businesses across Karachi, Lahore, Islamabad, and every city in Pakistan. List your shop, office, or company for free. No charges. No credit card. Just your business, found.',
+    'Find verified businesses across Lahore, Karachi, Islamabad, and 20+ cities in Pakistan. Search and list restaurants, hospitals, schools, lawyers, hotels and more for free.',
   keywords:
     'Pakistan business directory, free business listing Pakistan, Karachi business listings, Lahore business directory, Islamabad business listings, local services Pakistan, business phone numbers Pakistan, verified business contacts Pakistan, find businesses Pakistan 2026',
-  authors: [{ name: 'PakBizBranches', url: 'https://pakbizbranhces.online/' }],
+  authors: [{ name: 'PakBizBranches', url: 'https://pakbizbranches.online/' }],
   alternates: {
-    canonical: 'https://pakbizbranhces.online/',
+    canonical: 'https://pakbizbranches.online/',
   },
   openGraph: {
-    title: 'Free Pakistan Business Directory: Find and List Any Business: PakBizBranches',
+    title: 'Pakistan Business Directory – Find Companies, Shops & Services Across Pakistan | PakBizBranches',
     description:
-      'Find verified businesses across Karachi, Lahore, Islamabad, and every city in Pakistan. List your shop, office, or company for free. No charges. No credit card. Just your business, found.',
-    url: 'https://pakbizbranhces.online/',
+      'Find verified businesses across Lahore, Karachi, Islamabad, and 20+ cities in Pakistan. Search and list restaurants, hospitals, schools, lawyers, hotels and more for free.',
+    url: 'https://pakbizbranches.online/',
     siteName: 'PakBizBranches',
     locale: 'en_PK',
     type: 'website',
@@ -145,7 +145,7 @@ export default async function HomePage() {
     '@context': 'https://schema.org',
     '@type': 'Product',
     'name': 'PakBizBranches',
-    'image': 'https://pakbizbranhces.online/logo.png',
+    'image': 'https://pakbizbranches.online/logo.png',
     'description': 'Pakistan Business Directory: Search Local Services. List your business free on PakBizBranches.',
     'brand': {
       '@type': 'Brand',
@@ -220,7 +220,7 @@ export default async function HomePage() {
     'itemListElement': latestBusinesses.map((b, idx) => ({
       '@type': 'ListItem',
       'position': idx + 1,
-      'url': `${BASE_URL}/business/${b.slug}/`,
+      'url': `${BASE_URL}/${b.slug}/`,
       'name': b.businessName
     }))
   }

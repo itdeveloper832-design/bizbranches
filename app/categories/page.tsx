@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     'beauty salons Pakistan',
   ],
   alternates: {
-    canonical: 'https://pakbizbranhces.online/categories/',
+    canonical: 'https://pakbizbranches.online/categories/',
   },
 }
 

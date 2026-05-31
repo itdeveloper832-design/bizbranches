@@ -18,7 +18,7 @@ import React from 'react'
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
-const BASE_URL = 'https://pakbizbranhces.online'
+const BASE_URL = 'https://pakbizbranches.online'
 
 interface Business {
   id: string
@@ -242,7 +242,7 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
-        { '@type': 'ListItem', position: 2, name: cityName, item: `${BASE_URL}/${slug}` },
+        { '@type': 'ListItem', position: 2, name: cityName, item: `${BASE_URL}/${slug}/` },
       ],
     }
 
@@ -253,9 +253,15 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
         <main className="bg-[#f8fafc] min-h-screen">
           <section className="bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] py-16">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Breadcrumb */}
+              <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-white/60 mb-6">
+                <Link href="/" className="hover:text-white transition-colors">Home</Link>
+                <ChevronRight className="w-3.5 h-3.5" />
+                <span className="text-white font-medium">{cityName}</span>
+              </nav>
               <div className="flex items-center gap-3 mb-4">
                 <MapPin className="w-8 h-8 text-[#60a5fa]" />
-                <h1 className="text-4xl md:text-5xl font-bold text-white">Businesses in {cityName}</h1>
+                <h1 className="text-4xl md:text-5xl font-bold text-white">Business Directory {cityName} – Find Local Companies & Services</h1>
               </div>
               <p className="text-xl text-white/80 max-w-2xl">Discover top-rated local businesses in {cityName}.</p>
             </div>
@@ -298,12 +304,28 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
     } catch {}
 
     const content = generateCategoryContent(slug)
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+        { '@type': 'ListItem', position: 2, name: category.name, item: `${BASE_URL}/${slug}/` },
+      ],
+    }
+
     return (
       <>
         <Navbar />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
         <main className="bg-[#f8fafc] min-h-screen">
           <section className="bg-gradient-to-br from-[#0f2b3d] to-[#1a3f57] py-16">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Breadcrumb */}
+              <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-white/60 mb-6">
+                <Link href="/" className="hover:text-white transition-colors">Home</Link>
+                <ChevronRight className="w-3.5 h-3.5" />
+                <span className="text-white font-medium">{category.name}</span>
+              </nav>
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{category.name} in Pakistan</h1>
               <p className="text-xl text-white/80">Browse verified {category.name.toLowerCase()} businesses across Pakistan.</p>
             </div>

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-const BASE_URL = 'https://pakbizbranhces.online'
+const BASE_URL = 'https://pakbizbranches.online'
 
 export async function GET() {
   const lastmod = '2026-05-19'

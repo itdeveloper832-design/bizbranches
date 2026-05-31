@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     'Browse featured businesses in Pakistan. Find premium verified listings across all cities, including top restaurants, real estate, and local shops.',
   alternates: {
-    canonical: 'https://pakbizbranhces.online/featured-businesses/',
+    canonical: 'https://pakbizbranches.online/featured-businesses/',
   },
 }
 

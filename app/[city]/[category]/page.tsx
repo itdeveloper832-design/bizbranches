@@ -11,7 +11,7 @@ import { fetchCityCategoryBusinesses, Business } from '@/lib/firebase-server'
 // ISR: revalidate every 60 seconds
 export const revalidate = 60
 
-const BASE_URL = 'https://pakbizbranhces.online'
+const BASE_URL = 'https://pakbizbranches.online'
 
 function findCityBySlug(slug: string): string | null {
   const normalized = slug.replace(/-/g, ' ').toLowerCase()
@@ -28,6 +28,10 @@ export async function generateMetadata(props: { params: Promise<{ city: string; 
   const category = findCategoryBySlug(params.category)
   
   if (!cityName || !category) return { title: 'Not Found: PakBizBranches' }
+
+  // Query database dynamically to determine quality threshold
+  const businesses = await fetchCityCategoryBusinesses(cityName, category.id, 5)
+  const isThinContent = businesses.length < 5
 
   // Build title: 50-60 chars, no pipes
   let title = `${category.name} in ${cityName}: Verified Phone Numbers`
@@ -57,6 +61,10 @@ export async function generateMetadata(props: { params: Promise<{ city: string; 
       `${cityName} businesses`,
     ],
     alternates: { canonical: url },
+    robots: {
+      index: !isThinContent, // prevent Google penalty for thin dynamic combination hubs
+      follow: true,
+    },
     openGraph: {
       title,
       description,
@@ -157,7 +165,7 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
             <div className="flex items-center gap-3 mb-4">
               <Building2 className="w-8 h-8 text-[#60a5fa]" />
               <h1 className="text-4xl md:text-5xl font-bold text-white">
-                {category.name} in {cityName}
+                {businesses.length > 0 ? `${businesses.length}+ ` : ''}{category.name} in {cityName} – Verified Contacts & Reviews
               </h1>
             </div>
             <p className="text-xl text-white/80 max-w-2xl">

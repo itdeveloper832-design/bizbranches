@@ -17,7 +17,7 @@ export function LocalBusinessSchema({ business }: { business: BusinessData }) {
     '@type': 'LocalBusiness',
     name: business.name,
     description: business.description || `${business.name} - ${business.category} in ${business.city}`,
-    url: business.website || `https://pakbizbranhces.online`,
+    url: business.website || `https://pakbizbranches.online`,
     telephone: business.phone,
     address: {
       '@type': 'PostalAddress',
@@ -31,7 +31,7 @@ export function LocalBusinessSchema({ business }: { business: BusinessData }) {
       '@type': 'Country',
       name: 'Pakistan'
     },
-    logo: business.logo || 'https://pakbizbranhces.online/logo.svg',
+    logo: business.logo || 'https://pakbizbranches.online/logo.svg',
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: business.phone,
@@ -54,11 +54,11 @@ export function DirectorySchema() {
     '@type': 'WebSite',
     name: 'PakBizBranches',
     description: 'Pakistan Free Business Directory - Find and list local businesses',
-    url: 'https://pakbizbranhces.online',
+    url: 'https://pakbizbranches.online',
     mainEntity: {
       '@type': 'Organization',
       name: 'PakBizBranches',
-      url: 'https://pakbizbranhces.online',
+      url: 'https://pakbizbranches.online',
       description: 'Pakistan Free Business Directory',
       areaServed: {
         '@type': 'Country',
@@ -69,7 +69,7 @@ export function DirectorySchema() {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://pakbizbranhces.online/categories?q={search_term_string}'
+        urlTemplate: 'https://pakbizbranches.online/categories?q={search_term_string}'
       },
       'query-input': 'required name=search_term_string'
     }

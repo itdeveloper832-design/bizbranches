@@ -1,20 +1,17 @@
 import { NextResponse } from 'next/server'
 import { CATEGORIES } from '@/lib/data'
 
-const BASE_URL = 'https://pakbizbranhces.online'
+const BASE_URL = 'https://pakbizbranches.online'
 
 export async function GET() {
   const lastmod = '2026-05-19'
 
-  // Category pages live at /categories/[slug]/ AND at /[slug]/ (catch-all)
-  // Submit both canonical forms — the /categories/[slug]/ is the canonical
+  // Category pages live at /[slug]/ (catch-all handles this)
   const urls: { url: string; priority: string }[] = []
 
   CATEGORIES.forEach(cat => {
-    // Primary canonical URL
-    urls.push({ url: `/categories/${cat.id}/`, priority: '0.9' })
-    // Top-level shortcut URL (catch-all handles this)
-    urls.push({ url: `/${cat.id}/`, priority: '0.8' })
+    // Clean canonical category landing page
+    urls.push({ url: `/${cat.id}/`, priority: '0.9' })
   })
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

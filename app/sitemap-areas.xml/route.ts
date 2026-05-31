@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { CITIES, CATEGORIES } from '@/lib/data'
 
-const BASE_URL = 'https://pakbizbranhces.online'
+const BASE_URL = 'https://pakbizbranches.online'
 
 // Only include top cities in city+category combinations to keep sitemap manageable
 // and avoid submitting thousands of thin pages to Google
@@ -17,20 +17,19 @@ export async function GET() {
 
   const urls: { url: string; priority: string }[] = []
 
-  // All city pages — canonical at /cities/[city]/
+  // All city pages — canonical at /[city]/
   CITIES.forEach(city => {
     const citySlug = city.toLowerCase().replace(/ /g, '-')
-    urls.push({ url: `/cities/${citySlug}/`, priority: '0.8' })
-    // Top-level shortcut (catch-all)
-    urls.push({ url: `/${citySlug}/`, priority: '0.7' })
+    // Clean canonical city landing page
+    urls.push({ url: `/${citySlug}/`, priority: '0.8' })
   })
 
   // City + Category combinations — only for top cities to avoid thin content
   TOP_CITIES.forEach(city => {
     const citySlug = city.toLowerCase().replace(/ /g, '-')
     CATEGORIES.forEach(cat => {
-      // Canonical URL at /locations/[city]/[cat]/
-      urls.push({ url: `/locations/${citySlug}/${cat.id}/`, priority: '0.7' })
+      // Clean canonical city + category landing page
+      urls.push({ url: `/${citySlug}/${cat.id}/`, priority: '0.7' })
     })
   })
 

@@ -140,7 +140,7 @@ export default function LoginClient() {
       {/* Demo Credentials */}
       <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
         <p className="font-semibold mb-2">Demo Credentials:</p>
-        <p>Email: admin@pakbizbranhces.online</p>
+        <p>Email: admin@pakbizbranches.online</p>
         <p>Password: (set in Firebase)</p>
       </div>
     </form>

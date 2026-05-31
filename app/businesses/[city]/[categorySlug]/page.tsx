@@ -11,7 +11,7 @@ import { generateCityCategoryContent } from '@/lib/seo-content'
 import { getPossibleCategoryValues, LIVE_STATUSES } from '@/lib/category-mappings'
 import { getCategoryKeywordCluster, getCityKeywordCluster } from '@/lib/organic-keywords'
 
-const BASE_URL = 'https://pakbizbranhces.online'
+const BASE_URL = 'https://pakbizbranches.online'
 
 interface Business {
   id: string

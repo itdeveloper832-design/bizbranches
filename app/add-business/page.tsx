@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     'Submit your business to Pakistan\'s leading free directory. Reach local customers, add contact info, and get verified instantly on PakBizBranches.',
   keywords: 'list business free Pakistan, add business Pakistan directory, free business listing Pakistan, register business online Pakistan, business directory submission Pakistan',
   alternates: {
-    canonical: 'https://pakbizbranhces.online/add-business/',
+    canonical: 'https://pakbizbranches.online/add-business/',
   },
 }
 

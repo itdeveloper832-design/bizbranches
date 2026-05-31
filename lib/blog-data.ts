@@ -606,7 +606,7 @@ export const BLOG_POSTS = [
       <p><a href="/add-business" class="btn btn-primary">Add Your Business Now - It's Free!</a></p>
       
       <h2>Need Help?</h2>
-      <p>If you need assistance with your business listing, our support team is here to help. Contact us at support@pakbizbranhces.online or call +923142552851.</p>
+      <p>If you need assistance with your business listing, our support team is here to help. Contact us at support@pakbizbranches.online or call +923142552851.</p>
     `,
     author: "Alex Rivers",
     date: "March 14, 2026",
@@ -718,7 +718,7 @@ export const BLOG_POSTS = [
   {
     id: 6,
     title: "Why Listing on PakBizBranches Beats Other Business Directories",
-    slug: "pakbizbranhces-vs-other-directories",
+    slug: "pakbizbranches-vs-other-directories",
     excerpt: "Comparing PakBizBranches with other Pakistani business directories - find out why we're the best choice for your business visibility and growth.",
     content: `
       <p class="lead">When it comes to listing your Pakistani business online, you have choices. But not all business directories are created equal. PakBizBranches stands out from the competition in ways that directly impact your bottom line. Here's why thousands of Pakistani businesses choose us.</p>

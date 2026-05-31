@@ -14,7 +14,7 @@ import { LIVE_STATUSES } from '@/lib/category-mappings'
 // ISR: revalidate every 60 seconds
 export const revalidate = 60
 
-const BASE_URL = 'https://pakbizbranhces.online'
+const BASE_URL = 'https://pakbizbranches.online'
 
 interface Business {
   id: string
