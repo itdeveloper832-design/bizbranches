@@ -4,7 +4,7 @@ import { CATEGORIES } from '@/lib/data'
 const BASE_URL = 'https://pakbizbranches.online'
 
 export async function GET() {
-  const lastmod = '2026-05-19'
+  const lastmod = new Date().toISOString().split('T')[0]
 
   // Category pages live at /[slug]/ (catch-all handles this)
   const urls: { url: string; priority: string }[] = []

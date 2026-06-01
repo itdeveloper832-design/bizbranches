@@ -4,7 +4,7 @@ const BASE_URL = 'https://pakbizbranches.online'
 
 export async function GET() {
   // Dynamic lastmod — always current date for freshness signals
-  const lastmod = '2026-05-19'
+  const lastmod = new Date().toISOString().split('T')[0]
 
   const sitemaps = [
     { loc: `${BASE_URL}/sitemap-pages.xml`, priority: 'high' },

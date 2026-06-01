@@ -4,7 +4,7 @@ import { fetchAllBusinessesForSitemap } from '@/lib/firebase-server'
 const BASE_URL = 'https://pakbizbranches.online'
 
 export async function GET() {
-  const lastmod = '2026-05-19'
+  const lastmod = new Date().toISOString().split('T')[0]
   const businesses = await fetchAllBusinessesForSitemap()
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
