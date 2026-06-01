@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-const BASE_URL = 'https://pakbizbranches.online'
+const BASE_URL = 'https://www.pakbizbranhces.online'
 
 export async function GET() {
   // Dynamic lastmod — always today's date so Google sees fresh content

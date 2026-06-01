@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Privacy Policy: PakBizBranches Business Directory',
   description: 'Read the PakBizBranches privacy policy. Learn how we collect, store, and protect your personal and business data on our free Pakistan directory.',
   alternates: {
-    canonical: 'https://pakbizbranches.online/privacy/',
+    canonical: 'https://www.pakbizbranhces.online/privacy/',
   },
   robots: { index: true, follow: true },
 }
@@ -20,7 +20,7 @@ export default function PrivacyPage() {
         <div className="prose prose-blue max-w-none text-gray-600">
           <p className="mb-4">Last Updated: May 9, 2026</p>
           <p className="mb-6 leading-relaxed">
-            At <strong>PakBizBranches</strong>, we are committed to protecting the privacy of our users and business owners. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website <a href="https://pakbizbranches.online" className="text-blue-600 hover:underline">pakbizbranches.online</a>. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
+            At <strong>PakBizBranches</strong>, we are committed to protecting the privacy of our users and business owners. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website <a href="https://www.pakbizbranhces.online" className="text-blue-600 hover:underline">pakbizbranches.online</a>. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
           </p>
           
           <h2 className="text-xl font-bold text-[#0f2b3d] mt-8 mb-4">1. Information We Collect</h2>
@@ -72,7 +72,7 @@ export default function PrivacyPage() {
           </p>
           <p className="font-medium text-gray-900">
             PakBizBranches Support<br />
-            Email: support@pakbizbranches.online<br />
+            Email: support@pakbizbranhces.online<br />
             Address: Gulghast Colony, Urdu Bazar, Multan, Pakistan
           </p>
         </div>

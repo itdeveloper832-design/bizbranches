@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { CITIES, CATEGORIES } from '@/lib/data'
 
-const BASE_URL = 'https://pakbizbranches.online'
+const BASE_URL = 'https://www.pakbizbranhces.online'
 
 // Only include top cities in city+category combinations to keep sitemap manageable
 // and avoid submitting thousands of thin pages to Google

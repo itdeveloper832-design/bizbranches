@@ -62,7 +62,7 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: 'https://pakbizbranches.online/sitemap.xml',
-    host: 'https://pakbizbranches.online',
+    sitemap: 'https://www.pakbizbranhces.online/sitemap.xml',
+    host: 'https://www.pakbizbranhces.online',
   }
 }

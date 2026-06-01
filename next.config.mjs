@@ -96,6 +96,13 @@ const nextConfig = {
 
   async redirects() {
     return [
+      // ─── Enforce WWW Canonical Domain Redirection ──────────────────────────────────
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'pakbizbranhces.online' }],
+        destination: 'https://www.pakbizbranhces.online/:path*',
+        permanent: true,
+      },
       {
         source: '/add-bussiness',
         destination: '/add-business/',

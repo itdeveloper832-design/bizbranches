@@ -152,7 +152,7 @@ export default function ContactClient() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
-                    <p className="text-gray-600">support@pakbizbranches.online</p>
+                    <p className="text-gray-600">support@pakbizbranhces.online</p>
                     <p className="text-sm text-gray-500">Official business inquiries & support</p>
                   </div>
                 </div>

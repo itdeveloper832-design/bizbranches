@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Find the best real estate agents and property consultants in Pakistan. Get verified phone numbers, offices, and WhatsApp contacts for free.',
   keywords: 'real estate Pakistan, property agents Pakistan, verified real estate agents, property consultants Karachi, Lahore real estate, Islamabad property dealers',
   alternates: {
-    canonical: 'https://pakbizbranches.online/category/real-estate/',
+    canonical: 'https://www.pakbizbranhces.online/category/real-estate/',
   },
 }
 

@@ -887,7 +887,7 @@ const businessData = {
               <p>• Your business will be reviewed within 24 hours</p>
               <p>• Make sure your description is detailed for better visibility</p>
               <p>• Include your WhatsApp number for direct customer contact</p>
-              <p>• For support, email us at support@pakbizbranches.online</p>
+              <p>• For support, email us at support@pakbizbranhces.online</p>
             </div>
           </div>
             </div>

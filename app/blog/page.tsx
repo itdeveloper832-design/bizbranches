@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   description: 'Read actionable guides and tips to grow your local business in Pakistan. Learn SEO, social media marketing, and registry growth hacks from experts.',
   keywords: 'Pakistan business blog, business growth tips Pakistan, small business advice Pakistan, marketing strategies Pakistan, entrepreneur guide Pakistan 2026',
   alternates: {
-    canonical: 'https://pakbizbranches.online/blog/',
+    canonical: 'https://www.pakbizbranhces.online/blog/',
   },
   openGraph: {
     title: 'Pakistan Business Blog: Marketing and Growth Guides',
     description: 'Read actionable guides and tips to grow your local business in Pakistan. Learn SEO, social media marketing, and registry growth hacks from experts.',
-    url: 'https://pakbizbranches.online/blog/',
+    url: 'https://www.pakbizbranhces.online/blog/',
     siteName: 'PakBizBranches',
     locale: 'en_PK',
     type: 'website',

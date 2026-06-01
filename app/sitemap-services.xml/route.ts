@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { CATEGORIES } from '@/lib/data'
 
-const BASE_URL = 'https://pakbizbranches.online'
+const BASE_URL = 'https://www.pakbizbranhces.online'
 
 export async function GET() {
   const lastmod = new Date().toISOString().split('T')[0]

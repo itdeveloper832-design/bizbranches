@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Learn about PakBizBranches, the free Pakistan business directory helping users find verified local businesses, contact details, and services across cities.',
   keywords: 'about PakBizBranches, Pakistan business directory mission, free business listing Pakistan, local business platform Pakistan, trusted business directory Pakistan',
   alternates: {
-    canonical: 'https://pakbizbranches.online/about/',
+    canonical: 'https://www.pakbizbranhces.online/about/',
   },
 }
 
@@ -103,7 +103,7 @@ export default function AboutPage() {
                   <h4 className="font-bold text-[#0f2b3d] mb-2">Corporate Information</h4>
                   <ul className="space-y-1 text-sm">
                     <li><strong>HQ Location:</strong> Gulghast Colony, Urdu Bazar, Multan, Punjab, Pakistan</li>
-                    <li><strong>Email:</strong> support@pakbizbranches.online</li>
+                    <li><strong>Email:</strong> support@pakbizbranhces.online</li>
                     <li><strong>Hotline:</strong> +92 314 2552851</li>
                   </ul>
                 </div>

@@ -17,7 +17,7 @@ import BannerAd from '@/components/ads/banner-ad'
 // ISR: revalidate every 60 seconds
 export const revalidate = 60
 
-const BASE_URL = 'https://pakbizbranches.online'
+const BASE_URL = 'https://www.pakbizbranhces.online'
 
 interface Business {
   id: string

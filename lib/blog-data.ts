@@ -606,7 +606,7 @@ export const BLOG_POSTS = [
       <p><a href="/add-business" class="btn btn-primary">Add Your Business Now - It's Free!</a></p>
       
       <h2>Need Help?</h2>
-      <p>If you need assistance with your business listing, our support team is here to help. Contact us at support@pakbizbranches.online or call +923142552851.</p>
+      <p>If you need assistance with your business listing, our support team is here to help. Contact us at support@pakbizbranhces.online or call +923142552851.</p>
     `,
     author: "Alex Rivers",
     date: "March 14, 2026",

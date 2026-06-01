@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { BLOG_POSTS } from '@/lib/blog-data'
 import { fetchAllBusinessesForSitemap } from '@/lib/firebase-server'
 
-const BASE_URL = 'https://pakbizbranches.online'
+const BASE_URL = 'https://www.pakbizbranhces.online'
 
 export async function GET() {
   const lastmod = '2026-05-19'

@@ -99,7 +99,7 @@ export function generateDailyContentSitemapEntries(): string {
   
   return dailyContent.map(content => `
   <url>
-    <loc>https://pakbizbranches.online${content.url}</loc>
+    <loc>https://www.pakbizbranhces.online${content.url}</loc>
     <lastmod>${content.date}</lastmod>
     <changefreq>daily</changefreq>
     <priority>${content.priority}</priority>

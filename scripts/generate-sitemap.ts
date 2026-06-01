@@ -5,7 +5,7 @@
  * Do NOT run this script. It previously wrote a static public/sitemap.xml
  * which overrode the dynamic Next.js sitemap. That file has been deleted.
  *
- * The live sitemap index is at: https://pakbizbranches.online/sitemap.xml
+ * The live sitemap index is at: https://www.pakbizbranhces.online/sitemap.xml
  * Child sitemaps:
  *   /sitemaps/static.xml
  *   /sitemaps/categories.xml

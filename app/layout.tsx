@@ -21,8 +21,8 @@ export const metadata: Metadata = {
     'Find verified local businesses, phone numbers, and addresses by city and category. 15,000 plus listings across 150 plus cities on PakBizBranches.',
   keywords:
     'Pakistan business directory, free business listing Pakistan, Karachi business listings, Lahore business directory, Islamabad business listings, local services Pakistan, business phone numbers Pakistan, companies in Pakistan by city, verified business contacts Pakistan, WhatsApp business directory Pakistan',
-  authors: [{ name: 'PakBizBranches', url: 'https://pakbizbranches.online/' }],
-  metadataBase: new URL('https://pakbizbranches.online/'),
+  authors: [{ name: 'PakBizBranches', url: 'https://www.pakbizbranhces.online/' }],
+  metadataBase: new URL('https://www.pakbizbranhces.online/'),
   icons: {
     icon: [
       { url: '/favicon.png', sizes: 'any' },
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     title: 'Pakistan Business Directory: Find Local Businesses',
     description:
       'Search verified Pakistan businesses by category and city. Find phone numbers, addresses, and WhatsApp contacts free on PakBizBranches.',
-    url: 'https://pakbizbranches.online/',
+    url: 'https://www.pakbizbranhces.online/',
     siteName: 'PakBizBranches',
     locale: 'en_PK',
     type: 'website',
@@ -60,8 +60,8 @@ export default function RootLayout({
     <html lang="en" className={outfit.variable}>
       <head>
         <meta name="google-site-verification" content="D2TTC8ZWjbjA3wgOFcyrfBnFkjC3TAiCG7E6wDxDGK4" />
-        <link rel="alternate" hrefLang="en-PK" href="https://pakbizbranches.online/" />
-        <link rel="alternate" hrefLang="x-default" href="https://pakbizbranches.online/" />
+        <link rel="alternate" hrefLang="en-PK" href="https://www.pakbizbranhces.online/" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.pakbizbranhces.online/" />
 
         {/* Preconnect to Firebase (Firestore data) and Google APIs */}
         <link rel="preconnect" href="https://firebasestorage.googleapis.com" />
@@ -102,10 +102,10 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Organization',
-              '@id': 'https://pakbizbranches.online/#organization',
+              '@id': 'https://www.pakbizbranhces.online/#organization',
               name: 'PakBizBranches',
-              url: 'https://pakbizbranches.online/',
-              logo: 'https://pakbizbranches.online/logo-img.png',
+              url: 'https://www.pakbizbranhces.online/',
+              logo: 'https://www.pakbizbranhces.online/logo-img.png',
               description: 'Pakistan\'s trusted free business directory with 15,000+ verified listings. No registration required. Helps users find local businesses by city and category and allows business owners to add their local citations for free.',
               sameAs: [
                 'https://facebook.com/pakbizbranches',
@@ -116,7 +116,7 @@ export default function RootLayout({
               contactPoint: {
                 '@type': 'ContactPoint',
                 contactType: 'customer service',
-                email: 'support@pakbizbranches.online',
+                email: 'support@pakbizbranhces.online',
                 telephone: '+923142552851',
                 areaServed: {
                   '@type': 'Country',
@@ -143,19 +143,19 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebSite',
-              '@id': 'https://pakbizbranches.online/#website',
+              '@id': 'https://www.pakbizbranhces.online/#website',
               name: 'PakBizBranches',
-              url: 'https://pakbizbranches.online/',
+              url: 'https://www.pakbizbranhces.online/',
               description: 'Pakistan\'s trusted free business directory with 15,000+ verified listings. No registration required. Find local businesses by city and category with WhatsApp details. Add your business free.',
               publisher: {
-                '@id': 'https://pakbizbranches.online/#organization'
+                '@id': 'https://www.pakbizbranhces.online/#organization'
               },
               inLanguage: 'en-PK',
               potentialAction: {
                 '@type': 'SearchAction',
                 target: {
                   '@type': 'EntryPoint',
-                  urlTemplate: 'https://pakbizbranches.online/categories/?q={search_term_string}'
+                  urlTemplate: 'https://www.pakbizbranhces.online/categories/?q={search_term_string}'
                 },
                 'query-input': 'required name=search_term_string'
               }
@@ -168,9 +168,9 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'LocalBusiness',
-              '@id': 'https://pakbizbranches.online/#localbusiness',
+              '@id': 'https://www.pakbizbranhces.online/#localbusiness',
               name: 'PakBizBranches Business Directory',
-              url: 'https://pakbizbranches.online/',
+              url: 'https://www.pakbizbranhces.online/',
               telephone: '+923345636230',
               description: 'Free Pakistan business directory service connecting local businesses with customers',
               address: {

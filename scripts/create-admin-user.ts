@@ -48,7 +48,7 @@ async function main() {
   await createAdminUser('admin@pakbizbranches.online', 'Admin@2026!Secure')
   
   // Create support admin
-  await createAdminUser('support@pakbizbranches.online', 'Support@2026!Secure')
+  await createAdminUser('support@pakbizbranhces.online', 'Support@2026!Secure')
   
   console.log('\n📝 Important Notes:')
   console.log('1. Change these passwords immediately after first login')

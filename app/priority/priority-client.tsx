@@ -366,7 +366,7 @@ export default function PriorityClient() {
                     value={formData.currentListing}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-colors"
-                    placeholder="https://pakbizbranches.online/business/your-business"
+                    placeholder="https://www.pakbizbranhces.online/business/your-business"
                   />
                 </div>
 

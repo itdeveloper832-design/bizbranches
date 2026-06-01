@@ -7,7 +7,7 @@ import { CATEGORIES, CITIES } from '@/lib/data'
 export const metadata: Metadata = {
   title: 'Sitemap: Find Businesses in All Cities of Pakistan',
   description: 'Browse all cities, categories, and business directories on PakBizBranches. Find verified phone numbers and local services across Pakistan easily.',
-  alternates: { canonical: 'https://pakbizbranches.online/html-sitemap/' },
+  alternates: { canonical: 'https://www.pakbizbranhces.online/html-sitemap/' },
   robots: { index: true, follow: true },
 }
 

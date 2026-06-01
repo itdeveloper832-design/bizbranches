@@ -11,7 +11,7 @@ import { fetchCityCategoryBusinesses, Business } from '@/lib/firebase-server'
 // ISR: revalidate every 60 seconds
 export const revalidate = 60
 
-const BASE_URL = 'https://pakbizbranches.online'
+const BASE_URL = 'https://www.pakbizbranhces.online'
 
 function findCityBySlug(slug: string): string | null {
   const normalized = slug.replace(/-/g, ' ').toLowerCase()

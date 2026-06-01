@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     'Islamabad business directory',
   ],
   alternates: {
-    canonical: 'https://pakbizbranches.online/cities/',
+    canonical: 'https://www.pakbizbranhces.online/cities/',
   },
 }
 

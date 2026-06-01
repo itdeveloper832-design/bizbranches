@@ -56,9 +56,9 @@ export default function Footer() {
                 <Phone className="w-5 h-5 text-[#60a5fa] shrink-0" />
                 +92 314 2552851
               </a>
-              <a href="mailto:support@pakbizbranches.online" className="flex items-center gap-3 text-sm text-white/60 hover:text-[#60a5fa] transition-colors" title="Email Us">
+              <a href="mailto:support@pakbizbranhces.online" className="flex items-center gap-3 text-sm text-white/60 hover:text-[#60a5fa] transition-colors" title="Email Us">
                 <Mail className="w-5 h-5 text-[#60a5fa] shrink-0" />
-                support@pakbizbranches.online
+                support@pakbizbranhces.online
               </a>
             </div>
           </div>

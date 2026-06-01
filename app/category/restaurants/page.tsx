@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Discover the best restaurants and food spots in Pakistan. Get verified phone numbers, food menus, and WhatsApp locations for free.',
   keywords: 'restaurants Pakistan, best dining spots, food spots Pakistan, cafe Karachi, Lahore restaurants, Islamabad dining places',
   alternates: {
-    canonical: 'https://pakbizbranches.online/category/restaurants/',
+    canonical: 'https://www.pakbizbranhces.online/category/restaurants/',
   },
 }
 

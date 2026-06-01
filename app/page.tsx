@@ -45,7 +45,7 @@ const TrustSection = dynamic(
 // ISR: page is statically rendered and revalidated every 60 seconds.
 export const revalidate = 60
 
-const BASE_URL = 'https://pakbizbranches.online'
+const BASE_URL = 'https://www.pakbizbranhces.online'
 
 export const metadata: Metadata = {
   title: 'Pakistan Business Directory – Find Companies, Shops & Services Across Pakistan | PakBizBranches',
@@ -53,15 +53,15 @@ export const metadata: Metadata = {
     'Find verified businesses across Lahore, Karachi, Islamabad, and 20+ cities in Pakistan. Search and list restaurants, hospitals, schools, lawyers, hotels and more for free.',
   keywords:
     'Pakistan business directory, free business listing Pakistan, Karachi business listings, Lahore business directory, Islamabad business listings, local services Pakistan, business phone numbers Pakistan, verified business contacts Pakistan, find businesses Pakistan 2026',
-  authors: [{ name: 'PakBizBranches', url: 'https://pakbizbranches.online/' }],
+  authors: [{ name: 'PakBizBranches', url: 'https://www.pakbizbranhces.online/' }],
   alternates: {
-    canonical: 'https://pakbizbranches.online/',
+    canonical: 'https://www.pakbizbranhces.online/',
   },
   openGraph: {
     title: 'Pakistan Business Directory – Find Companies, Shops & Services Across Pakistan | PakBizBranches',
     description:
       'Find verified businesses across Lahore, Karachi, Islamabad, and 20+ cities in Pakistan. Search and list restaurants, hospitals, schools, lawyers, hotels and more for free.',
-    url: 'https://pakbizbranches.online/',
+    url: 'https://www.pakbizbranhces.online/',
     siteName: 'PakBizBranches',
     locale: 'en_PK',
     type: 'website',
@@ -145,7 +145,7 @@ export default async function HomePage() {
     '@context': 'https://schema.org',
     '@type': 'Product',
     'name': 'PakBizBranches',
-    'image': 'https://pakbizbranches.online/logo.png',
+    'image': 'https://www.pakbizbranhces.online/logo.png',
     'description': 'Pakistan Business Directory: Search Local Services. List your business free on PakBizBranches.',
     'brand': {
       '@type': 'Brand',

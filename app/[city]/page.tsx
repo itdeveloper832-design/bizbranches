@@ -8,7 +8,7 @@ import { db } from '@/lib/firebase'
 import { collection, query, where, getDocs, limit } from 'firebase/firestore'
 import { CATEGORIES, CITIES } from '@/lib/data'
 import { LIVE_STATUSES, getPossibleCategoryValues } from '@/lib/category-mappings'
-import { generateCategoryContent, generateCityContent } from '@/lib/seo-content'
+import { generateCategoryContent, generateCityContent, CITY_INFO } from '@/lib/seo-content'
 import { getCategoryKeywordCluster, getCityKeywordCluster } from '@/lib/organic-keywords'
 import BannerAd from '@/components/ads/banner-ad'
 import NativeAd from '@/components/ads/native-ad'
@@ -18,7 +18,7 @@ import React from 'react'
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
-const BASE_URL = 'https://pakbizbranches.online'
+const BASE_URL = 'https://www.pakbizbranhces.online'
 
 interface Business {
   id: string
@@ -49,6 +49,122 @@ function findCityBySlug(slug: string): string | null {
 
 function findCategoryBySlug(slug: string) {
   return CATEGORIES.find(c => c.id === slug) ?? null
+}
+
+interface ServiceItem {
+  title: string
+  desc: string
+}
+
+function getServicesByCategory(category: string, businessName: string): ServiceItem[] {
+  const defaultServices: ServiceItem[] = [
+    { title: 'Custom Business Solutions', desc: `Tailored options designed to meet the unique needs of ${businessName} clients.` },
+    { title: 'Client Consulting & Support', desc: 'Direct, responsive communication channels for immediate assistance.' },
+    { title: 'Standardized Quality Auditing', desc: 'A strict commitment to performance, reliability, and service excellence.' },
+    { title: 'Local Service Delivery', desc: 'Efficient service execution aligned with international best practices.' }
+  ]
+
+  const serviceMap: Record<string, ServiceItem[]> = {
+    'restaurants': [
+      { title: 'Fine Dining & Culinary Experience', desc: 'Enjoy custom food menus, authentic international and local cuisines, and refined group dining options.' },
+      { title: 'Takeaway & Express Home Delivery', desc: 'Hygienic and fast packaging with reliable home delivery services to preserve freshness and taste.' },
+      { title: 'Private Events & Professional Catering', desc: 'Full-service catering and hosting for corporate gatherings, birthday parties, and custom celebrations.' },
+      { title: 'Strict Food Hygiene & Quality Standards', desc: 'Strict adherence to health regulations using only fresh, premium, and hand-selected ingredients.' }
+    ],
+    'real-estate': [
+      { title: 'Residential Property Sales & Leasing', desc: 'Browse verified listings for luxury houses, modern apartments, villas, and secure residential plots.' },
+      { title: 'Commercial Real Estate Advisory', desc: 'Find premium office spaces, retail showrooms, warehouses, and get expert investment guidance.' },
+      { title: 'Comprehensive Property Management', desc: 'Rent collection, property maintenance, tenant verification, and standardized portfolio management.' },
+      { title: 'Valuation & Legal Documentation Assistance', desc: 'Accurate real estate market valuation combined with seamless, secure legal ownership transfers.' }
+    ],
+    'technology': [
+      { title: 'Custom Software & Web App Development', desc: 'Bespoke corporate websites, web portals, cloud application designs, and custom API integrations.' },
+      { title: 'IT Infrastructure Setup & Network Solutions', desc: 'Secure network planning, server maintenance, active firewall setup, and 24/7 technical support.' },
+      { title: 'Mobile App Engineering (iOS & Android)', desc: 'User-friendly native and cross-platform mobile apps featuring intuitive user interfaces.' },
+      { title: 'Cyber Security & Digital Transformation', desc: 'Advanced cloud migration services, system automation, and strict vulnerability audits.' }
+    ],
+    'healthcare': [
+      { title: 'General Medicine & Diagnostic Consultation', desc: 'Professional outpatient care, specialized clinical checkups, and comprehensive laboratory referrals.' },
+      { title: 'Specialized Treatments & Chronic Care', desc: 'Expert medical interventions for specialized disorders and personalized treatment plans.' },
+      { title: 'Emergency Care & Round-the-Clock Support', desc: 'Immediate medical attention, active nursing care, and trusted emergency service coordination.' },
+      { title: 'Preventive Health Screenings & Wellness', desc: 'Regular preventive health checkups, cardiovascular screenings, and professional lifestyle counseling.' }
+    ],
+    'education': [
+      { title: 'Standard Academic Curriculum Tutoring', desc: 'Structured learning programs for school, college, and university students across major disciplines.' },
+      { title: 'Professional Skill-Based Certifications', desc: 'Industry-standard training in software coding, language fluency, and corporate management.' },
+      { title: 'Career Guidance & Academic Counseling', desc: 'One-on-one sessions for local and international university admissions and career pathway planning.' },
+      { title: 'Interactive Workshops & Live Seminars', desc: 'Practical, hands-on learning sessions led by domain experts to foster real-world understanding.' }
+    ],
+    'retail': [
+      { title: 'Premium Product Inventory Selection', desc: 'Wide range of high-quality products from top local and international brands under one roof.' },
+      { title: 'Customer-Centric Shopping Experience', desc: 'Dedicated instore support, easy exchanges, product demonstrations, and customer loyalty rewards.' },
+      { title: 'Wholesale & B2B Bulk Commercial Supply', desc: 'Cost-effective bulk purchasing options with special commercial discounts for corporate buyers.' },
+      { title: 'Genuine Brand & Warranty Assurance', desc: 'Rest assured with 100% original merchandise backed by official manufacturer warranties.' }
+    ],
+    'construction': [
+      { title: 'Architectural Design & Modern Blueprints', desc: 'Vibrant 3D interior/exterior concepts and comprehensive structural blueprints.' },
+      { title: 'General Contracting & Civil Engineering', desc: 'High-quality gray structure construction, foundation works, and commercial high-rise building.' },
+      { title: 'Premium Interior Design & Finishes', desc: 'Elegant false ceiling work, premium wood paneling, tile installation, and customized modular kitchens.' },
+      { title: 'High-Grade Materials Procurement', desc: 'Sourcing certified grade-60 steel, premium cement brands, and durable electrical/plumbing fittings.' }
+    ],
+    'automotive': [
+      { title: 'Periodic Maintenance & Dynamic Oil Change', desc: 'Engine tuning, comprehensive fluid top-ups, filter replacements, and standard computer diagnostics.' },
+      { title: 'Mechanical, Suspension & Electrical Repairs', desc: 'Advanced suspension overhaul, transmission diagnostics, brake servicing, and electrical wiring fixes.' },
+      { title: 'Certified OEM Spare Parts Replacement', desc: 'Guaranteed genuine manufacturer spare parts ensuring maximum vehicle longevity and safety.' },
+      { title: 'Premium Detailing & Interior Deep Cleaning', desc: 'Multi-stage paint correction, ceramic coatings, steam car washing, and leather conditioning.' }
+    ],
+    'finance': [
+      { title: 'Commercial Business Account Services', desc: 'Structured corporate bank accounts, payment processing setups, and business credit solutions.' },
+      { title: 'Financial Planning & Wealth Management', desc: 'Personalized investment portfolios, savings schemes, and long-term asset diversification advice.' },
+      { title: 'Corporate Loan & Credit Facility Auditing', desc: 'Streamlined loan applications for home financing, commercial expansion, and auto leasing.' },
+      { title: 'Secure Digital Payment Gateways', desc: 'Integration of highly secure web-based payment networks and encrypted mobile transfers.' }
+    ],
+    'travel': [
+      { title: 'Worldwide Air Ticketing & Seat Booking', desc: 'Affordable domestic and international flight options across leading global airlines.' },
+      { title: 'Custom Holiday Packages & Hotel Stays', desc: 'Tailor-made itineraries, verified premium hotel bookings, and safe local sightseeing guides.' },
+      { title: 'Visa Documentation & Passport Assistance', desc: 'Professional review of travel documents, application support, and travel insurance policy procurement.' },
+      { title: 'Executive B2B Travel Management', desc: 'Corporate travel booking coordination, airport lounge access, and premium car rental services.' }
+    ],
+    'beauty': [
+      { title: 'High-End Hair Styling, Cuts & Coloring', desc: 'Trendy haircuts, scalp treatments, protein therapies, and professional coloring services.' },
+      { title: 'Bridal & Party Makeover Artistry', desc: 'Flawless makeup packages for weddings and special occasions using high-end cosmetic brands.' },
+      { title: 'Skin Care, HydraFacials & Organic Therapy', desc: 'Deep skin cleansing, organic facials, anti-acne treatments, and skin rejuvenation programs.' },
+      { title: 'Relaxing Spa Massages & Body Treatment', desc: 'Aromatherapy, therapeutic body scrubs, and deep tissue stress-relief massage therapies.' }
+    ],
+    'logistics': [
+      { title: 'Nationwide Cargo & Courier Logistics', desc: 'Secure parcel delivery, heavy freight shipping, and real-time package tracking facilities.' },
+      { title: 'Safe Warehousing & Commercial Storage', desc: 'Secure, clean, and spacious inventory storage options with active barcode cataloging.' },
+      { title: 'Supply Chain & Merchant Distribution', desc: 'Fleet management, merchant distribution routes, and end-to-end commercial supply logistics.' },
+      { title: 'Heavy Vehicle Fleet & Container Shipping', desc: 'Specialized shipping services for heavy machinery, bulk materials, and cargo container transport.' }
+    ]
+  }
+
+  return serviceMap[category] ?? defaultServices
+}
+
+function generateDynamicAboutSection(business: Business, categoryName: string): string {
+  const parts = [
+    `Welcome to the professional profile of ${business.businessName}, a highly regarded and verified ${categoryName} company operating in ${business.city}, Pakistan.`,
+    `As an established leader within the local ${categoryName.toLowerCase()} sector, ${business.businessName} has built a solid reputation for delivering exceptional service quality, reliability, and professional solutions to clients across the region.`,
+    `Conveniently located at their physical address: ${business.address}, ${business.city}, they serve as a vital hub for local patrons looking for expert ${categoryName.toLowerCase()} assistance.`,
+    `Whether you are seeking customized options, expert consultation, or everyday support, their team is dedicated to meeting your precise business and personal requirements with professionalism.`
+  ]
+
+  if (business.whatsapp || business.email || business.websiteUrl) {
+    parts.push(
+      `To ensure seamless accessibility and customer convenience, ${business.businessName} offers multiple communication channels. You can easily reach their official representatives by calling their primary phone number at ${business.phone}${business.whatsapp ? ` or messaging them on WhatsApp` : ''}${business.email ? ` or via email at ${business.email}` : ''}.`
+    )
+  } else {
+    parts.push(
+      `To ensure seamless accessibility and customer convenience, ${business.businessName} maintains active communication lines. You can easily reach their official representatives by calling their primary phone number at ${business.phone} for immediate assistance, booking inquiries, or service consultations.`
+    )
+  }
+
+  parts.push(
+    `By choosing a verified listing like ${business.businessName} on the PakBizBranches business directory, you are guaranteed authentic contact details, correct address mapping, and direct connection pathways to premium services in ${business.city}.`
+  )
+
+  return parts.join(' ')
 }
 
 async function getBusinessBySlug(slug: string): Promise<Business | null> {
@@ -170,41 +286,30 @@ export async function generateMetadata(props: { params: Promise<{ city: string }
   const businessCategory = CATEGORIES.find(c => c.id === business.category)
   const categoryName = businessCategory?.name ?? business.category
 
-  let title = `${business.businessName} in ${business.city}: Contact and Address`
-  if (title.length > 60) {
-    title = `${business.businessName} in ${business.city}`
-  }
-  if (title.length > 60) {
-    title = business.businessName
-  }
-  if (title.length > 60) {
-    title = title.substring(0, 57) + '...'
-  }
-  if (title.length < 50) {
-    title = `${business.businessName} in ${business.city}: Phone and Address`
-    if (title.length < 50) {
-      title = `${business.businessName} in ${business.city}: Verified Phone and Address`
+  // Phase 3 Meta title format: [Business Name] in [City] – Phone, Address & Contact | PakBizBranches
+  const title = `${business.businessName} in ${business.city} – Phone, Address & Contact | PakBizBranches`
+
+  // Phase 3 Meta description format: Find verified phone number, address, and contact for [Business Name] in [City]. [1-sentence generated description].
+  let descSentence = ''
+  if (business.description) {
+    const cleanDesc = business.description.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim()
+    const firstPeriod = cleanDesc.indexOf('.')
+    if (firstPeriod !== -1 && firstPeriod > 10) {
+      descSentence = cleanDesc.substring(0, firstPeriod + 1)
+    } else if (cleanDesc.length > 10) {
+      descSentence = cleanDesc.length > 100 ? cleanDesc.substring(0, 97) + '...' : cleanDesc
     }
-    if (title.length > 60) {
-      title = title.substring(0, 60)
-    }
+  }
+  
+  if (descSentence) {
+    descSentence = ' ' + descSentence
   }
 
-  let description = `Contact ${business.businessName} in ${business.city} for ${categoryName.toLowerCase()} services. Find verified phone number, address, and WhatsApp contact free.`
-  if (description.length > 155) {
-    description = `Contact ${business.businessName} in ${business.city}. Find verified phone number, address, and WhatsApp details free on PakBizBranches directory.`
-  }
-  if (description.length > 155) {
-    description = `${business.businessName} in ${business.city}: Find phone, address, and contact details free on PakBizBranches.`
-  }
-  if (description.length > 155) {
-    description = description.substring(0, 152) + '...'
-  }
-  if (description.length < 140) {
-    description = `${description} List your business free on PakBizBranches to reach local clients.`
-    if (description.length > 155) {
-      description = description.substring(0, 152) + '...'
-    }
+  let description = `Find verified phone number, address, and contact for ${business.businessName} in ${business.city}.${descSentence}`
+  if (description.length > 156) {
+    description = description.substring(0, 153) + '...'
+  } else if (description.length < 130) {
+    description = `Find verified phone number, address, and contact for ${business.businessName} in ${business.city}, Pakistan. Get verified details and connect today.`
   }
 
   const url = `${BASE_URL}/${slug}/`
@@ -212,8 +317,26 @@ export async function generateMetadata(props: { params: Promise<{ city: string }
   return {
     title,
     description,
+    keywords: [
+      business.businessName,
+      `${business.businessName} ${business.city}`,
+      `${categoryName} in ${business.city}`,
+      `${business.city} business directory`
+    ],
     alternates: { canonical: url },
-    openGraph: { title, description, url, siteName: 'PakBizBranches', locale: 'en_PK', type: 'website' },
+    openGraph: { 
+      title, 
+      description, 
+      url, 
+      siteName: 'PakBizBranches', 
+      locale: 'en_PK', 
+      type: 'website' 
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description
+    }
   }
 }
 
@@ -368,12 +491,16 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
   if (business.facebookPage) sameAs.push(business.facebookPage)
   if (business.youtubeChannel) sameAs.push(business.youtubeChannel)
 
+  // Look up province from CITY_INFO
+  const cityDetails = CITY_INFO[business.city]
+  const province = cityDetails?.province ?? 'Punjab'
+
   const localBusinessSchema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     '@id': pageUrl,
     name: business.businessName,
-    description: business.description,
+    description: business.description || `Verified ${categoryName} company in ${business.city}, Pakistan.`,
     url: pageUrl,
     telephone: business.phone,
     priceRange: '$$',
@@ -382,7 +509,7 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
       '@type': 'PostalAddress',
       streetAddress: business.address,
       addressLocality: business.city,
-      addressRegion: business.city,
+      addressRegion: province,
       addressCountry: 'PK',
     },
     areaServed: { '@type': 'City', name: business.city },
@@ -400,6 +527,11 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
       { '@type': 'ListItem', position: 3, name: business.businessName, item: pageUrl },
     ],
   }
+
+  // Phase 4 Services, dynamic about summary, and FAQPage schemas
+  const services = getServicesByCategory(business.category, business.businessName)
+  const serviceListText = services.map(s => s.title).join(', ')
+  const dynamicAbout = generateDynamicAboutSection(business, categoryName)
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -419,6 +551,14 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
         acceptedAnswer: {
           '@type': 'Answer',
           text: `You can contact ${business.businessName} at ${business.phone}.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `What services does ${business.businessName} offer?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${business.businessName} specializes in ${categoryName} solutions. Key services include: ${serviceListText}.`,
         },
       },
     ],
@@ -488,7 +628,10 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
               <div className="lg:col-span-2 space-y-6">
                 <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 prose prose-blue max-w-none">
                   <h2 className="text-2xl font-bold text-[#0f2b3d] mb-6">About {business.businessName}</h2>
-                  <p className="text-gray-600 leading-relaxed text-lg">{business.description}</p>
+                  {business.description && (
+                    <p className="text-gray-600 leading-relaxed text-lg mb-6">{business.description}</p>
+                  )}
+                  <p className="text-gray-600 leading-relaxed text-lg">{dynamicAbout}</p>
                   
                   <h3 className="text-xl font-bold text-[#0f2b3d] mt-8 mb-4">Professional Overview</h3>
                   <p className="text-gray-600 leading-relaxed">
@@ -496,13 +639,51 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
                     Located at {business.address}, they are committed to providing quality services to their customers.
                   </p>
 
+                  <h3 className="text-xl font-bold text-[#0f2b3d] mt-8 mb-4">Services Offered</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 not-prose">
+                    {services.map((service, index) => (
+                      <div key={index} className="flex items-start gap-2.5 p-3 rounded-xl bg-gray-50 border border-gray-100">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#60a5fa] mt-2 shrink-0" />
+                        <div>
+                          <strong className="block text-gray-900 text-sm font-semibold">{service.title}</strong>
+                          <span className="block text-gray-500 text-xs mt-0.5">{service.desc}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
                   <h3 className="text-xl font-bold text-[#0f2b3d] mt-8 mb-4">Contact Information</h3>
                   <ul className="list-disc pl-5 space-y-2 text-gray-600">
                     <li><strong>Address:</strong> {business.address}, {business.city}, Pakistan</li>
-                    <li><strong>Phone:</strong> <a href={`tel:${business.phone}`}>{business.phone}</a></li>
+                    <li><strong>Phone:</strong> <a href={`tel:${business.phone}`} className="text-blue-600 hover:underline">{business.phone}</a></li>
                     {business.whatsapp && <li><strong>WhatsApp:</strong> {business.whatsapp}</li>}
-                    {business.email && <li><strong>Email:</strong> {business.email}</li>}
+                    {business.email && <li><strong>Email:</strong> <a href={`mailto:${business.email}`} className="text-blue-600 hover:underline">{business.email}</a></li>}
                   </ul>
+                </div>
+
+                {/* FAQ Section */}
+                <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 space-y-6">
+                  <h2 className="text-2xl font-bold text-[#0f2b3d]">Frequently Asked Questions</h2>
+                  <div className="space-y-4">
+                    <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
+                      <h4 className="font-bold text-gray-900 mb-1.5">Where is {business.businessName} located?</h4>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        {business.businessName} is situated at {business.address}, {business.city}, Pakistan.
+                      </p>
+                    </div>
+                    <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
+                      <h4 className="font-bold text-gray-900 mb-1.5">What is the contact phone number for {business.businessName}?</h4>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        You can contact {business.businessName} by calling their primary phone number at <a href={`tel:${business.phone}`} className="text-blue-600 hover:underline">{business.phone}</a>.
+                      </p>
+                    </div>
+                    <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
+                      <h4 className="font-bold text-gray-900 mb-1.5">What services does {business.businessName} provide?</h4>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        As a verified {categoryName} business, they specialize in professional {categoryName.toLowerCase()} solutions. Key services include: {serviceListText}.
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Similar Businesses */}
@@ -536,6 +717,28 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
                     <iframe src={mapSrc} width="100%" height="200" style={{ border: 0 }} allowFullScreen loading="lazy" title="Map Location" />
                   </div>
                   <p className="text-sm text-gray-600">{business.address}, {business.city}, Pakistan</p>
+                </div>
+
+                {/* Business Hours */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                  <h3 className="font-bold text-[#0f2b3d] mb-4 flex items-center gap-2">
+                    <span className="w-5 h-5 text-[#60a5fa] flex items-center justify-center">🕒</span> Business Hours
+                  </h3>
+                  <div className="space-y-2 text-sm text-gray-600">
+                    <div className="flex justify-between border-b border-gray-50 pb-1">
+                      <span>Monday – Friday:</span>
+                      <span className="font-medium text-gray-900">09:00 AM – 06:00 PM</span>
+                    </div>
+                    <div className="flex justify-between border-b border-gray-50 pb-1">
+                      <span>Saturday:</span>
+                      <span className="font-medium text-gray-900">09:00 AM – 02:00 PM</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Sunday:</span>
+                      <span className="font-semibold text-red-600">Closed</span>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2 italic">* Timing may vary. Please call to confirm.</p>
+                  </div>
                 </div>
 
                 <div className="bg-[#0f2b3d] rounded-2xl p-6 text-white">
