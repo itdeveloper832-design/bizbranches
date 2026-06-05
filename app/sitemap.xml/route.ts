@@ -13,6 +13,7 @@ export async function GET() {
     { loc: `${BASE_URL}/sitemap-blog.xml`, priority: 'medium' },
     { loc: `${BASE_URL}/sitemap-static.xml`, priority: 'low' },
     { loc: `${BASE_URL}/sitemap-businesses.xml`, priority: 'high' },
+    { loc: `${BASE_URL}/sitemap-images.xml`, priority: 'high' },
   ]
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

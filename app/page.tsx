@@ -48,9 +48,9 @@ export const revalidate = 60
 const BASE_URL = 'https://www.pakbizbranhces.online'
 
 export const metadata: Metadata = {
-  title: 'Pakistan Business Directory – Find Companies, Shops & Services Across Pakistan | PakBizBranches',
+  title: 'Pakistan Business Directory – Verified Local Companies',
   description:
-    'Find verified businesses across Lahore, Karachi, Islamabad, and 20+ cities in Pakistan. Search and list restaurants, hospitals, schools, lawyers, hotels and more for free.',
+    'Find verified business contact details, phone numbers, addresses and WhatsApp links across Pakistan. Search or list your business for free today.',
   keywords:
     'Pakistan business directory, free business listing Pakistan, Karachi business listings, Lahore business directory, Islamabad business listings, local services Pakistan, business phone numbers Pakistan, verified business contacts Pakistan, find businesses Pakistan 2026',
   authors: [{ name: 'PakBizBranches', url: 'https://www.pakbizbranhces.online/' }],
@@ -58,9 +58,9 @@ export const metadata: Metadata = {
     canonical: 'https://www.pakbizbranhces.online/',
   },
   openGraph: {
-    title: 'Pakistan Business Directory – Find Companies, Shops & Services Across Pakistan | PakBizBranches',
+    title: 'Pakistan Business Directory – Verified Local Companies',
     description:
-      'Find verified businesses across Lahore, Karachi, Islamabad, and 20+ cities in Pakistan. Search and list restaurants, hospitals, schools, lawyers, hotels and more for free.',
+      'Find verified business contact details, phone numbers, addresses and WhatsApp links across Pakistan. Search or list your business for free today.',
     url: 'https://www.pakbizbranhces.online/',
     siteName: 'PakBizBranches',
     locale: 'en_PK',

@@ -5,7 +5,7 @@ import { fetchAllBusinessesForSitemap } from '@/lib/firebase-server'
 const BASE_URL = 'https://www.pakbizbranhces.online'
 
 export async function GET() {
-  const lastmod = '2026-05-19'
+  const lastmod = new Date().toISOString().split('T')[0]
   const businesses = await fetchAllBusinessesForSitemap()
   const activePosts = BLOG_POSTS.filter(post => !post.hidden)
 
