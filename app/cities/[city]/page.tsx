@@ -29,9 +29,7 @@ interface Business {
 }
 
 export async function generateStaticParams() {
-  return CITIES.map(city => ({
-    city: city.toLowerCase().replace(/ /g, '-'),
-  }))
+  return []
 }
 
 function findCityBySlug(slug: string): string | null {

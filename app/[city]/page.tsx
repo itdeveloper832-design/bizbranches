@@ -211,6 +211,17 @@ export async function generateMetadata(props: { params: Promise<{ city: string }
   // Check if it's a City
   const cityName = findCityBySlug(slug)
   if (cityName) {
+    let businessesCount = 0
+    try {
+      const q = query(
+        collection(db, 'businesses'),
+        where('city', '==', cityName),
+        limit(3)
+      )
+      const snap = await getDocs(q)
+      businessesCount = snap.size
+    } catch {}
+
     let title = `${cityName} Business Directory: Find Local Companies`
     if (title.length < 50) {
       title = `${cityName} Business Directory: Find Verified Local Companies`
@@ -233,6 +244,10 @@ export async function generateMetadata(props: { params: Promise<{ city: string }
       title,
       description,
       keywords: [`${cityName} business directory`, `businesses in ${cityName}`, `${cityName} local services`, ...keywordCluster],
+      robots: {
+        index: businessesCount >= 3,
+        follow: true,
+      },
       alternates: { canonical: url },
       openGraph: { title, description, url, siteName: 'PakBizBranches', locale: 'en_PK', type: 'website' },
     }
@@ -241,6 +256,30 @@ export async function generateMetadata(props: { params: Promise<{ city: string }
   // Check if it's a Category
   const category = findCategoryBySlug(slug)
   if (category) {
+    let businessesCount = 0
+    try {
+      const q = query(
+        collection(db, 'businesses'),
+        where('categoryId', '==', slug),
+        limit(3)
+      )
+      const snap = await getDocs(q)
+      businessesCount = snap.size
+    } catch {}
+
+    if (businessesCount === 0) {
+      try {
+        const categoryValues = getPossibleCategoryValues(slug).slice(0, 5)
+        const qFallback = query(
+          collection(db, 'businesses'),
+          where('category', 'in', categoryValues),
+          limit(3)
+        )
+        const snapFallback = await getDocs(qFallback)
+        businessesCount = snapFallback.size
+      } catch {}
+    }
+
     let title = `${category.name} in Pakistan: Find Verified Contact Details`
     if (title.length > 60) {
       title = `${category.name} in Pakistan: Verified Contacts`
@@ -269,6 +308,10 @@ export async function generateMetadata(props: { params: Promise<{ city: string }
       title,
       description,
       keywords: [`${category.name} in Pakistan`, `best ${category.name.toLowerCase()} Pakistan`, ...keywordCluster],
+      robots: {
+        index: businessesCount >= 3,
+        follow: true,
+      },
       alternates: { canonical: url },
       openGraph: { title, description, url, siteName: 'PakBizBranches', locale: 'en_PK', type: 'website' },
     }

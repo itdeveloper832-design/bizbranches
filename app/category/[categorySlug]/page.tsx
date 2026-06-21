@@ -31,7 +31,7 @@ interface Business {
 }
 
 export async function generateStaticParams() {
-  return CATEGORIES.map(cat => ({ categorySlug: cat.id }))
+  return []
 }
 
 export async function generateMetadata(props: { params: Promise<{ categorySlug: string }> }): Promise<Metadata> {

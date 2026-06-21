@@ -97,66 +97,73 @@ const nextConfig = {
   async redirects() {
     return [
       // ─── Enforce WWW Canonical Domain Redirection ──────────────────────────────────
+      // ─── Enforce WWW Canonical Domain Redirection (1-Hop Trailing Slash Aware) ───
       {
-        source: '/:path*',
+        source: '/',
         has: [{ type: 'host', value: 'pakbizbranhces.online' }],
-        destination: 'https://www.pakbizbranhces.online/:path*',
+        destination: 'https://www.pakbizbranhces.online/',
+        permanent: true,
+      },
+      {
+        source: '/:path+',
+        has: [{ type: 'host', value: 'pakbizbranhces.online' }],
+        destination: 'https://www.pakbizbranhces.online/:path*/',
         permanent: true,
       },
       {
         source: '/add-bussiness',
-        destination: '/add-business/',
+        destination: 'https://www.pakbizbranhces.online/add-business/',
         permanent: true,
       },
       {
         source: '/best-restaurants',
-        destination: '/restaurants/',
+        destination: 'https://www.pakbizbranhces.online/restaurants/',
         permanent: true,
       },
       {
         source: '/healthcare-services',
-        destination: '/healthcare/',
+        destination: 'https://www.pakbizbranhces.online/healthcare/',
         permanent: true,
       },
       {
         source: '/top-real-estate',
-        destination: '/real-estate/',
+        destination: 'https://www.pakbizbranhces.online/real-estate/',
         permanent: true,
       },
-      // Canonical Top-Level Redirects
+      // Canonical Top-Level Absolute Redirects (1-Hop)
       {
         source: '/business/:slug',
-        destination: '/:slug/',
+        destination: 'https://www.pakbizbranhces.online/:slug/',
         permanent: true,
       },
       {
         source: '/category/:slug',
-        destination: '/:slug/',
+        destination: 'https://www.pakbizbranhces.online/:slug/',
         permanent: true,
       },
       {
         source: '/categories/:slug',
-        destination: '/:slug/',
+        destination: 'https://www.pakbizbranhces.online/:slug/',
         permanent: true,
       },
       {
         source: '/cities/:city',
-        destination: '/:city/',
+        destination: 'https://www.pakbizbranhces.online/:city/',
         permanent: true,
       },
       {
         source: '/businesses/:city/:categorySlug',
-        destination: '/:city/:categorySlug/',
+        destination: 'https://www.pakbizbranhces.online/:city/:categorySlug/',
         permanent: true,
       },
       {
         source: '/locations/:city/:categorySlug',
-        destination: '/:city/:categorySlug/',
+        destination: 'https://www.pakbizbranhces.online/:city/:categorySlug/',
         permanent: true,
       },
       {
         source: '/smarttalk',
-        destination: '/',
+        destination: 'https://www.pakbizbranhces.online/',
         permanent: true,
       },
     ]
