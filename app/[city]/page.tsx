@@ -204,6 +204,25 @@ async function getSimilarBusinesses(city: string, category: string, excludeSlug:
   }
 }
 
+async function getBusinessBranches(businessName: string, excludeSlug: string): Promise<Business[]> {
+  try {
+    const q = query(
+      collection(db, 'businesses'),
+      where('businessName', '==', businessName),
+      limit(40)
+    )
+    const snap = await getDocs(q)
+    return snap.docs
+      .map(d => ({ id: d.id, ...d.data() } as Business))
+      .filter(b => {
+        const status = String((b as any).status ?? '').toLowerCase()
+        return (!status || LIVE_STATUSES.has(status)) && b.slug !== excludeSlug
+      })
+  } catch {
+    return []
+  }
+}
+
 export async function generateMetadata(props: { params: Promise<{ city: string }> }): Promise<Metadata> {
   const params = await props.params;
   const slug = params.city
@@ -523,6 +542,7 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
   const categoryName = businessCategory?.name ?? business.category
   const whatsappUrl = business.whatsapp ? `https://wa.me/${business.whatsapp.replace(/[^0-9]/g, '')}` : null
   const similarBusinesses = await getSimilarBusinesses(business.city, business.category, slug)
+  const branches = await getBusinessBranches(business.businessName, slug)
   const mapQuery = encodeURIComponent(`${business.address}, ${business.city}, Pakistan`)
   const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&output=embed`
   const pageUrl = `${BASE_URL}/${slug}/`
@@ -742,6 +762,26 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
                           <div className="min-w-0">
                             <span className="block font-bold text-gray-900 group-hover:text-[#60a5fa] truncate">{biz.businessName}</span>
                             <span className="block text-sm text-gray-500">{biz.phone}</span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Branches in Other Cities */}
+                {branches.length > 0 && (
+                  <div className="space-y-6 mt-8">
+                    <h2 className="text-2xl font-bold text-[#0f2b3d]">{business.businessName} Locations in Other Cities</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {branches.map(br => (
+                        <Link key={br.id} href={`/${br.slug}/`} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-[#60a5fa]/30 transition-all flex items-center gap-4 group">
+                          <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center shrink-0 group-hover:bg-blue-50">
+                            <MapPin className="w-6 h-6 text-[#60a5fa]" />
+                          </div>
+                          <div className="min-w-0">
+                            <span className="block font-bold text-gray-900 group-hover:text-[#60a5fa] truncate">{business.businessName} – {br.city}</span>
+                            <span className="block text-sm text-gray-500">{br.phone}</span>
                           </div>
                         </Link>
                       ))}
