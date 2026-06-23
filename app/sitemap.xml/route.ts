@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { CITIES, CATEGORIES } from '@/lib/data'
 import { BLOG_POSTS } from '@/lib/blog-data'
+import { fetchAllBusinessesForSitemap } from '@/lib/firebase-server'
 
 const BASE_URL = 'https://www.pakbizbranhces.online'
 
@@ -103,6 +104,27 @@ export async function GET() {
     }
     urls.push(urlItem)
   })
+
+  // 6. Business Listings
+  try {
+    const businesses = await fetchAllBusinessesForSitemap()
+    businesses.forEach(biz => {
+      urls.push({
+        loc: `${BASE_URL}/${biz.slug}/`,
+        lastmod,
+        changefreq: 'weekly',
+        priority: '0.75',
+        ...(biz.logoUrl ? {
+          image: {
+            loc: biz.logoUrl,
+            title: biz.slug.replace(/-/g, ' ')
+          }
+        } : {})
+      })
+    })
+  } catch (error) {
+    console.error('Error fetching businesses for sitemap.xml:', error)
+  }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
