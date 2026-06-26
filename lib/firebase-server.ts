@@ -1,5 +1,5 @@
 // Server-side Firebase utilities with Timestamp serialization for client components
-// Optimized queries with proper filtering at database level
+// Optimized queries with proper filtering at database level and static caching fallback
 
 import { db } from './firebase'
 import {
@@ -9,10 +9,10 @@ import {
   orderBy,
   limit,
   getDocs,
-  QueryConstraint,
   Timestamp,
 } from 'firebase/firestore'
 import { LIVE_STATUSES } from './category-mappings'
+import { STATIC_BUSINESSES } from './static-db'
 
 export interface Business {
   id: string
@@ -33,6 +33,9 @@ export interface Business {
   facebookPage?: string
   address?: string
   whatsapp?: string
+  email?: string
+  youtubeChannel?: string
+  subCategory?: string
 }
 
 // Helper: Convert Firestore Timestamp to ISO string
@@ -54,7 +57,7 @@ function serializeTimestamp(timestamp: any): string {
   return new Date().toISOString()
 }
 
-// Fetch latest businesses - simple query without composite index
+// Fetch latest businesses - merging static & dynamic
 export async function fetchLatestBusinesses(count: number = 8): Promise<Business[]> {
   try {
     const q = query(
@@ -64,25 +67,25 @@ export async function fetchLatestBusinesses(count: number = 8): Promise<Business
     )
     
     const snapshot = await getDocs(q)
-    const businesses: Business[] = []
+    const dbBusinesses: Business[] = []
     
     snapshot.docs.forEach(doc => {
       const data = doc.data() as any
       const status = String(data.status ?? '').toLowerCase()
 
       if (!status || LIVE_STATUSES.has(status)) {
-        businesses.push({
+        dbBusinesses.push({
           id: doc.id,
-          businessName: data.businessName,
-          slug: data.slug,
-          city: data.city,
-          category: data.category,
-          categoryId: data.categoryId,
-          description: data.description,
-          phone: data.phone,
-          logoUrl: data.logoUrl,
-          status: data.status,
-          isFeatured: data.isFeatured,
+          businessName: data.businessName || '',
+          slug: data.slug || '',
+          city: data.city || '',
+          category: data.category || '',
+          categoryId: data.categoryId || '',
+          description: data.description || '',
+          phone: data.phone || '',
+          logoUrl: data.logoUrl || '',
+          status: data.status || 'approved',
+          isFeatured: data.isFeatured || false,
           createdAt: serializeTimestamp(data.createdAt),
           rating: data.rating,
           reviewCount: data.reviewCount,
@@ -90,21 +93,38 @@ export async function fetchLatestBusinesses(count: number = 8): Promise<Business
           facebookPage: data.facebookPage,
           address: data.address,
           whatsapp: data.whatsapp,
+          email: data.email,
+          youtubeChannel: data.youtubeChannel,
+          subCategory: data.subCategory
         })
       }
     })
 
-    return businesses.slice(0, count)
+    const merged = new Map<string, Business>()
+    // Add static businesses first
+    STATIC_BUSINESSES.forEach(b => {
+      if (b.slug) merged.set(b.slug, b)
+    })
+    // Add dynamic (overwrites if matching slug)
+    dbBusinesses.forEach(b => {
+      if (b.slug) merged.set(b.slug, b)
+    })
+
+    const all = Array.from(merged.values())
+    all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
+    return all.slice(0, count)
   } catch (error) {
     console.error('Error fetching latest businesses:', error)
-    return []
+    const all = [...STATIC_BUSINESSES]
+    all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    return all.slice(0, count)
   }
 }
 
-// Fetch featured businesses - index-free in-memory query to avoid composite index requirements
+// Fetch featured businesses - merging static & dynamic
 export async function fetchFeaturedBusinesses(count: number = 4): Promise<Business[]> {
   try {
-    // Fetch latest 100 listings and filter in-memory to ensure zero composite index requirements
     const q = query(
       collection(db, 'businesses'),
       orderBy('createdAt', 'desc'),
@@ -112,7 +132,7 @@ export async function fetchFeaturedBusinesses(count: number = 4): Promise<Busine
     )
     
     const snapshot = await getDocs(q)
-    const businesses: Business[] = []
+    const dbBusinesses: Business[] = []
     
     snapshot.docs.forEach(doc => {
       const data = doc.data() as any
@@ -120,18 +140,18 @@ export async function fetchFeaturedBusinesses(count: number = 4): Promise<Busine
       const isFeatured = !!data.isFeatured
       
       if (isFeatured && (!status || LIVE_STATUSES.has(status))) {
-        businesses.push({
+        dbBusinesses.push({
           id: doc.id,
-          businessName: data.businessName,
-          slug: data.slug,
-          city: data.city,
-          category: data.category,
-          categoryId: data.categoryId,
-          description: data.description,
-          phone: data.phone,
-          logoUrl: data.logoUrl,
-          status: data.status,
-          isFeatured: data.isFeatured,
+          businessName: data.businessName || '',
+          slug: data.slug || '',
+          city: data.city || '',
+          category: data.category || '',
+          categoryId: data.categoryId || '',
+          description: data.description || '',
+          phone: data.phone || '',
+          logoUrl: data.logoUrl || '',
+          status: data.status || 'approved',
+          isFeatured: true,
           createdAt: serializeTimestamp(data.createdAt),
           rating: data.rating,
           reviewCount: data.reviewCount,
@@ -139,18 +159,36 @@ export async function fetchFeaturedBusinesses(count: number = 4): Promise<Busine
           facebookPage: data.facebookPage,
           address: data.address,
           whatsapp: data.whatsapp,
+          email: data.email,
+          youtubeChannel: data.youtubeChannel,
+          subCategory: data.subCategory
         })
       }
     })
 
-    return businesses.slice(0, count)
+    const merged = new Map<string, Business>()
+    STATIC_BUSINESSES.forEach(b => {
+      if (b.slug && (b.isFeatured || b.featured)) {
+        merged.set(b.slug, b)
+      }
+    })
+    dbBusinesses.forEach(b => {
+      if (b.slug) merged.set(b.slug, b)
+    })
+
+    const all = Array.from(merged.values())
+    all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
+    return all.slice(0, count)
   } catch (error) {
     console.error('Error fetching featured businesses:', error)
-    return []
+    const all = STATIC_BUSINESSES.filter(b => b.isFeatured || b.featured)
+    all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    return all.slice(0, count)
   }
 }
 
-// Fetch businesses by category - simple query
+// Fetch businesses by category
 export async function fetchCategoryBusinesses(
   categoryId: string,
   pageLimit: number = 20
@@ -164,25 +202,25 @@ export async function fetchCategoryBusinesses(
     )
 
     const snapshot = await getDocs(q)
-    const businesses: Business[] = []
+    const dbBusinesses: Business[] = []
     
     snapshot.docs.forEach(doc => {
       const data = doc.data() as any
       const status = String(data.status ?? '').toLowerCase()
 
       if (!status || LIVE_STATUSES.has(status)) {
-        businesses.push({
+        dbBusinesses.push({
           id: doc.id,
-          businessName: data.businessName,
-          slug: data.slug,
-          city: data.city,
-          category: data.category,
-          categoryId: data.categoryId,
-          description: data.description,
-          phone: data.phone,
-          logoUrl: data.logoUrl,
-          status: data.status,
-          isFeatured: data.isFeatured,
+          businessName: data.businessName || '',
+          slug: data.slug || '',
+          city: data.city || '',
+          category: data.category || '',
+          categoryId: data.categoryId || '',
+          description: data.description || '',
+          phone: data.phone || '',
+          logoUrl: data.logoUrl || '',
+          status: data.status || 'approved',
+          isFeatured: data.isFeatured || false,
           createdAt: serializeTimestamp(data.createdAt),
           rating: data.rating,
           reviewCount: data.reviewCount,
@@ -190,18 +228,38 @@ export async function fetchCategoryBusinesses(
           facebookPage: data.facebookPage,
           address: data.address,
           whatsapp: data.whatsapp,
+          email: data.email,
+          youtubeChannel: data.youtubeChannel,
+          subCategory: data.subCategory
         })
       }
     })
 
-    return businesses.slice(0, pageLimit)
+    const merged = new Map<string, Business>()
+    const normCat = categoryId.toLowerCase().trim()
+    STATIC_BUSINESSES.forEach(b => {
+      if (b.slug && (b.categoryId.toLowerCase() === normCat || b.category.toLowerCase() === normCat)) {
+        merged.set(b.slug, b)
+      }
+    })
+    dbBusinesses.forEach(b => {
+      if (b.slug) merged.set(b.slug, b)
+    })
+
+    const all = Array.from(merged.values())
+    all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
+    return all.slice(0, pageLimit)
   } catch (error) {
     console.error('Error fetching category businesses:', error)
-    return []
+    const normCat = categoryId.toLowerCase().trim()
+    const all = STATIC_BUSINESSES.filter(b => b.categoryId.toLowerCase() === normCat || b.category.toLowerCase() === normCat)
+    all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    return all.slice(0, pageLimit)
   }
 }
 
-// Fetch businesses by city - simple query
+// Fetch businesses by city
 export async function fetchCityBusinesses(
   city: string,
   pageLimit: number = 20
@@ -215,25 +273,25 @@ export async function fetchCityBusinesses(
     )
 
     const snapshot = await getDocs(q)
-    const businesses: Business[] = []
+    const dbBusinesses: Business[] = []
     
     snapshot.docs.forEach(doc => {
       const data = doc.data() as any
       const status = String(data.status ?? '').toLowerCase()
 
       if (!status || LIVE_STATUSES.has(status)) {
-        businesses.push({
+        dbBusinesses.push({
           id: doc.id,
-          businessName: data.businessName,
-          slug: data.slug,
-          city: data.city,
-          category: data.category,
-          categoryId: data.categoryId,
-          description: data.description,
-          phone: data.phone,
-          logoUrl: data.logoUrl,
-          status: data.status,
-          isFeatured: data.isFeatured,
+          businessName: data.businessName || '',
+          slug: data.slug || '',
+          city: data.city || '',
+          category: data.category || '',
+          categoryId: data.categoryId || '',
+          description: data.description || '',
+          phone: data.phone || '',
+          logoUrl: data.logoUrl || '',
+          status: data.status || 'approved',
+          isFeatured: data.isFeatured || false,
           createdAt: serializeTimestamp(data.createdAt),
           rating: data.rating,
           reviewCount: data.reviewCount,
@@ -241,35 +299,53 @@ export async function fetchCityBusinesses(
           facebookPage: data.facebookPage,
           address: data.address,
           whatsapp: data.whatsapp,
+          email: data.email,
+          youtubeChannel: data.youtubeChannel,
+          subCategory: data.subCategory
         })
       }
     })
 
-    return businesses.slice(0, pageLimit)
+    const merged = new Map<string, Business>()
+    const normCity = city.toLowerCase().trim()
+    STATIC_BUSINESSES.forEach(b => {
+      if (b.slug && b.city.toLowerCase() === normCity) {
+        merged.set(b.slug, b)
+      }
+    })
+    dbBusinesses.forEach(b => {
+      if (b.slug) merged.set(b.slug, b)
+    })
+
+    const all = Array.from(merged.values())
+    all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
+    return all.slice(0, pageLimit)
   } catch (error) {
     console.error('Error fetching city businesses:', error)
-    return []
+    const normCity = city.toLowerCase().trim()
+    const all = STATIC_BUSINESSES.filter(b => b.city.toLowerCase() === normCity)
+    all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    return all.slice(0, pageLimit)
   }
 }
 
-// Fetch businesses by city and category - simple query with JS filtering to avoid index requirements
+// Fetch businesses by city and category
 export async function fetchCityCategoryBusinesses(
   city: string,
   categoryId: string,
   pageLimit: number = 20
 ): Promise<Business[]> {
   try {
-    // Fetch businesses by city (which we likely already have an index for)
-    // then filter by category in memory to avoid needing a composite index
     const q = query(
       collection(db, 'businesses'),
       where('city', '==', city),
       orderBy('createdAt', 'desc'),
-      limit(pageLimit * 4) // Fetch more to allow for category filtering
+      limit(pageLimit * 4)
     )
 
     const snapshot = await getDocs(q)
-    const businesses: Business[] = []
+    const dbBusinesses: Business[] = []
     
     snapshot.docs.forEach(doc => {
       const data = doc.data() as any
@@ -277,18 +353,18 @@ export async function fetchCityCategoryBusinesses(
       const matchesCategory = data.categoryId === categoryId || data.category === categoryId
 
       if (matchesCategory && (!status || LIVE_STATUSES.has(status))) {
-        businesses.push({
+        dbBusinesses.push({
           id: doc.id,
-          businessName: data.businessName,
-          slug: data.slug,
-          city: data.city,
-          category: data.category,
-          categoryId: data.categoryId,
-          description: data.description,
-          phone: data.phone,
-          logoUrl: data.logoUrl,
-          status: data.status,
-          isFeatured: data.isFeatured,
+          businessName: data.businessName || '',
+          slug: data.slug || '',
+          city: data.city || '',
+          category: data.category || '',
+          categoryId: data.categoryId || '',
+          description: data.description || '',
+          phone: data.phone || '',
+          logoUrl: data.logoUrl || '',
+          status: data.status || 'approved',
+          isFeatured: data.isFeatured || false,
           createdAt: serializeTimestamp(data.createdAt),
           rating: data.rating,
           reviewCount: data.reviewCount,
@@ -296,14 +372,41 @@ export async function fetchCityCategoryBusinesses(
           facebookPage: data.facebookPage,
           address: data.address,
           whatsapp: data.whatsapp,
+          email: data.email,
+          youtubeChannel: data.youtubeChannel,
+          subCategory: data.subCategory
         })
       }
     })
 
-    return businesses.slice(0, pageLimit)
+    const merged = new Map<string, Business>()
+    const normCity = city.toLowerCase().trim()
+    const normCat = categoryId.toLowerCase().trim()
+    
+    STATIC_BUSINESSES.forEach(b => {
+      const matchCat = b.categoryId.toLowerCase() === normCat || b.category.toLowerCase() === normCat
+      if (b.slug && b.city.toLowerCase() === normCity && matchCat) {
+        merged.set(b.slug, b)
+      }
+    })
+    dbBusinesses.forEach(b => {
+      if (b.slug) merged.set(b.slug, b)
+    })
+
+    const all = Array.from(merged.values())
+    all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
+    return all.slice(0, pageLimit)
   } catch (error) {
     console.error('Error fetching city category businesses:', error)
-    return []
+    const normCity = city.toLowerCase().trim()
+    const normCat = categoryId.toLowerCase().trim()
+    const all = STATIC_BUSINESSES.filter(b => 
+      b.city.toLowerCase() === normCity && 
+      (b.categoryId.toLowerCase() === normCat || b.category.toLowerCase() === normCat)
+    )
+    all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    return all.slice(0, pageLimit)
   }
 }
 
@@ -316,24 +419,37 @@ export async function fetchAllBusinessesForSitemap(): Promise<{ slug: string, lo
     )
 
     const snapshot = await getDocs(q)
-    const businesses: { slug: string, logoUrl?: string }[] = []
+    const dbSitemapItems: { slug: string, logoUrl?: string }[] = []
     
     snapshot.docs.forEach(doc => {
       const data = doc.data() as any
       const status = String(data.status ?? '').toLowerCase()
 
       if (data.slug && (!status || LIVE_STATUSES.has(status))) {
-        businesses.push({
+        dbSitemapItems.push({
           slug: data.slug,
           logoUrl: data.logoUrl
         })
       }
     })
 
-    return businesses
+    const merged = new Map<string, { slug: string, logoUrl?: string }>()
+    
+    // Add static ones
+    STATIC_BUSINESSES.forEach(b => {
+      if (b.slug) {
+        merged.set(b.slug, { slug: b.slug, logoUrl: b.logoUrl })
+      }
+    })
+
+    // Add dynamic ones
+    dbSitemapItems.forEach(item => {
+      merged.set(item.slug, item)
+    })
+
+    return Array.from(merged.values())
   } catch (error) {
     console.error('Error fetching all businesses for sitemap:', error)
-    return []
+    return STATIC_BUSINESSES.map(b => ({ slug: b.slug, logoUrl: b.logoUrl }))
   }
 }
-

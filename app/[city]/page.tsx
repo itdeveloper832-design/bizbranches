@@ -13,6 +13,7 @@ import { getCategoryKeywordCluster, getCityKeywordCluster } from '@/lib/organic-
 import BannerAd from '@/components/ads/banner-ad'
 import NativeAd from '@/components/ads/native-ad'
 import React from 'react'
+import { findStaticBusinessBySlug, getStaticSimilar, getStaticBranches } from '@/lib/static-db'
 
 // Disable caching so new/updated business data appears immediately
 export const revalidate = 60
@@ -170,6 +171,9 @@ function generateDynamicAboutSection(business: Business, categoryName: string): 
 }
 
 async function getBusinessBySlug(slug: string): Promise<Business | null> {
+  const staticBiz = findStaticBusinessBySlug(slug)
+  if (staticBiz) return staticBiz as any as Business
+
   try {
     const q = query(
       collection(db, 'businesses'),
@@ -186,6 +190,8 @@ async function getBusinessBySlug(slug: string): Promise<Business | null> {
 }
 
 async function getSimilarBusinesses(city: string, category: string, excludeSlug: string): Promise<Business[]> {
+  const staticSimilar = getStaticSimilar(city, category, excludeSlug) as any as Business[]
+
   try {
     const q = query(
       collection(db, 'businesses'),
@@ -194,19 +200,26 @@ async function getSimilarBusinesses(city: string, category: string, excludeSlug:
       limit(5)
     )
     const snap = await getDocs(q)
-    return snap.docs
+    const dbSimilar = snap.docs
       .map(d => ({ id: d.id, ...d.data() } as Business))
       .filter(b => {
         const status = String((b as any).status ?? '').toLowerCase()
         return (!status || LIVE_STATUSES.has(status)) && b.slug !== excludeSlug
       })
-      .slice(0, 4)
+
+    const merged = new Map<string, Business>()
+    staticSimilar.forEach(b => { if (b.slug) merged.set(b.slug, b) })
+    dbSimilar.forEach(b => { if (b.slug) merged.set(b.slug, b) })
+
+    return Array.from(merged.values()).slice(0, 4)
   } catch {
-    return []
+    return staticSimilar.slice(0, 4)
   }
 }
 
 async function getBusinessBranches(businessName: string, excludeSlug: string): Promise<Business[]> {
+  const staticBranches = getStaticBranches(businessName, excludeSlug) as any as Business[]
+
   try {
     const q = query(
       collection(db, 'businesses'),
@@ -214,14 +227,20 @@ async function getBusinessBranches(businessName: string, excludeSlug: string): P
       limit(40)
     )
     const snap = await getDocs(q)
-    return snap.docs
+    const dbBranches = snap.docs
       .map(d => ({ id: d.id, ...d.data() } as Business))
       .filter(b => {
         const status = String((b as any).status ?? '').toLowerCase()
         return (!status || LIVE_STATUSES.has(status)) && b.slug !== excludeSlug
       })
+
+    const merged = new Map<string, Business>()
+    staticBranches.forEach(b => { if (b.slug) merged.set(b.slug, b) })
+    dbBranches.forEach(b => { if (b.slug) merged.set(b.slug, b) })
+
+    return Array.from(merged.values())
   } catch {
-    return []
+    return staticBranches
   }
 }
 
