@@ -10,6 +10,7 @@ import { CATEGORIES } from '@/lib/data'
 import { LIVE_STATUSES } from '@/lib/category-mappings'
 import { findStaticBusinessBySlug } from '@/lib/static-db'
 import { fetchCityCategoryBusinesses } from '@/lib/firebase-server'
+import { BannerAdLoader, NativeAdLoader } from '@/components/ads/ads-loader'
 
 // ISR: revalidate every 5 minutes: business data is relatively stable.
 // On-demand revalidation can be triggered via the IndexNow API route.
@@ -431,6 +432,11 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
                     </a>
                   )}
                 </div>
+
+                {/* Ad Placement: Inline Banner right below contact actions */}
+                <div className="mt-8 border-t border-gray-100 pt-6">
+                  <BannerAdLoader variant="inline" />
+                </div>
               </div>
             </div>
           </div>
@@ -566,6 +572,9 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
                     </div>
                   </div>
                 </div>
+
+                {/* Ad Placement: Native Ad right below Contact Info */}
+                <NativeAdLoader />
 
                 {/* Business Info */}
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
