@@ -8,6 +8,8 @@ import { db } from '@/lib/firebase'
 import { collection, query, where, getDocs, limit } from 'firebase/firestore'
 import { CATEGORIES } from '@/lib/data'
 import { LIVE_STATUSES } from '@/lib/category-mappings'
+import { findStaticBusinessBySlug } from '@/lib/static-db'
+import { fetchCityCategoryBusinesses } from '@/lib/firebase-server'
 
 // ISR: revalidate every 5 minutes: business data is relatively stable.
 // On-demand revalidation can be triggered via the IndexNow API route.
@@ -60,6 +62,34 @@ async function getBusinessBySlug(slug: string): Promise<Business | null> {
       return { id: docSnap.id, ...docSnap.data() } as Business
     }
 
+    // 3. Fallback to static businesses database
+    const staticBiz = findStaticBusinessBySlug(slug)
+    if (staticBiz) {
+      return {
+        id: staticBiz.id,
+        businessName: staticBiz.businessName,
+        slug: staticBiz.slug,
+        city: staticBiz.city,
+        category: staticBiz.category,
+        categoryId: staticBiz.categoryId || staticBiz.category,
+        description: staticBiz.description,
+        phone: staticBiz.phone,
+        logoUrl: staticBiz.logoUrl,
+        status: staticBiz.status,
+        isFeatured: staticBiz.isFeatured || staticBiz.featured,
+        createdAt: staticBiz.createdAt,
+        rating: staticBiz.rating,
+        reviewCount: staticBiz.reviewCount,
+        websiteUrl: staticBiz.websiteUrl,
+        facebookPage: staticBiz.facebookPage,
+        address: staticBiz.address,
+        whatsapp: staticBiz.whatsapp,
+        email: staticBiz.email,
+        youtubeChannel: staticBiz.youtubeChannel,
+        subCategory: staticBiz.subCategory
+      } as Business
+    }
+
     return null
   } catch (error) {
     console.error('Error fetching business:', error)
@@ -69,23 +99,42 @@ async function getBusinessBySlug(slug: string): Promise<Business | null> {
 
 async function getSimilarBusinesses(city: string, category: string, excludeSlug: string): Promise<Business[]> {
   try {
-    const q = query(
-      collection(db, 'businesses'),
-      where('city', '==', city),
-      where('category', '==', category),
-      limit(5)
-    )
-    const snap = await getDocs(q)
-    return snap.docs
-      .map(d => ({ id: d.id, ...d.data() } as Business))
-      .filter(b => {
-        const status = String((b as any).status ?? '').toLowerCase()
-        return (!status || LIVE_STATUSES.has(status)) && b.slug !== excludeSlug
-      })
-      .slice(0, 4)
+    const businesses = await fetchCityCategoryBusinesses(city, category, 5)
+    return (businesses as unknown as Business[]).filter(b => b.slug !== excludeSlug).slice(0, 4)
   } catch {
     return []
   }
+}
+
+function renderDescriptionWithLinks(text: string) {
+  if (!text) return null
+  const parts = []
+  let currentIndex = 0
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g
+  let match
+
+  while ((match = linkRegex.exec(text)) !== null) {
+    const [fullMatch, linkText, linkUrl] = match
+    const matchIndex = match.index
+
+    if (matchIndex > currentIndex) {
+      parts.push(text.substring(currentIndex, matchIndex))
+    }
+
+    parts.push(
+      <Link key={matchIndex} href={linkUrl} className="text-[#60a5fa] hover:underline font-semibold">
+        {linkText}
+      </Link>
+    )
+
+    currentIndex = matchIndex + fullMatch.length
+  }
+
+  if (currentIndex < text.length) {
+    parts.push(text.substring(currentIndex))
+  }
+
+  return parts.length > 0 ? parts : text
 }
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -203,7 +252,7 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
     '@type': 'LocalBusiness',
     '@id': pageUrl,
     name: business.businessName,
-    description: business.description,
+    description: business.description ? business.description.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1') : '',
     url: pageUrl,
     telephone: business.phone,
     priceRange: '$$',
@@ -346,9 +395,9 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
                   </Link>
                 </div>
 
-                <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                  {business.description}
-                </p>
+                <div className="text-gray-600 text-lg leading-relaxed mb-6 whitespace-pre-line">
+                  {renderDescriptionWithLinks(business.description)}
+                </div>
 
                 {/* Contact Actions */}
                 <div className="flex flex-wrap gap-3">
@@ -398,9 +447,9 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
                   <h2 className="text-2xl font-bold text-[#0f2b3d] mb-4">
                     About {business.businessName}
                   </h2>
-                  <p className="text-gray-600 leading-relaxed text-lg mb-8">
-                    {business.description}
-                  </p>
+                  <div className="text-gray-600 leading-relaxed text-lg mb-8 whitespace-pre-line">
+                    {renderDescriptionWithLinks(business.description)}
+                  </div>
 
                   <div className="prose prose-blue max-w-none">
                     <h3 className="text-xl font-bold text-[#0f2b3d] mb-4">Professional Overview & Services</h3>
