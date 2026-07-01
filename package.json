@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/generate-sitemaps.js",
     "start": "next start",
     "lint": "next lint",
     "setup-admin": "npx ts-node scripts/create-admin-user.ts"
