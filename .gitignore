@@ -208,3 +208,6 @@ WEBSITE-INFO.txt
 *.docx
 *.zip
 docx_extracted/
+
+# Scratch files
+scratch/

@@ -8,7 +8,7 @@ import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import AdminLogin from '@/components/admin-login'
 import { db } from '@/lib/firebase'
-import { collection, query, orderBy, getDocs, doc, deleteDoc, updateDoc } from 'firebase/firestore'
+import { collection, query, orderBy, getDocs, doc, deleteDoc, updateDoc, onSnapshot } from 'firebase/firestore'
 import { MAIN_PAGES } from '@/lib/pages-config'
 
 interface Business {
@@ -31,6 +31,11 @@ interface Business {
   createdAt: any
   status: string
   isFeatured?: boolean
+  businessId?: string
+  paymentScreenshotUrl?: string
+  paymentSubmittedAt?: any
+  paymentPlan?: 'standard' | 'express'
+  paymentPlanPrice?: number
 }
 
 interface ContactForm {
@@ -56,61 +61,108 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [currentUser, setCurrentUser] = useState<any>(null)
 
+  // Web Audio chime synthesis
+  const playChime = () => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      
+      const osc1 = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+      osc1.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5
+      
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(659.25, audioCtx.currentTime); // E5
+      osc2.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.15); // C6
+      
+      gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+      
+      osc1.connect(gainNode);
+      osc2.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      osc1.start();
+      osc2.start();
+      
+      osc1.stop(audioCtx.currentTime + 0.6);
+      osc2.stop(audioCtx.currentTime + 0.6);
+    } catch (e) {
+      console.error('Failed to play audio chime:', e);
+    }
+  }
+
   useEffect(() => {
     // Check localStorage authentication
-    const isAuthenticated = localStorage.getItem('admin_authenticated') === 'true'
+    const isAuth = localStorage.getItem('admin_authenticated') === 'true'
     const adminEmail = localStorage.getItem('admin_email')
     
-    if (isAuthenticated && adminEmail) {
+    if (isAuth && adminEmail) {
       setIsAuthenticated(true)
       setCurrentUser({ email: adminEmail })
-      fetchData()
-    } else {
-      setIsAuthenticated(false)
-      setCurrentUser(null)
-    }
-  }, [])
-
-  async function fetchData() {
-    setLoading(true)
-    try {
-      // Fetch businesses
+      
+      // Set up real-time listener for businesses
+      setLoading(true)
       const businessesQuery = query(
         collection(db, 'businesses'),
         orderBy('createdAt', 'desc')
       )
-      const businessesSnapshot = await getDocs(businessesQuery)
-      const businessesData = businessesSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      } as Business))
-      setBusinesses(businessesData)
-
-      // Fetch contact forms (you'll need to create this collection)
-      try {
-        const contactsQuery = query(
-          collection(db, 'contactForms'),
-          orderBy('timestamp', 'desc')
-        )
-        const contactsSnapshot = await getDocs(contactsQuery)
-        const contactsData = contactsSnapshot.docs.map(doc => ({
+      
+      let isFirstEmission = true
+      const unsubscribe = onSnapshot(businessesQuery, (snapshot) => {
+        const businessesData = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
-        } as ContactForm))
-        setContacts(contactsData)
-      } catch (error) {
-        console.log('Contact forms collection not found yet')
-      }
+        } as Business))
+        
+        setBusinesses(businessesData)
+        setLoading(false)
+
+        // Play chime on new pending listings or screenshot uploads
+        if (!isFirstEmission) {
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === 'added' || change.type === 'modified') {
+              playChime()
+            }
+          })
+        }
+        isFirstEmission = false
+      }, (error) => {
+        console.error('Real-time listener failed:', error)
+        setLoading(false)
+      })
+
+      fetchContacts()
+
+      return () => unsubscribe()
+    } else {
+      setIsAuthenticated(false)
+      setCurrentUser(null)
+    }
+  }, [isAuthenticated])
+
+  async function fetchContacts() {
+    try {
+      const contactsQuery = query(
+        collection(db, 'contactForms'),
+        orderBy('timestamp', 'desc')
+      )
+      const contactsSnapshot = await getDocs(contactsQuery)
+      const contactsData = contactsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      } as ContactForm))
+      setContacts(contactsData)
     } catch (error) {
-      console.error('Error fetching data:', error)
-    } finally {
-      setLoading(false)
+      console.log('Contact forms collection not found yet')
     }
   }
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true)
-    fetchData()
   }
 
   async function handleLogout() {
@@ -278,6 +330,56 @@ export default function AdminPage() {
 
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Real-time Payment Screenshot Alerts */}
+          {businesses.filter(b => b.paymentScreenshotUrl && b.status !== 'approved').length > 0 && (
+            <div className="mb-8 bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 shadow-sm animate-pulseFast">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </span>
+                <h3 className="text-sm font-bold text-amber-900 uppercase tracking-wider">
+                  Pending Payment Activations ({businesses.filter(b => b.paymentScreenshotUrl && b.status !== 'approved').length})
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 gap-4">
+                {businesses.filter(b => b.paymentScreenshotUrl && b.status !== 'approved').map((biz) => (
+                  <div key={biz.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-white border border-amber-100 rounded-xl shadow-xs hover:border-amber-200 transition-all">
+                    <div>
+                      <div className="text-sm font-bold text-slate-800">{biz.businessName}</div>
+                      <div className="text-xs text-slate-500 mt-0.5">
+                        Category: {biz.category} | City: {biz.city} | Plan: <span className="font-bold text-blue-600 uppercase tracking-wider">{biz.paymentPlan || 'standard'}</span> (RS {biz.paymentPlanPrice || 10})
+                      </div>
+                      {biz.businessId && (
+                        <span className="inline-block mt-2 px-2 py-0.5 text-[9px] font-mono font-bold bg-slate-100 text-slate-600 rounded">
+                          ID: {biz.businessId}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 mt-4 sm:mt-0">
+                      <a
+                        href={biz.paymentScreenshotUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-800 font-semibold bg-blue-50 hover:bg-blue-100 px-3 py-2 rounded-lg border border-blue-200 transition-colors"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        View Receipt
+                      </a>
+                      <button
+                        onClick={() => handleSetActive(biz.id)}
+                        className="inline-flex items-center gap-1 text-xs text-white hover:bg-green-700 bg-green-600 font-bold px-3 py-2 rounded-lg transition-colors cursor-pointer"
+                      >
+                        <CheckCircle className="w-3.5 h-3.5" />
+                        Approve & Publish
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -397,6 +499,7 @@ export default function AdminPage() {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Business</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Receipt</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Featured</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -407,8 +510,24 @@ export default function AdminPage() {
                         <tr key={business.id} className="hover:bg-gray-50">
                           <td className="px-6 py-4">
                             <div>
-                              <div className="text-sm font-medium text-gray-900">{business.businessName}</div>
-                              <div className="text-sm text-gray-500">{business.category}</div>
+                              <div className="text-sm font-semibold text-gray-900">{business.businessName}</div>
+                              <div className="text-xs text-gray-500">{business.category}</div>
+                              {business.businessId && (
+                                <div className="mt-1 flex flex-wrap gap-2">
+                                  <span className="inline-block px-2 py-0.5 text-[10px] font-mono font-bold bg-blue-50 text-blue-700 border border-blue-100 rounded">
+                                    ID: {business.businessId}
+                                  </span>
+                                  {business.paymentPlan && (
+                                    <span className={`inline-block px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded border ${
+                                      business.paymentPlan === 'express' 
+                                        ? 'bg-amber-50 text-amber-700 border-amber-100' 
+                                        : 'bg-slate-50 text-slate-700 border-slate-100'
+                                    }`}>
+                                      Plan: {business.paymentPlan} (RS {business.paymentPlanPrice})
+                                    </span>
+                                  )}
+                                </div>
+                              )}
                             </div>
                           </td>
                           <td className="px-6 py-4">
@@ -417,21 +536,36 @@ export default function AdminPage() {
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-900">{business.city}</td>
                           <td className="px-6 py-4">
+                            {business.paymentScreenshotUrl ? (
+                              <a
+                                href={business.paymentScreenshotUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-800 font-semibold bg-blue-50 hover:bg-blue-100 px-2.5 py-1.5 rounded-lg border border-blue-200 transition-colors cursor-pointer"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                                View Receipt
+                              </a>
+                            ) : (
+                              <span className="text-xs text-gray-400 italic">No receipt</span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4">
                             {business.status === 'approved' ? (
-                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">
                                 Active
                               </span>
                             ) : (
-                              <div className="flex items-center gap-2">
-                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                  {business.status || 'unknown'}
+                              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
+                                  {business.status || 'pending'}
                                 </span>
                                 <button
                                   onClick={() => handleSetActive(business.id)}
-                                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-                                  title="Make this business active"
+                                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors cursor-pointer"
+                                  title="Approve and activate this business"
                                 >
-                                  Set Active
+                                  Approve
                                 </button>
                               </div>
                             )}
@@ -439,7 +573,7 @@ export default function AdminPage() {
                           <td className="px-6 py-4">
                             <button
                               onClick={() => handleToggleFeatured(business.id, business.isFeatured || false)}
-                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors cursor-pointer ${
                                 business.isFeatured
                                   ? 'bg-amber-100 text-amber-800 hover:bg-amber-200'
                                   : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
@@ -454,20 +588,20 @@ export default function AdminPage() {
                             <div className="flex items-center gap-2">
                               <button
                                 onClick={() => handleEditBusiness(business)}
-                                className="text-blue-600 hover:text-blue-900"
+                                className="text-blue-600 hover:text-blue-900 cursor-pointer"
                               >
                                 <Edit2 className="w-4 h-4" />
                               </button>
                               <button
                                 onClick={() => setDeleteConfirm(business.id)}
-                                className="text-red-600 hover:text-red-900"
+                                className="text-red-600 hover:text-red-900 cursor-pointer"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
                               <Link
                                 href={`/business/${business.slug || business.id}/`}
                                 target="_blank"
-                                className="text-gray-600 hover:text-gray-900"
+                                className="text-gray-600 hover:text-gray-900 cursor-pointer"
                               >
                                 <Eye className="w-4 h-4" />
                               </Link>
@@ -707,3 +841,5 @@ export default function AdminPage() {
       </div>
   )
 }
+
+export const runtime = 'edge';

@@ -382,3 +382,4 @@ export default async function CityPage(props: { params: Promise<{ city: string }
     </>
   )
 }
+

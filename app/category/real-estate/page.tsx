@@ -21,3 +21,5 @@ export default function RealEstatePage() {
     </>
   )
 }
+
+export const runtime = 'edge';

@@ -31,3 +31,5 @@ ${businesses.map(biz => {
     },
   })
 }
+
+export const runtime = 'edge';

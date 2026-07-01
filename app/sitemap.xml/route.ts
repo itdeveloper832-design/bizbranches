@@ -148,3 +148,5 @@ ${urls.map(u => `  <url>
     },
   })
 }
+
+export const runtime = 'edge';

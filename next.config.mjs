@@ -1,3 +1,10 @@
+import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev';
+
+// Setup the development platform only when running in development mode
+if (process.env.NODE_ENV === 'development') {
+  await setupDevPlatform();
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,

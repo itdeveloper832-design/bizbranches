@@ -276,3 +276,5 @@ export default function AdminSeedPage() {
     </div>
   )
 }
+
+export const runtime = 'edge';

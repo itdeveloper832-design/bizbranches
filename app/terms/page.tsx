@@ -80,3 +80,5 @@ export default function TermsPage() {
     </>
   )
 }
+
+export const runtime = 'edge';

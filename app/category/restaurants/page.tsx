@@ -21,3 +21,5 @@ export default function RestaurantsPage() {
     </>
   )
 }
+
+export const runtime = 'edge';

@@ -11,3 +11,5 @@ export const metadata: Metadata = {
 export default function RestaurantsPage() {
   return <RestaurantsClient />
 }
+
+export const runtime = 'edge';

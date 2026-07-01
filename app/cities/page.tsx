@@ -22,3 +22,5 @@ export const metadata: Metadata = {
 export default function CitiesPage() {
   return <CitiesClient />
 }
+
+export const runtime = 'edge';

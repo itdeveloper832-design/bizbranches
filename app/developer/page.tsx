@@ -11,3 +11,5 @@ export const metadata: Metadata = {
 export default function DeveloperPage() {
   return <DeveloperClient />
 }
+
+export const runtime = 'edge';

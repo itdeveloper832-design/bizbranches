@@ -50,7 +50,11 @@ async function getBusinessBySlug(slug: string): Promise<Business | null> {
     
     if (!querySnapshot.empty) {
       const doc = querySnapshot.docs[0]
-      return { id: doc.id, ...doc.data() } as Business
+      const biz = { id: doc.id, ...doc.data() } as Business
+      if (biz.status !== 'approved') {
+        return null
+      }
+      return biz
     }
 
     // 2. Fallback: Try fetching by ID (Legacy support)
@@ -60,7 +64,11 @@ async function getBusinessBySlug(slug: string): Promise<Business | null> {
     const docSnap = await getDoc(docRef)
     
     if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() } as Business
+      const biz = { id: docSnap.id, ...docSnap.data() } as Business
+      if (biz.status !== 'approved') {
+        return null
+      }
+      return biz
     }
 
     // 3. Fallback to static businesses database
@@ -686,3 +694,5 @@ export default async function BusinessPage(props: { params: Promise<{ slug: stri
     </>
   )
 }
+
+export const runtime = 'edge';

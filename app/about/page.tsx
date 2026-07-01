@@ -182,3 +182,5 @@ export default function AboutPage() {
     </>
   )
 }
+
+export const runtime = 'edge';

@@ -380,3 +380,5 @@ export default async function CityCategoryPage(props: { params: Promise<{ city: 
     </>
   )
 }
+
+export const runtime = 'edge';

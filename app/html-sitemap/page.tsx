@@ -112,3 +112,5 @@ export default function HtmlSitemapPage() {
     </>
   )
 }
+
+export const runtime = 'edge';

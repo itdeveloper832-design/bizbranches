@@ -24,3 +24,5 @@ export const metadata: Metadata = {
 export default function CategoriesPage() {
   return <CategoriesClient />
 }
+
+export const runtime = 'edge';

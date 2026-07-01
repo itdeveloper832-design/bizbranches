@@ -871,3 +871,5 @@ export default async function CatchAllPage(props: { params: Promise<{ city: stri
     </>
   )
 }
+
+export const runtime = 'edge';

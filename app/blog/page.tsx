@@ -144,3 +144,5 @@ export default function BlogPage() {
     </>
   )
 }
+
+export const runtime = 'edge';
