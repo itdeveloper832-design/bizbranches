@@ -30,9 +30,6 @@ interface Business {
   logoUrl?: string
 }
 
-export async function generateStaticParams() {
-  return []
-}
 
 export async function generateMetadata(props: { params: Promise<{ categorySlug: string }> }): Promise<Metadata> {
   const params = await props.params;

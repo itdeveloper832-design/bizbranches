@@ -28,9 +28,6 @@ interface Business {
   logoUrl?: string
 }
 
-export async function generateStaticParams() {
-  return []
-}
 
 function findCityBySlug(slug: string): string | null {
   const normalized = slug.replace(/-/g, ' ').toLowerCase()
