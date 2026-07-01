@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signOut, onAuthStateChanged } from 'firebase/auth'
-import { auth } from '@/lib/firebase'
+import { auth } from '@/lib/firebase-auth'
 import { LogOut, User, Mail, Edit2, Loader2 } from 'lucide-react'
 
 interface UserProfile {

@@ -1,4 +1,4 @@
-import staticData from './static-businesses.json'
+import staticData from './static-businesses-brief.json'
 
 export interface StaticBusiness {
   id: string
@@ -28,12 +28,6 @@ export interface StaticBusiness {
 }
 
 export const STATIC_BUSINESSES = staticData as StaticBusiness[]
-
-// Find static business by slug
-export function findStaticBusinessBySlug(slug: string): StaticBusiness | null {
-  const normalized = slug.toLowerCase().replace(/\/$/, '')
-  return STATIC_BUSINESSES.find(b => b.slug.toLowerCase() === normalized) ?? null
-}
 
 // Find static businesses by city
 export function getStaticCity(city: string): StaticBusiness[] {
