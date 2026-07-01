@@ -8,8 +8,6 @@ import { BLOG_POSTS } from '@/lib/blog-data'
 
 const BASE_URL = 'https://www.pakbizbranhces.online'
 
-export const revalidate = 86400 // revalidate once per day
-
 export async function generateStaticParams() {
   // Only build static pages for non-hidden posts
   return BLOG_POSTS.filter(post => !post.hidden).map(post => ({ slug: post.slug }))
