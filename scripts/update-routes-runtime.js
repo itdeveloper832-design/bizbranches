@@ -37,17 +37,23 @@ let removedCount = 0;
 
 files.forEach(file => {
   let content = fs.readFileSync(file, 'utf8');
+  
+  // A route is truly static if it defines generateStaticParams and returns something other than an empty array
   const hasStaticParams = content.includes('generateStaticParams');
+  const hasEmptyStaticParams = content.includes('generateStaticParams') && (content.includes('return []') || content.includes('return  []'));
+  const isReexport = hasStaticParams && !content.includes('return');
+  const isTrulyStatic = hasStaticParams && !hasEmptyStaticParams && !isReexport;
+
   const runtimeRegex = /export\s+const\s+runtime\s*=\s*['"]([^'"]+)['"];?\s*/g;
   const hasRuntimeExport = runtimeRegex.test(content);
   runtimeRegex.lastIndex = 0; // reset regex index
 
-  if (hasStaticParams) {
+  if (isTrulyStatic) {
     if (hasRuntimeExport) {
-      // Remove runtime export because it conflicts with generateStaticParams
+      // Remove runtime export because it conflicts with static generateStaticParams
       content = content.replace(runtimeRegex, '');
       fs.writeFileSync(file, content, 'utf8');
-      console.log(`Removed runtime export in: ${path.relative(targetDir, file)} (conflicts with generateStaticParams)`);
+      console.log(`Removed runtime export in: ${path.relative(targetDir, file)} (conflicts with static generateStaticParams)`);
       removedCount++;
     } else {
       untouchedCount++;
@@ -77,6 +83,6 @@ files.forEach(file => {
 console.log(`\nRuntime update summary:`);
 console.log(`- Updated: ${updatedCount} files`);
 console.log(`- Injected: ${injectedCount} files`);
-console.log(`- Removed: ${removedCount} files (conflicts with generateStaticParams)`);
+console.log(`- Removed: ${removedCount} files (conflicts with static generateStaticParams)`);
 console.log(`- Untouched: ${untouchedCount} files`);
 console.log(`Total checked: ${files.length} files`);
