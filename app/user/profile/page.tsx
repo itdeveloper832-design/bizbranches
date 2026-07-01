@@ -25,4 +25,3 @@ export default function UserProfilePage() {
   )
 }
 
-export const runtime = 'edge';

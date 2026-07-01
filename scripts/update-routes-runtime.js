@@ -4,8 +4,12 @@ const path = require('path');
 const targetDir = path.join(__dirname, '..', 'app');
 const projectRootDir = path.join(__dirname, '..');
 
-// Blacklist of routes that should be completely static and NOT run on the Edge runtime
+// Blacklist of routes that should be completely static/ISR and NOT run on the Edge runtime
 const STATIC_ROUTES = [
+  'app/page.tsx', // Homepage
+  'app/admin/page.tsx', // Admin Dashboard
+  'app/admin/seed/page.tsx', // Admin Seed Tool
+  'app/user/profile/page.tsx', // User Profile
   'app/about/page.tsx',
   'app/contact/page.tsx',
   'app/developer/page.tsx',

@@ -848,4 +848,3 @@ export default async function HomePage() {
   )
 }
 
-export const runtime = 'edge';
