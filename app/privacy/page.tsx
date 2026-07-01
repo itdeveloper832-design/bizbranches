@@ -82,4 +82,3 @@ export default function PrivacyPage() {
   )
 }
 
-export const runtime = 'edge';

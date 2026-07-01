@@ -15,4 +15,3 @@ export default function AddBusinessPage() {
   return <AddBusinessClient />
 }
 
-export const runtime = 'edge';

@@ -2,6 +2,30 @@ const fs = require('fs');
 const path = require('path');
 
 const targetDir = path.join(__dirname, '..', 'app');
+const projectRootDir = path.join(__dirname, '..');
+
+// Blacklist of routes that should be completely static and NOT run on the Edge runtime
+const STATIC_ROUTES = [
+  'app/about/page.tsx',
+  'app/contact/page.tsx',
+  'app/developer/page.tsx',
+  'app/privacy/page.tsx',
+  'app/terms/page.tsx',
+  'app/html-sitemap/page.tsx',
+  'app/categories/page.tsx',
+  'app/cities/page.tsx',
+  'app/featured-businesses/page.tsx',
+  'app/auth/login/page.tsx',
+  'app/auth/signup/page.tsx',
+  'app/blog/page.tsx',
+  'app/blog/how-to-add-business/page.tsx',
+  'app/categories/real-estate/page.tsx',
+  'app/categories/restaurants/page.tsx',
+  'app/category/real-estate/page.tsx',
+  'app/category/restaurants/page.tsx',
+  'app/priority/page.tsx',
+  'app/add-business/page.tsx'
+].map(p => path.join(projectRootDir, p).toLowerCase());
 
 function walk(dir) {
   let results = [];
@@ -38,11 +62,14 @@ let removedCount = 0;
 files.forEach(file => {
   let content = fs.readFileSync(file, 'utf8');
   
+  // Check if this route is in the static blacklist
+  const isBlacklistedStatic = STATIC_ROUTES.includes(file.toLowerCase());
+  
   // A route is truly static if it defines generateStaticParams and returns something other than an empty array
   const hasStaticParams = content.includes('generateStaticParams');
   const hasEmptyStaticParams = content.includes('generateStaticParams') && (content.includes('return []') || content.includes('return  []'));
   const isReexport = hasStaticParams && !content.includes('return');
-  const isTrulyStatic = hasStaticParams && !hasEmptyStaticParams && !isReexport;
+  const isTrulyStatic = (hasStaticParams && !hasEmptyStaticParams && !isReexport) || isBlacklistedStatic;
 
   const runtimeRegex = /export\s+const\s+runtime\s*=\s*['"]([^'"]+)['"];?\s*/g;
   const hasRuntimeExport = runtimeRegex.test(content);
@@ -50,10 +77,10 @@ files.forEach(file => {
 
   if (isTrulyStatic) {
     if (hasRuntimeExport) {
-      // Remove runtime export because it conflicts with static generateStaticParams
+      // Remove runtime export because it conflicts with static generateStaticParams or it's a blacklisted static route
       content = content.replace(runtimeRegex, '');
       fs.writeFileSync(file, content, 'utf8');
-      console.log(`Removed runtime export in: ${path.relative(targetDir, file)} (conflicts with static generateStaticParams)`);
+      console.log(`Removed runtime export in: ${path.relative(targetDir, file)} (should be static)`);
       removedCount++;
     } else {
       untouchedCount++;
@@ -83,6 +110,7 @@ files.forEach(file => {
 console.log(`\nRuntime update summary:`);
 console.log(`- Updated: ${updatedCount} files`);
 console.log(`- Injected: ${injectedCount} files`);
-console.log(`- Removed: ${removedCount} files (conflicts with static generateStaticParams)`);
+console.log(`- Removed: ${removedCount} files (should be static)`);
 console.log(`- Untouched: ${untouchedCount} files`);
-console.log(`Total checked: ${files.length} files`);
+TotalChecked = files.length;
+console.log(`Total checked: ${TotalChecked} files`);

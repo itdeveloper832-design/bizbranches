@@ -40,4 +40,3 @@ export default function FeaturedBusinessesPage() {
   )
 }
 
-export const runtime = 'edge';

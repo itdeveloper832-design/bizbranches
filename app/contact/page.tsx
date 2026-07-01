@@ -14,4 +14,3 @@ export default function ContactPage() {
   return <ContactClient />
 }
 
-export const runtime = 'edge';

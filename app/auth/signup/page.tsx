@@ -49,4 +49,3 @@ export default function SignupPage() {
   )
 }
 
-export const runtime = 'edge';

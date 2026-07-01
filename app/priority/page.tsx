@@ -12,4 +12,3 @@ export default function PriorityPage() {
   return <PriorityClient />
 }
 
-export const runtime = 'edge';
