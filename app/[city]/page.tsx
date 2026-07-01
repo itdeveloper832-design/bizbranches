@@ -13,7 +13,8 @@ import { getCategoryKeywordCluster, getCityKeywordCluster } from '@/lib/organic-
 import BannerAd from '@/components/ads/banner-ad'
 import NativeAd from '@/components/ads/native-ad'
 import React from 'react'
-import { findStaticBusinessBySlug, getStaticSimilar, getStaticBranches } from '@/lib/static-db'
+import { getStaticSimilar, getStaticBranches } from '@/lib/static-db'
+import { findStaticBusinessBySlug } from '@/lib/static-db-full'
 
 // Disable caching so new/updated business data appears immediately
 export const revalidate = 60

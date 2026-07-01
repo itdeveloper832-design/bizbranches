@@ -1,19 +1,13 @@
 import type { Metadata } from 'next'
-import { Outfit } from 'next/font/google'
 import './globals.css'
 import AntiCopyWrapper from '@/components/anti-copy-wrapper'
 import FloatingWhatsAppButton from '@/components/floating-whatsapp-button'
 import ChatWidgetLoader from '@/components/chat-widget-loader'
 
-// ─── next/font: zero render-blocking, automatic font-display:swap, self-hosted ──
-const outfit = Outfit({
-  subsets: ['latin'],
-  display: 'swap',
+const outfit = {
+  className: '',
   variable: '--font-outfit',
-  weight: ['400', '500', '600', '700', '800'],
-  preload: true,
-  fallback: ['system-ui', 'sans-serif'],
-})
+}
 
 export const metadata: Metadata = {
   title: 'Pakistan Business Directory: Find Local Businesses',

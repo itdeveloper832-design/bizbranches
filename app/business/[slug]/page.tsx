@@ -8,7 +8,7 @@ import { db } from '@/lib/firebase'
 import { collection, query, where, getDocs, limit } from 'firebase/firestore'
 import { CATEGORIES } from '@/lib/data'
 import { LIVE_STATUSES } from '@/lib/category-mappings'
-import { findStaticBusinessBySlug } from '@/lib/static-db'
+import { findStaticBusinessBySlug } from '@/lib/static-db-full'
 import { fetchCityCategoryBusinesses } from '@/lib/firebase-server'
 import { BannerAdLoader, NativeAdLoader } from '@/components/ads/ads-loader'
 

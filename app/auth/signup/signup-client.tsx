@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
-import { auth } from '@/lib/firebase'
+import { auth } from '@/lib/firebase-auth'
 import { Loader2, AlertCircle, Eye, EyeOff, CheckCircle } from 'lucide-react'
 
 export default function SignupClient() {
